@@ -1,0 +1,42 @@
+{
+  // IntelliSense を使用して利用可能な属性を学べます。
+  // 既存の属性の説明をホバーして表示します。
+  // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "command": "pnpm -C packages/frontend dev",
+      "name": "Launch frontend",
+      "request": "launch",
+      "type": "node-terminal",
+      "presentation": {
+        "group": "group b",
+        "order": 1
+      }
+    },
+    {
+      "command": "pnpm -C packages/backend dev",
+      "name": "Launch backend",
+      "request": "launch",
+      "type": "node-terminal",
+      "presentation": {
+        "group": "group b",
+        "order": 1
+      }
+    },
+  ],
+  "compounds": [
+    {
+      "name": "Launch frontend and backend",
+      "configurations": [
+        "Launch frontend",
+        "Launch backend"
+      ],
+      "presentation": {
+        "group": "group a",
+        "order": 1
+      },
+      "stopAll": true
+    }
+  ]
+}

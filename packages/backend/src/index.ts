@@ -1,22 +1,39 @@
 import { Context, Hono } from "hono";
 import { cors } from "hono/cors";
+import { env } from "hono/adapter";
+
+type Env = {
+  BACKEND_HOST: string
+  FRONTEND_HOST: string
+}
 
 const app = new Hono()
 
-app.use(cors({
-  origin: ['https://spoon-tool.kk-systems.net'],
-  allowHeaders: ['X-Custom-Header', 'Upgrade-Insecure-Requests', 'Content-Type'],
-  allowMethods: ['GET', 'OPTIONS'],
-  exposeHeaders: ['Content-Length', 'X-Kuma-Revision'],
-  maxAge: 600,
-  credentials: true,
-}))
+app.use(
+  '*',
+  async (c, next) => {
+    const { FRONTEND_HOST } = env<Env>(c)
 
-const isRequestFromFrontend = (c: Context) =>
-  (
-    !!c.req.header('host')?.match(/^api\.spoon-tool\.kk-systems\.net$/) &&
-    !!c.req.header('origin')?.match(/https:\/\/spoon-tool\.kk-systems\.net/)
+    const middleware = cors({
+      origin: `https://${FRONTEND_HOST}`,
+      allowHeaders: ['X-Custom-Header', 'Upgrade-Insecure-Requests', 'Content-Type'],
+      allowMethods: ['GET', 'OPTIONS'],
+      exposeHeaders: ['Content-Length', 'X-Kuma-Revision'],
+      maxAge: 600,
+      credentials: true,
+    })
+
+    return middleware(c, next)
+  }
+)
+
+const isRequestFromFrontend = (c: Context) => {
+  const { BACKEND_HOST, FRONTEND_HOST } = env<Env>(c)
+  return (
+    !!c.req.header('host')?.match(new RegExp(`^${BACKEND_HOST}$`)) &&
+    !!c.req.header('origin')?.match(new RegExp(`^https://${FRONTEND_HOST}`))
   )
+}
 
 app.use(async (c, next) => {
   if (!isRequestFromFrontend(c)) {

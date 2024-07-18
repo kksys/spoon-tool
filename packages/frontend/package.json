@@ -4,26 +4,56 @@
   "version": "0.0.1-2",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "tsc --noEmit && eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "gen-app-info": "cd $(git rev-parse --show-superproject-working-tree --show-toplevel | head -1) && ./build-scripts/generate-app-info",
+    "dev": "pnpm gen-app-info && vite",
+    "build": "pnpm gen-app-info && tsc -b && vite build",
+    "lint": "tsc --noEmit && eslint . --ext ts,tsx,cjs --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint --fix . --ext ts,tsx,cjs --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier ./**/*.{ts,tsx,cjs,html}",
+    "format:fix": "prettier --write ./**/*.{ts,tsx,cjs,html}",
+    "fix": "pnpm format:fix && pnpm lint:fix",
     "test": "echo 'Please add test commands here'",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "i18next-extract": "i18next 'src/**/*.{tsx,ts}'"
   },
   "dependencies": {
+    "@fluentui/react-components": "^9.54.6",
+    "@fluentui/react-icons": "^2.0.249",
+    "@fluentui/react-nav-preview": "^0.6.0",
+    "i18next": "^23.12.2",
+    "inversify": "^6.0.2",
+    "object-typed": "^1.0.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-i18next": "^15.0.1",
+    "react-router": "^6.26.0",
+    "react-router-dom": "^6.26.0",
+    "react-use": "^17.5.0",
+    "react-window": "^1.8.10",
+    "react-window-infinite-loader": "^1.0.9",
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
+    "@stylistic/eslint-plugin-js": "^2.3.0",
+    "@types/node": "^20.14.11",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@types/react-window": "^1.8.8",
+    "@types/react-window-infinite-loader": "^1.0.9",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "@typescript-eslint/parser": "^7.15.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "@vitejs/plugin-react-swc": "^3.7.0",
     "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "i18next-parser": "^9.0.1",
+    "prettier": "^3.3.3",
+    "reflect-metadata": "^0.2.2",
     "typescript": "^5.2.2",
-    "vite": "^5.3.4"
+    "vite": "^5.3.4",
+    "vite-tsconfig-paths": "^4.3.2"
   }
 }

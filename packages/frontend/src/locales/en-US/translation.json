@@ -1,0 +1,33 @@
+{
+  "about": {
+    "title": "About"
+  },
+  "app": {
+    "name": "App Name",
+    "version": "Version",
+    "dev-mode": "Developer Mode",
+    "author": "Author",
+    "title": "Spoon Tool"
+  },
+  "common": {
+    "enabled": "Enabled",
+    "loading": "Loading...",
+    "search": "Search"
+  },
+  "repository": {
+    "title": "Repository",
+    "description": {
+      "maintainancedByGithub": "This application is maintenanced by GitHub respository. ",
+      "pleaseDownloadFromGithub": "You can download this sourcecode from below link. ",
+      "link": "Link: "
+    }
+  },
+  "top": {
+    "title": "Top"
+  },
+  "lang-selector": {
+    "title": "Language:",
+    "en-US": "English (US)",
+    "ja-JP": "Japanese"
+  }
+}

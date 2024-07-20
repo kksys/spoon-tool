@@ -127,5 +127,5 @@ jobs:
       - name: Install Dependencies
         run: pnpm i
 
-      - name: Lint Check
+      - name: Run Unit Test
         run: pnpm -C ${{ env.FRONTEND_DIRECTORY }} test

@@ -1,0 +1,17 @@
+name: Pull Request for Backend
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+  build:
+    runs-on: ubuntu-latest
+
+  test:
+    runs-on: ubuntu-latest

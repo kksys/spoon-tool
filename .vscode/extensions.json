@@ -1,8 +1,9 @@
 {
-    "recommendations": [
-        "mhutchie.git-graph",
-        "dbaeumer.vscode-eslint",
-        "github.vscode-github-actions",
-        "editorconfig.editorconfig"
-    ]
+  "recommendations": [
+    "mhutchie.git-graph",
+    "dbaeumer.vscode-eslint",
+    "github.vscode-github-actions",
+    "editorconfig.editorconfig",
+    "redhat.vscode-yaml"
+  ]
 }

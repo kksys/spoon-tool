@@ -4,6 +4,7 @@
     "dbaeumer.vscode-eslint",
     "github.vscode-github-actions",
     "editorconfig.editorconfig",
-    "redhat.vscode-yaml"
+    "redhat.vscode-yaml",
+    "humao.rest-client"
   ]
 }

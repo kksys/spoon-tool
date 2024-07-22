@@ -4,7 +4,7 @@ import { cors } from "hono/cors";
 const app = new Hono()
 
 app.use(cors({
-  origin: ['https://spoon-tool.kk-systems.net/'],
+  origin: ['https://spoon-tool.kk-systems.net'],
   allowHeaders: ['X-Custom-Header', 'Upgrade-Insecure-Requests', 'Content-Type'],
   allowMethods: ['GET', 'OPTIONS'],
   exposeHeaders: ['Content-Length', 'X-Kuma-Revision'],
@@ -14,8 +14,8 @@ app.use(cors({
 
 const isRequestFromFrontend = (c: Context) =>
   (
-    !!c.req.header('host')?.match(/api\.spoon-tool\.kk-systems\.net/) &&
-    !!c.req.header('origin')?.match(/spoon-tool\.kk-systems\.net/)
+    !!c.req.header('host')?.match(/^api\.spoon-tool\.kk-systems\.net$/) &&
+    !!c.req.header('origin')?.match(/https:\/\/spoon-tool\.kk-systems\.net/)
   )
 
 app.use(async (c, next) => {

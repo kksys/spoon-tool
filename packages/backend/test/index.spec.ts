@@ -22,7 +22,7 @@ const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
 
 const httpHeadersForSuccess = {
   Host: 'api.spoon-tool.kk-systems.net',
-  Origin: 'spoon-tool.kk-systems.net'
+  Origin: 'https://spoon-tool.kk-systems.net'
 }
 
 describe('middleware', () => {

@@ -41,7 +41,7 @@ app.get('/search/user/', async (c) => {
 
 app.get('/users/:userId', async (c) => {
   const { userId } = c.req.param()
-  const getProfileUrl = `https://jp-api.spooncast.net/users/${userId}`
+  const getProfileUrl = `https://jp-api.spooncast.net/users/${userId}/`
 
   const response = await fetch(getProfileUrl, {
     method: 'GET'

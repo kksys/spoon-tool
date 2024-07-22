@@ -5,6 +5,7 @@
     "github.vscode-github-actions",
     "editorconfig.editorconfig",
     "redhat.vscode-yaml",
-    "humao.rest-client"
+    "humao.rest-client",
+    "vitest.explorer"
   ]
 }

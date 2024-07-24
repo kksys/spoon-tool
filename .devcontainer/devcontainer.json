@@ -21,7 +21,14 @@
     },
     "8787": {
       "label": "spoon-tool-backend",
-      "onAutoForward": "openBrowser"
+      "onAutoForward": "notify"
     }
-  }
+  },
+  "otherPortsAttributes": {
+    "onAutoForward": "ignore"
+  },
+  "postCreateCommand": [
+    "pnpm i"
+  ],
+  "postAttachCommand": "${CODESPACE_VSCODE_FOLDER}/.devcontainer/scripts/backend-port-service"
 }

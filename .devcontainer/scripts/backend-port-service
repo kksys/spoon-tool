@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+const { execSync } = require('child_process')
+
+BACKEND_PORT=8787
+
+function sleep(second) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, second * 1000)
+  })
+}
+
+(async () => {
+  while (true) {
+    const stdout = execSync(`gh codespace ports -c ${process.env.CODESPACE_NAME} --json visibility --json sourcePort`)
+    const result = JSON.parse(stdout.toString()) || []
+    const backend_item = result.find(item => item.sourcePort === BACKEND_PORT && item.visibility === 'private')
+
+    if (backend_item) {
+      execSync(`gh codespace ports visibility ${BACKEND_PORT}:public -c ${process.env.CODESPACE_NAME}`)
+    }
+
+    await sleep(5)
+  }
+})()

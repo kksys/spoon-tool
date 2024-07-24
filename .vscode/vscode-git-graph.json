@@ -1,0 +1,16 @@
+{
+  "pullRequestConfig": {
+    "provider": "github",
+    "hostRootUrl": "https://github.com",
+    "sourceRemote": "origin",
+    "sourceOwner": "kksys",
+    "sourceRepo": "spoon-tool",
+    "destRemote": "origin",
+    "destOwner": "kksys",
+    "destRepo": "spoon-tool",
+    "destProjectId": "",
+    "destBranch": "main",
+    "custom": null
+  },
+  "exportedAt": 1721832693917
+}

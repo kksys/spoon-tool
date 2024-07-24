@@ -27,6 +27,6 @@
   "otherPortsAttributes": {
     "onAutoForward": "ignore"
   },
-  "postCreateCommand": "${CODESPACE_VSCODE_FOLDER}/.devcontainer/scripts/post-create-command.sh",
-  "postAttachCommand": "${CODESPACE_VSCODE_FOLDER}/.devcontainer/scripts/post-attach-command.sh"
+  "postCreateCommand": "bash ./.devcontainer/scripts/post-create-command.sh",
+  "postAttachCommand": "bash ./.devcontainer/scripts/post-attach-command.sh"
 }

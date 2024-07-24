@@ -27,8 +27,6 @@
   "otherPortsAttributes": {
     "onAutoForward": "ignore"
   },
-  "postCreateCommand": [
-    "pnpm i"
-  ],
-  "postAttachCommand": "${CODESPACE_VSCODE_FOLDER}/.devcontainer/scripts/backend-port-service"
+  "postCreateCommand": "${CODESPACE_VSCODE_FOLDER}/.devcontainer/scripts/post-create-command.sh",
+  "postAttachCommand": "${CODESPACE_VSCODE_FOLDER}/.devcontainer/scripts/post-attach-command.sh"
 }

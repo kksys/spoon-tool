@@ -12,6 +12,16 @@
         "humao.rest-client",
         "vitest.explorer"
       ]
+    },
+    "codespaces": {
+      "repositories": {
+        "kksys/spoon-tool": {
+          "permissions": {
+            "actions": "read",
+            "workflows": "read"
+          }
+        }
+      }
     }
   },
   "portsAttributes": {

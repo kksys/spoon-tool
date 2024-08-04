@@ -52,7 +52,7 @@ jobs:
 
           # create PR for updating version and merge it automatically
           gh pr create --base ${{ env.DEFAULT_BRANCH }} --body "${COMMIT_MSG}" --title "${COMMIT_MSG}"
-          gh pr merge ${{ env.BRANCH_NAME }} --admin
+          gh pr merge ${{ env.BRANCH_NAME }} --admin --merge
 
           # pull the latest default branch and create tag
           git fetch

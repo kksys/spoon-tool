@@ -13,11 +13,6 @@ on:
           - patch
           - prerelease
 
-permissions:
-  checks: read
-  contents: write
-  pull-requests: write
-
 env:
   BRANCH_NAME: feature/update-version
   DEFAULT_BRANCH: main
@@ -31,7 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.SPOON_TOOL_GH_TOKEN }}
       - name: Setup Node
         uses: actions/setup-node@v4
       - name: Show environment
@@ -65,7 +60,7 @@ jobs:
           git pull
           git branch -d ${{ env.BRANCH_NAME }}
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.SPOON_TOOL_GH_TOKEN }}
 
       - name: Create Release to GitHub
         run: |
@@ -73,4 +68,4 @@ jobs:
           git push "${VERSION}"
           gh release create "${VERSION}" --draft --generate-notes
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.SPOON_TOOL_GH_TOKEN }}

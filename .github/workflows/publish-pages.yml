@@ -88,7 +88,7 @@ jobs:
 
       - name: Upload artifact to release
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.SPOON_TOOL_GH_TOKEN }}
         run: |
           TAG_NAME="${GITHUB_REF#refs/*/}"
           gh release upload "$TAG_NAME" \

@@ -86,6 +86,14 @@ jobs:
           name: ${{ env.PACKAGE_NAME }}
           path: ${{ env.FRONTEND_DIRECTORY }}/${{ env.ARCHIVE_NAME }}
 
+      - name: Upload artifact to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "$TARGET_VERSION" \
+            "${{ env.FRONTEND_DIRECTORY }}/${{ env.ARCHIVE_NAME }}#${{ env.ARCHIVE_NAME }}" \
+            --clobber
+
   # Deployment job
   deploy:
     runs-on: ubuntu-latest

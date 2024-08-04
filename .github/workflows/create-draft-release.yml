@@ -16,6 +16,10 @@ on:
 permissions:
   contents: write
 
+env:
+  BRANCH_NAME: feature/update-version
+  DEFAULT_BRANCH: main
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -34,17 +38,31 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b ${{ env.BRANCH_NAME }}
 
       - name: Update package version
         run: |
-          npm version ${{ github.event.inputs.bump_type }}
+          npm version ${{ github.event.inputs.bump_type }} --no-git-tag-version
           echo VERSION="v$(cat package.json | jq -r '.version')" >> "${GITHUB_ENV}"
+
       - name: Push tag to GitHub
         run: |
-          git push
-          git push --tags
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          git push --set-upstream origin ${{ env.BRANCH_NAME }}
+
+          # create PR for updating version and merge it automatically
+          gh pr create --base ${{ env.DEFAULT_BRANCH }} --body "${COMMIT_MSG}" --title "${COMMIT_MSG}"
+          gh pr merge ${{ env.BRANCH_NAME }} --admin
+
+          # pull the latest default branch and create tag
+          git fetch
+          git checkout ${{ env.DEFAULT_BRANCH }}
+          git pull
+          git branch -d ${{ env.BRANCH_NAME }}
       - name: Create Release to GitHub
         run: |
-          gh release create "${VERSION}" --draft --generate-notes
+          git tag "v${VERSION}"
+          git push "v${VERSION}"
+          gh release create "v${VERSION}" --draft --generate-notes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

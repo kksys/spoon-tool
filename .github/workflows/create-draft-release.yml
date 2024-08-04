@@ -15,6 +15,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 env:
   BRANCH_NAME: feature/update-version

@@ -43,7 +43,8 @@ jobs:
       - name: Update package version
         run: |
           npm version ${{ github.event.inputs.bump_type }} --no-git-tag-version
-          echo VERSION="v$(cat package.json | jq -r '.version')" >> "${GITHUB_ENV}"
+          VERSION="v$(cat package.json | jq -r '.version')"
+          echo VERSION="${VERSION}" >> "${GITHUB_ENV}"
           git add package.json
           git commit -m "Update version to ${VERSION}"
           git push --set-upstream origin ${{ env.BRANCH_NAME }}
@@ -66,8 +67,8 @@ jobs:
 
       - name: Create Release to GitHub
         run: |
-          git tag "v${VERSION}"
-          git push "v${VERSION}"
-          gh release create "v${VERSION}" --draft --generate-notes
+          git tag "${VERSION}"
+          git push "${VERSION}"
+          gh release create "${VERSION}" --draft --generate-notes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

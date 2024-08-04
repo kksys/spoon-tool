@@ -90,7 +90,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload "$TARGET_VERSION" \
+          TAG_NAME="${GITHUB_REF#refs/*/}"
+          gh release upload "$TAG_NAME" \
             "${{ env.FRONTEND_DIRECTORY }}/${{ env.ARCHIVE_NAME }}#${{ env.ARCHIVE_NAME }}" \
             --clobber
 

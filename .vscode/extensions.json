@@ -2,6 +2,7 @@
   "recommendations": [
     "mhutchie.git-graph",
     "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
     "github.vscode-github-actions",
     "editorconfig.editorconfig",
     "redhat.vscode-yaml",

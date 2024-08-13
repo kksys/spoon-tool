@@ -2,6 +2,7 @@ import './App.css'
 
 import { FluentProvider, webDarkTheme, webLightTheme } from '@fluentui/react-components'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { createRoutesFromElements, Route, RouterProvider } from 'react-router'
 import { createBrowserRouter } from 'react-router-dom'
 
@@ -55,6 +56,7 @@ const router = createBrowserRouter(
 )
 
 function App() {
+  const { t, i18n } = useTranslation()
   const [prefersColorSchemeDark, updatePrefersColorSchemeDark] = useState(mediaQueryList.matches)
 
   useEffect(() => {
@@ -67,6 +69,20 @@ function App() {
       mediaQueryList.removeEventListener('change', handlePrefersColorSchemeChange)
     }
   }, [])
+
+  useEffect(() => {
+    const handleLanguageChanged = () => {
+      document.title = t('app.title')
+    }
+
+    handleLanguageChanged()
+
+    i18n.on('languageChanged', handleLanguageChanged)
+
+    return () => {
+      i18n.off('languageChanged', handleLanguageChanged)
+    }
+  }, [i18n, t])
 
   return (
     <FluentProvider theme={prefersColorSchemeDark ? webDarkTheme : webLightTheme}>

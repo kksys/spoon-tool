@@ -68,6 +68,8 @@ jobs:
 
       - name: Build
         run: pnpm -C ${{ env.FRONTEND_DIRECTORY }} build
+        env:
+          VITE_BACKEND_HOST: ${{ secrets.VITE_BACKEND_HOST }}
 
       - name: Install zip
         uses: montudor/action-zip@v1

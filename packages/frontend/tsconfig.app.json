@@ -36,5 +36,8 @@
     "experimentalDecorators": true,
     "types": ["reflect-metadata"],
   },
-  "include": ["src"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
 }

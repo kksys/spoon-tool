@@ -108,7 +108,17 @@ interface ISearchUserItemNormalProps {
 }
 
 const SearchUserItemNormal: FC<Omit<ISearchUserItemNormalProps, 'loading'>> = memo(({ user, onClick }) => {
-  const [icon, setIcon] = useState<string | undefined>(user.profileIcon)
+  const [icon, setIcon] = useState<string | undefined>(() => {
+    let profileIcon = user.profileIcon
+
+    if (profileIcon.startsWith('http:') && window.location.protocol === 'https:') {
+      // http resource is referenced by https resource
+      // but it is not secure, so it will be fallback to https automatically
+      profileIcon = profileIcon.replace(/^http:/gi, 'https:')
+    }
+
+    return profileIcon
+  })
 
   return (
     <SearchUserItemBase

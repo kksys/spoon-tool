@@ -34,13 +34,13 @@ export const LangSelector: FC<ILangSelector> = memo(({ id }) => {
       id={id}
       readOnly={true}
       className={styles.combobox}
-      value={t(`lang-selector.${i18n.language}`)}
+      value={ t(`lang-selector.values.${i18n.language}`) }
       selectedOptions={[i18n.language]}
       onOptionSelect={onChangeLanguage}
     >
       { languages
         .map((lang, index) => {
-          const message = `lang-selector.${lang}` as const
+          const message = `lang-selector.values.${lang}` as const
           return (
             <Option
               key={index}
@@ -50,8 +50,8 @@ export const LangSelector: FC<ILangSelector> = memo(({ id }) => {
               /**
                * hint for i18n-extract
                *
-               * t('lang-selector.en-US')
-               * t('lang-selector.ja-JP')
+               * t('lang-selector.values.en-US')
+               * t('lang-selector.values.ja-JP')
                */
                 t(message)
               }

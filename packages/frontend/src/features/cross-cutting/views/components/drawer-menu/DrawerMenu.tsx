@@ -18,10 +18,12 @@ export const DrawerMenu: FC<IDrawerMenuProps> = memo(({ open, onOpenChanged }) =
   const location = useLocation()
   const { t } = useTranslation('translation')
   const [ drawerMode, setDrawerMode ] = useState<'inline' | 'overlay'>(getDrawerMode())
-  const [ navItemSelect, setNavItemSelect ] = useState<'top' | 'repository' | 'about'>(() => {
+  const [ navItemSelect, setNavItemSelect ] = useState<'top' | 'configuration' | 'repository' | 'about'>(() => {
     const currentRoute = location.pathname
 
     switch (currentRoute) {
+    case '/configuration':
+      return 'configuration'
     case '/repository':
       return 'repository'
     case '/about':
@@ -34,12 +36,17 @@ export const DrawerMenu: FC<IDrawerMenuProps> = memo(({ open, onOpenChanged }) =
   const onNavItemSelect = useCallback<NonNullable<NavProps['onNavItemSelect']>>((_event, data) => {
     const selector = data.value
 
-    if (!(selector === 'top' || selector === 'repository' || selector === 'about')) {
+    if (!(selector === 'top' || selector === 'configuration' || selector === 'repository' || selector === 'about')) {
       return
     }
 
     setNavItemSelect(selector)
-  }, [])
+
+    // close menu
+    if (getDrawerMode() === 'overlay') {
+      onOpenChanged(false)
+    }
+  }, [onOpenChanged])
 
   useEffect(() => {
     const handleResize = (_event: UIEvent) => {
@@ -70,6 +77,13 @@ export const DrawerMenu: FC<IDrawerMenuProps> = memo(({ open, onOpenChanged }) =
           onClick={() => navigate('/')}
         >
           { t('top.title') }
+        </NavItem>
+        <NavItem
+          icon={<DocumentChevronDouble20Filled />}
+          value="configuration"
+          onClick={() => navigate('/configuration')}
+        >
+          { t('configuration.title') }
         </NavItem>
         <NavItem
           icon={<DocumentChevronDouble20Filled />}

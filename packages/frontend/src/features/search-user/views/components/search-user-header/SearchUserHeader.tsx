@@ -37,7 +37,7 @@ export const SearchUserHeader: FC = memo(() => {
 
   return (
     <Toolbar style={{ minHeight: '60px' }}>
-      <Flex style={{ width: '100%', height: '36px', justifyContent: 'space-between' }}>
+      <Flex style={{ width: '100%', minHeight: '36px', flexFlow: 'wrap', flexWrap: 'wrap', rowGap: '16px', columnGap: '8px', justifyContent: 'end' }}>
         <Flex style={{ alignItems: 'center' }}>
           <Title3 style={{ height: 'fit-content' }}>
             { t('top.title') }
@@ -47,25 +47,27 @@ export const SearchUserHeader: FC = memo(() => {
         <Flex
           direction='row'
           grow={true}
+          style={{ height: '36px' }}
         />
 
         <Flex
           direction='row'
           style={{
             justifyContent: 'flex-end',
+            alignItems: 'center',
             gap: 'var(--spacingHorizontalS)',
           }}
         >
           <SearchBox
             type="text"
-            style={{ width: '360px' }}
+            style={{ maxWidth: '360px' }}
             disabled={isBusy}
             value={keyword}
             onChange={handleKeywordChange}
             contentBefore={<PeopleSearchRegular />}
           />
           <Button
-            style={{ width: '160px' }}
+            style={{ maxWidth: '160px' }}
             disabled={!keyword || isBusy}
             disabledFocusable={!keyword || isBusy}
             appearance="primary"

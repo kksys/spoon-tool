@@ -28,6 +28,9 @@ const useStyles = makeStyles({
     width: '100%',
     gridTemplateColumns: '1fr',
   },
+  fixedLayoutContainer: {
+    overflow: 'hidden'
+  },
   fixedLayout: {
     top: 0,
     bottom: 0
@@ -38,7 +41,7 @@ export const Page: FC<IPageProps> = memo(({ fixedLayout, children }) => {
   const styles = useStyles()
 
   return (
-    <div className={styles.container}>
+    <div className={mergeClasses(styles.container, fixedLayout ? styles.fixedLayoutContainer : undefined)}>
       <div className={mergeClasses(styles.content, fixedLayout ? styles.fixedLayout : undefined)}>
         { children }
       </div>

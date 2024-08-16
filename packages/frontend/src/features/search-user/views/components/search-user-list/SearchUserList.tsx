@@ -76,7 +76,7 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
   const [listHeight, setListHeight] = useState(64)
 
   useEffect(() => {
-    const ref = containerRef?.current
+    const ref = containerRef.current
     const resizeObserver = new ResizeObserver(entries => {
       for (const entry of entries) {
         const contentRect = entry.contentRect
@@ -97,7 +97,7 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
 
   return (
     <div
-      style={{ width: 'calc(100% + 24px)', height: '100%', marginLeft: '-12px', marginRight: '-12px', position: 'relative' }}
+      style={{ width: 'calc(100% + 24px)', marginLeft: '-12px', marginRight: '-12px', position: 'relative', flex: '1 1 auto', minHeight: '0' }}
       ref={containerRef}
     >
       <InfiniteLoader

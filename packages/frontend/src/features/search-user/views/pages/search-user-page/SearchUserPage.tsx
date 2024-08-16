@@ -18,15 +18,17 @@ export const SearchUserPage: FC = memo(() => {
 
   return (
     <Page fixedLayout={true}>
-      <SearchUserHeader />
-      <SearchUserList
-        userList={userList}
-        hasNextPage={hasNextPage}
-        isBusy={isBusy}
-        loadNextItems={async (_startIndex: number, _stopIndex: number): Promise<void> => {
-          await viewModel.fetchNextUserList()
-        } }
-      />
+      <div style={{ display: 'flex', flexDirection: 'column', gridTemplateRows: 'auto 1fr', gridTemplateColumns: '1fr', minHeight: 0, height: '100%' }}>
+        <SearchUserHeader />
+        <SearchUserList
+          userList={userList}
+          hasNextPage={hasNextPage}
+          isBusy={isBusy}
+          loadNextItems={async (_startIndex: number, _stopIndex: number): Promise<void> => {
+            await viewModel.fetchNextUserList()
+          } }
+        />
+      </div>
     </Page>
   )
 })

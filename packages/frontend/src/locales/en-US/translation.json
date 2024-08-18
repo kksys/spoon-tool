@@ -33,6 +33,11 @@
       "ja-JP": "Japanese"
     }
   },
+  "reset-configuration": {
+    "info": "This would reset all settings configured on this page to their initial state.",
+    "title": "Reset:",
+    "label": "Reset Configuration"
+  },
   "top": {
     "title": "Top"
   }

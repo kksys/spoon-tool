@@ -8,6 +8,8 @@ export interface IConfigurationRepository {
   load(): Promise<void>
   save(): Promise<void>
 
+  reset(): Promise<void>
+
   setLanguage(language: NonNullable<IConfiguration['language']>): void
   getLanguage(): IConfiguration['language']
 }

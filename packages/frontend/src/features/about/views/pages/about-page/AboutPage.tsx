@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     marginTop: "4px",
     marginLeft: "8px",
     flexDirection: "column",
-    gridRowGap: tokens.spacingVerticalS,
+    gridRowGap: tokens.spacingVerticalL,
   },
 })
 

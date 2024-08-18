@@ -11,7 +11,8 @@ interface ILangSelector {
 const useStyles = makeStyles({
   combobox: {
     '> input': {
-      cursor: 'pointer'
+      cursor: 'pointer',
+      userSelect: 'none'
     }
   }
 })
@@ -37,6 +38,7 @@ export const LangSelector: FC<ILangSelector> = memo(({ id }) => {
       value={ t(`lang-selector.values.${i18n.language}`) }
       selectedOptions={[i18n.language]}
       onOptionSelect={onChangeLanguage}
+      input={{ autoComplete: 'off' }}
     >
       { languages
         .map((lang, index) => {

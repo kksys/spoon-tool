@@ -26,11 +26,11 @@ export const Layout: FC<ILayoutProps> = memo(({ children }) => {
   return (
     <Flex
       direction='row'
-      style={{ width: '100vw', height: '100vh', position: 'fixed' }}
+      style={{ width: '100vw', height: '100dvh', position: 'fixed' }}
     >
       <Flex
         direction='column'
-        style={{ width: '100vw', height: '100vh' }}
+        style={{ width: '100vw', height: '100dvh' }}
       >
         <Header
           isDrawerOpen={open}

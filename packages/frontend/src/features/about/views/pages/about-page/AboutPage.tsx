@@ -1,9 +1,10 @@
-import { makeStyles, Text, Title3, tokens, Toolbar } from "@fluentui/react-components";
+import { makeStyles, Text, Title3, tokens } from "@fluentui/react-components";
 import { FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { appName, author, revision, version } from "~/assets/autogen/app-info.json"
 import { StField } from "~/features/cross-cutting/views/components/st-field/StField";
+import { StPageHeader } from "~/features/cross-cutting/views/components/st-page-header/StPageHeader";
 import { Page } from "~/features/cross-cutting/views/pages/Page";
 
 const useStyles = makeStyles({
@@ -34,11 +35,11 @@ export const AboutPage: FC = memo(() => {
 
   return (
     <Page>
-      <Toolbar style={{ minHeight: '60px' }}>
+      <StPageHeader>
         <Title3 align="start">
           { t('about.title') }
         </Title3>
-      </Toolbar>
+      </StPageHeader>
 
       <div className={styles.field}>
         <StField

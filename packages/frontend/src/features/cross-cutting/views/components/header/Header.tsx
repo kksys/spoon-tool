@@ -34,6 +34,7 @@ export const Header: FC<IHeaderProps> = memo(({ isDrawerOpen, onDrawerVisibility
       <Flex style={{ width: '100%', height: '36px', justifyContent: 'space-between', alignItems: 'center' }}>
         <Flex>
           <Hamburger
+            size="large"
             onClick={onDrawerChanged}
             aria-label="Toggle Navigation"
           />

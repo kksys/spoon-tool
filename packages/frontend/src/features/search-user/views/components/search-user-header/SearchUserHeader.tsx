@@ -1,9 +1,10 @@
-import { Button, SearchBox, SearchBoxProps, Spinner, Title3, Toolbar } from '@fluentui/react-components'
+import { Button, SearchBox, SearchBoxProps, Spinner, Title3 } from '@fluentui/react-components'
 import { PeopleSearchRegular } from '@fluentui/react-icons'
 import { FC, memo, MouseEvent, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useObservable } from 'react-use'
 
+import { StPageHeader } from '~/features/cross-cutting/views/components/st-page-header/StPageHeader'
 import { diContainer } from '~/inversify.config'
 
 import { Flex } from '#/cross-cutting/views/components/flex/Flex'
@@ -36,7 +37,7 @@ export const SearchUserHeader: FC = memo(() => {
   )
 
   return (
-    <Toolbar style={{ minHeight: '60px' }}>
+    <StPageHeader>
       <Flex style={{ width: '100%', minHeight: '36px', flexFlow: 'wrap', flexWrap: 'wrap', rowGap: '16px', columnGap: '8px', justifyContent: 'end' }}>
         <Flex style={{ alignItems: 'center' }}>
           <Title3 style={{ height: 'fit-content' }}>
@@ -78,7 +79,7 @@ export const SearchUserHeader: FC = memo(() => {
           </Button>
         </Flex>
       </Flex>
-    </Toolbar>
+    </StPageHeader>
   )
 })
 

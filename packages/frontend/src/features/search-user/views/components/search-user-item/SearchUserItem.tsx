@@ -1,5 +1,5 @@
-import { Avatar, Skeleton } from '@fluentui/react-components'
-import { FC, memo, MouseEventHandler, ReactElement, useState } from 'react'
+import { Avatar, AvatarProps, Skeleton } from '@fluentui/react-components'
+import { FC, memo, MouseEventHandler, ReactElement, useCallback, useState } from 'react'
 
 import { Flex } from '#/cross-cutting/views/components/flex/Flex'
 import { IUserViewModel } from '#/search-user/interfaces/view-models/IUserViewModel'
@@ -15,11 +15,11 @@ export const getSearchUserItemHeight = () => {
 }
 
 interface ISearchUserItemBaseProps {
-  renderIcon: () => ReactElement
-  renderNickName: () => ReactElement
-  renderTag: () => ReactElement
-  renderNumberOfFollowers: () => ReactElement
-  renderNumberOfFollowing: () => ReactElement
+  renderIcon: ReactElement
+  renderNickName: ReactElement
+  renderTag: ReactElement
+  renderNumberOfFollowers: ReactElement
+  renderNumberOfFollowing: ReactElement
   onClick?: MouseEventHandler<never>
 }
 
@@ -36,25 +36,25 @@ const SearchUserItemBase: FC<ISearchUserItemBaseProps> = memo(({
       style={{ padding: `${SearchUserItemSize.padding}px` }}
       onClick={onClick}
     >
-      {renderIcon()}
+      {renderIcon}
       <Flex>
         <Flex>
-          {renderNickName()}
+          { renderNickName }
         </Flex>
         <Flex>
-          {renderTag()}
+          { renderTag }
         </Flex>
         <Flex>
           <span>
             Number Of Followers
           </span>
-          {renderNumberOfFollowers()}
+          { renderNumberOfFollowers }
         </Flex>
         <Flex>
           <span>
             Number Of Following
           </span>
-          {renderNumberOfFollowing()}
+          { renderNumberOfFollowing }
         </Flex>
       </Flex>
     </Flex>
@@ -72,25 +72,26 @@ interface ISearchUserItemLoadingProps {
 const SearchUserItemLoading: FC<Omit<ISearchUserItemLoadingProps, 'loading'>> = memo(() => {
   return (
     <SearchUserItemBase
-      renderIcon={() => (
+      key='loading'
+      renderIcon={(
         <Skeleton style={{ width: `${SearchUserItemSize.height}px`, height: `${SearchUserItemSize.height}px` }} />
       )}
-      renderNickName={() => (
+      renderNickName={(
         <span>
           <Skeleton />
         </span>
       )}
-      renderTag={() => (
+      renderTag={(
         <span>
           <Skeleton />
         </span>
       )}
-      renderNumberOfFollowers={() => (
+      renderNumberOfFollowers={(
         <span>
           <Skeleton />
         </span>
       )}
-      renderNumberOfFollowing={() => (
+      renderNumberOfFollowing={(
         <span>
           <Skeleton />
         </span>
@@ -110,6 +111,7 @@ interface ISearchUserItemNormalProps {
 const SearchUserItemNormal: FC<Omit<ISearchUserItemNormalProps, 'loading'>> = memo(({ user, onClick }) => {
   const [icon, setIcon] = useState<string | undefined>(() => {
     let profileIcon = user.profileIcon
+    console.log(profileIcon)
 
     if (profileIcon.startsWith('http:') && window.location.protocol === 'https:') {
       // http resource is referenced by https resource
@@ -120,33 +122,48 @@ const SearchUserItemNormal: FC<Omit<ISearchUserItemNormalProps, 'loading'>> = me
     return profileIcon
   })
 
+  const handleAvatarChange = useCallback<NonNullable<AvatarProps['onLoadedData']>>((...args) => {
+    console.log(`${user.id}-icon`, 'handleAvatarChange', ...args)
+  }, [user.id])
+
+  const handleAvatarLoad = useCallback<NonNullable<AvatarProps['onLoad']>>((...args) => {
+    console.log(`${user.id}-icon`, 'handleAvatarLoad', ...args)
+  }, [user.id])
+
+  const handleAvatarError = useCallback<NonNullable<AvatarProps['onError']>>((...args) => {
+    console.log(`${user.id}-icon`, 'handleAvatarError', ...args)
+    setIcon(undefined)
+  }, [user.id])
+
   return (
     <SearchUserItemBase
-      renderIcon={() => (
-        <>
-          <Avatar
-            image={{src: icon}}
-            onError={() => setIcon(undefined)}
-            style={{ width: `${SearchUserItemSize.height}px`, height: `${SearchUserItemSize.height}px` }}
-          />
-        </>
+      key={`${user.id}`}
+      renderIcon={(
+        <Avatar
+          key={`${user.id}-icon`}
+          image={{ src: icon }}
+          onLoadedData={handleAvatarChange}
+          onLoad={handleAvatarLoad}
+          onError={handleAvatarError}
+          style={{ width: `${SearchUserItemSize.height}px`, height: `${SearchUserItemSize.height}px` }}
+        />
       )}
-      renderNickName={() => (
+      renderNickName={(
         <span>
           {user.nickname}
         </span>
       )}
-      renderTag={() => (
+      renderTag={(
         <span>
           {`@${user.tag}`}
         </span>
       )}
-      renderNumberOfFollowers={() => (
+      renderNumberOfFollowers={(
         <span>
           {user.numberOfFollowers}
         </span>
       )}
-      renderNumberOfFollowing={() => (
+      renderNumberOfFollowing={(
         <span>
           {user.numberOfFollowing}
         </span>

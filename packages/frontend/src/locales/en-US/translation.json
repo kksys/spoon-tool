@@ -1,13 +1,13 @@
 {
-  "about": {
-    "title": "About"
-  },
   "app": {
+    "title": "Spoon Tool",
     "name": "App Name",
     "version": "Version",
     "dev-mode": "Developer Mode",
-    "author": "Author",
-    "title": "Spoon Tool"
+    "author": "Author"
+  },
+  "about": {
+    "title": "About"
   },
   "common": {
     "enabled": "Enabled",
@@ -22,12 +22,18 @@
       "link": "Link: "
     }
   },
-  "top": {
-    "title": "Top"
+  "configuration": {
+    "title": "Configuration"
   },
   "lang-selector": {
+    "info": "This would change the language in all of this application.",
     "title": "Language:",
-    "en-US": "English (US)",
-    "ja-JP": "Japanese"
+    "values": {
+      "en-US": "English (US)",
+      "ja-JP": "Japanese"
+    }
+  },
+  "top": {
+    "title": "Top"
   }
 }

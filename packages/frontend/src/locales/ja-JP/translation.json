@@ -1,13 +1,13 @@
 {
-  "about": {
-    "title": "アプリ情報"
-  },
   "app": {
+    "title": "Spoon Tool",
     "name": "名称",
     "version": "バージョン",
     "dev-mode": "開発者モード",
-    "author": "作者",
-    "title": "Spoon Tool"
+    "author": "作者"
+  },
+  "about": {
+    "title": "アプリ情報"
   },
   "common": {
     "enabled": "有効",
@@ -22,12 +22,18 @@
       "link": "リンク: "
     }
   },
-  "top": {
-    "title": "トップ"
+  "configuration": {
+    "title": "設定"
   },
   "lang-selector": {
+    "info": "アプリケーション全体の言語を変更します",
     "title": "言語:",
-    "en-US": "英語 (米国)",
-    "ja-JP": "日本語"
+    "values": {
+      "en-US": "英語 (米国)",
+      "ja-JP": "日本語"
+    }
+  },
+  "top": {
+    "title": "トップ"
   }
 }

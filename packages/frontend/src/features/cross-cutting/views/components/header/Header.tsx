@@ -1,12 +1,10 @@
-import { Label, makeStyles, Title2, tokens, Toolbar } from '@fluentui/react-components'
+import { makeStyles, Title2, Toolbar } from '@fluentui/react-components'
 import { Hamburger } from '@fluentui/react-nav-preview'
-import { FC, memo, useCallback, useId } from 'react'
+import { FC, memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
 import { Flex } from '#/cross-cutting/views/components/flex/Flex'
-
-import { LangSelector } from '../lang-selector/LangSelector'
 
 interface IHeaderProps {
   isDrawerOpen: boolean
@@ -26,7 +24,6 @@ export const Header: FC<IHeaderProps> = memo(({ isDrawerOpen, onDrawerVisibility
   const styles = useStyles()
   const navigate = useNavigate()
   const { t } = useTranslation('translation')
-  const langId = useId()
 
   const onDrawerChanged = useCallback(() => {
     onDrawerVisibilityChanged(!isDrawerOpen)
@@ -56,21 +53,6 @@ export const Header: FC<IHeaderProps> = memo(({ isDrawerOpen, onDrawerVisibility
           direction='row'
           grow={true}
         />
-
-        <Flex
-          direction='row'
-          style={{
-            flexShrink: 0,
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            gap: tokens.spacingHorizontalS,
-          }}
-        >
-          <Label htmlFor={langId}>
-            { t('lang-selector.title') }
-          </Label>
-          <LangSelector id={langId} />
-        </Flex>
       </Flex>
     </Toolbar>
   )

@@ -1,4 +1,4 @@
-import { Button, SearchBox, SearchBoxProps, Spinner, Title3 } from '@fluentui/react-components'
+import { Button, makeStyles, SearchBox, SearchBoxProps, Spinner, Title3, tokens } from '@fluentui/react-components'
 import { PeopleSearchRegular } from '@fluentui/react-icons'
 import { FC, memo, MouseEvent, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -11,8 +11,33 @@ import { Flex } from '#/cross-cutting/views/components/flex/Flex'
 import { searchUserTypes } from '#/search-user/di/searchUserTypes'
 import { IUserListViewModel } from '#/search-user/interfaces/view-models/IUserListViewModel'
 
+const searchBoxWidth = 402
+const searchButtonWidth = 110
+
+const useStyle = makeStyles({
+  spacer: {
+    height: '36px'
+  },
+  searchBoxContainer: {
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    gap: tokens.spacingHorizontalS,
+    minWidth: '190px',
+    flexBasis: `calc(${searchBoxWidth}px + ${searchButtonWidth}px + ${tokens.spacingHorizontalS})`
+  },
+  searchBox: {
+    flex: '1 1 0',
+    minWidth: 0,
+    maxWidth: `${searchBoxWidth}px`
+  },
+  searchButton: {
+    width: `${searchButtonWidth}px`
+  }
+})
+
 export const SearchUserHeader: FC = memo(() => {
   const { t } = useTranslation()
+  const styles = useStyle()
 
   const viewModel = diContainer.get<IUserListViewModel>(searchUserTypes.UserListViewModel)
 
@@ -48,27 +73,24 @@ export const SearchUserHeader: FC = memo(() => {
         <Flex
           direction='row'
           grow={true}
-          style={{ height: '36px' }}
+          className={styles.spacer}
         />
 
         <Flex
           direction='row'
-          style={{
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            gap: 'var(--spacingHorizontalS)',
-          }}
+          grow={true}
+          className={styles.searchBoxContainer}
         >
           <SearchBox
             type="text"
-            style={{ maxWidth: '360px' }}
+            className={styles.searchBox}
             disabled={isBusy}
             value={keyword}
             onChange={handleKeywordChange}
             contentBefore={<PeopleSearchRegular />}
           />
           <Button
-            style={{ maxWidth: '160px' }}
+            className={styles.searchButton}
             disabled={!keyword || isBusy}
             disabledFocusable={!keyword || isBusy}
             appearance="primary"

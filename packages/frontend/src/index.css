@@ -1,3 +1,10 @@
+* {
+  /*
+   * prevent any mobile device interactions like pinch-zoom
+   */
+  touch-action: pan-x pan-y;
+}
+
 body {
   margin: 0;
 }

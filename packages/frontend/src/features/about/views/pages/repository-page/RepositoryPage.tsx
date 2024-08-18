@@ -1,9 +1,10 @@
-import { Link, makeStyles, Title3, tokens, Toolbar } from "@fluentui/react-components";
+import { Link, makeStyles, Title3, tokens } from "@fluentui/react-components";
 import { WindowNewRegular } from "@fluentui/react-icons";
 import { FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { repositoryUrl } from "~/assets/autogen/app-info.json"
+import { StPageHeader } from "~/features/cross-cutting/views/components/st-page-header/StPageHeader";
 
 import { Page } from "#/cross-cutting/views/pages/Page";
 
@@ -23,11 +24,11 @@ export const RepositoryPage: FC = memo(() => {
 
   return (
     <Page>
-      <Toolbar style={{ minHeight: '60px' }}>
+      <StPageHeader>
         <Title3 align="start">
           { t('repository.title') }
         </Title3>
-      </Toolbar>
+      </StPageHeader>
 
       <div className={styles.field}>
         <div>

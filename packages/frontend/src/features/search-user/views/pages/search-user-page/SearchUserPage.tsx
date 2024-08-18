@@ -18,7 +18,7 @@ export const SearchUserPage: FC = memo(() => {
 
   return (
     <Page fixedLayout={true}>
-      <div style={{ display: 'flex', flexDirection: 'column', gridTemplateRows: 'auto 1fr', gridTemplateColumns: '1fr', minHeight: 0, height: '100%' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0, height: '100%' }}>
         <SearchUserHeader />
         <SearchUserList
           userList={userList}

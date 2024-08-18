@@ -1,10 +1,10 @@
-import { Field, InfoLabel, makeStyles, Title3, tokens, Toolbar } from "@fluentui/react-components"
+import { InfoLabel, makeStyles, Title3, tokens, Toolbar } from "@fluentui/react-components"
 import { Info16Regular } from "@fluentui/react-icons"
 import { FC, memo, useId } from "react"
 import { useTranslation } from "react-i18next"
 
-import { LangSelector } from "~/features/cross-cutting/views/components/lang-selector/LangSelector"
-
+import { LangSelector } from "#/cross-cutting/views/components/lang-selector/LangSelector"
+import { StField } from "#/cross-cutting/views/components/st-field/StField"
 import { Page } from "#/cross-cutting/views/pages/Page"
 
 const useStyles = makeStyles({
@@ -31,7 +31,7 @@ export const ConfigurationPage: FC = memo(() => {
       </Toolbar>
 
       <div className={styles.field}>
-        <Field
+        <StField
           label={(
             <InfoLabel
               infoButton={<Info16Regular />}
@@ -41,11 +41,10 @@ export const ConfigurationPage: FC = memo(() => {
               { t('lang-selector.title') }
             </InfoLabel>
           )}
-          orientation="horizontal"
           validationState="none"
         >
           <LangSelector id={langId} />
-        </Field>
+        </StField>
       </div>
     </Page>
   )

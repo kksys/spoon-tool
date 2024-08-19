@@ -89,29 +89,30 @@ export const ConfigurationPage: FC = memo(() => {
         <DialogSurface>
           <DialogBody>
             <DialogTitle>
-              Confirmation
+              { t('reset-configuration.warning-dialog.title') }
             </DialogTitle>
             <DialogContent>
-              Are you sure you want to reset the configuration? Once this operation is completed, it cannot be undone.
+              { t('reset-configuration.warning-dialog.body') }
             </DialogContent>
             <DialogActions>
               <DialogTrigger action="close">
                 <Button
                   appearance="secondary"
-                  aria-label="close"
+                  aria-label="no"
                 >
-                  Close
+                  { t('common.no') }
                 </Button>
               </DialogTrigger>
               <DialogTrigger action="close">
                 <Button
                   appearance="primary"
+                  aria-label="yes"
                   style={{
                     backgroundColor: tokens.colorStatusDangerBackground3
                   }}
                   onClick={handleResetButton}
                 >
-                  Reset
+                  { t('common.yes') }
                 </Button>
               </DialogTrigger>
             </DialogActions>
@@ -125,10 +126,10 @@ export const ConfigurationPage: FC = memo(() => {
         <DialogSurface>
           <DialogBody>
             <DialogTitle>
-              Reset Configuration
+              { t('reset-configuration.complete-dialog.title') }
             </DialogTitle>
             <DialogContent>
-              The configuration is resetted.
+              { t('reset-configuration.complete-dialog.body') }
             </DialogContent>
             <DialogActions>
               <DialogTrigger action="close">
@@ -136,7 +137,7 @@ export const ConfigurationPage: FC = memo(() => {
                   appearance="secondary"
                   aria-label="close"
                 >
-                  Close
+                  { t('common.close') }
                 </Button>
               </DialogTrigger>
             </DialogActions>

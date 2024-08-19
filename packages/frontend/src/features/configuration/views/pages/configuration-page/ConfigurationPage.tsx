@@ -20,6 +20,9 @@ const useStyles = makeStyles({
     flexDirection: "column",
     gridRowGap: tokens.spacingVerticalL,
   },
+  pageTitle: {
+    textWrap: 'nowrap'
+  },
 })
 
 export const ConfigurationPage: FC = memo(() => {
@@ -40,7 +43,10 @@ export const ConfigurationPage: FC = memo(() => {
   return (
     <Page>
       <StPageHeader>
-        <Title3 align="start">
+        <Title3
+          align="start"
+          className={styles.pageTitle}
+        >
           { t('configuration.title') }
         </Title3>
       </StPageHeader>

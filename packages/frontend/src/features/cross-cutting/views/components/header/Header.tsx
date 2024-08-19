@@ -16,7 +16,8 @@ const useStyles = makeStyles({
     minHeight: '60px'
   },
   title: {
-    cursor: 'pointer'
+    cursor: 'pointer',
+    textWrap: 'nowrap'
   }
 })
 

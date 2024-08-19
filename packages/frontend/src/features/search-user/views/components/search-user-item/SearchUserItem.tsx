@@ -1,6 +1,10 @@
 import { Avatar, AvatarProps, Skeleton } from '@fluentui/react-components'
 import { FC, memo, MouseEventHandler, ReactElement, useCallback, useState } from 'react'
 
+import { crossCuttingTypes } from '~/features/cross-cutting/di/crossCuttingTypes'
+import { ILoggerService } from '~/features/cross-cutting/interfaces/ILoggerService'
+import { diContainer } from '~/inversify.config'
+
 import { Flex } from '#/cross-cutting/views/components/flex/Flex'
 import { IUserViewModel } from '#/search-user/interfaces/view-models/IUserViewModel'
 
@@ -109,9 +113,11 @@ interface ISearchUserItemNormalProps {
 }
 
 const SearchUserItemNormal: FC<Omit<ISearchUserItemNormalProps, 'loading'>> = memo(({ user, onClick }) => {
+  const loggerService = diContainer.get<ILoggerService>(crossCuttingTypes.LoggerService)
+
   const [icon, setIcon] = useState<string | undefined>(() => {
     let profileIcon = user.profileIcon
-    console.log(profileIcon)
+    import.meta.env.DEV && console.log(profileIcon)
 
     if (profileIcon.startsWith('http:') && window.location.protocol === 'https:') {
       // http resource is referenced by https resource
@@ -123,17 +129,17 @@ const SearchUserItemNormal: FC<Omit<ISearchUserItemNormalProps, 'loading'>> = me
   })
 
   const handleAvatarChange = useCallback<NonNullable<AvatarProps['onLoadedData']>>((...args) => {
-    console.log(`${user.id}-icon`, 'handleAvatarChange', ...args)
-  }, [user.id])
+    loggerService.log(`${user.id}-icon`, 'handleAvatarChange', ...args)
+  }, [loggerService, user.id])
 
   const handleAvatarLoad = useCallback<NonNullable<AvatarProps['onLoad']>>((...args) => {
-    console.log(`${user.id}-icon`, 'handleAvatarLoad', ...args)
-  }, [user.id])
+    loggerService.log(`${user.id}-icon`, 'handleAvatarLoad', ...args)
+  }, [loggerService, user.id])
 
   const handleAvatarError = useCallback<NonNullable<AvatarProps['onError']>>((...args) => {
-    console.log(`${user.id}-icon`, 'handleAvatarError', ...args)
+    loggerService.log(`${user.id}-icon`, 'handleAvatarError', ...args)
     setIcon(undefined)
-  }, [user.id])
+  }, [loggerService, user.id])
 
   return (
     <SearchUserItemBase

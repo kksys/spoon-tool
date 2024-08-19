@@ -14,6 +14,10 @@ export class ConfigurationRepository implements IConfigurationRepository {
     window.localStorage.setItem('configuration', JSON.stringify(this.configuration))
   }
 
+  async reset(): Promise<void> {
+    window.localStorage.removeItem('configuration')
+  }
+
   setLanguage(language: NonNullable<IConfiguration["language"]>): void {
     this.configuration.language = language
   }

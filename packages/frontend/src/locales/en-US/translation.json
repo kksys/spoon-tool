@@ -11,6 +11,9 @@
   },
   "common": {
     "enabled": "Enabled",
+    "no": "No",
+    "yes": "Yes",
+    "close": "Close",
     "loading": "Loading...",
     "search": "Search"
   },
@@ -31,6 +34,19 @@
     "values": {
       "en-US": "English (US)",
       "ja-JP": "Japanese"
+    }
+  },
+  "reset-configuration": {
+    "info": "This would reset all settings configured on this page to their initial state.",
+    "title": "Reset:",
+    "label": "Reset Configuration",
+    "warning-dialog": {
+      "title": "Confirmation",
+      "body": "Are you sure you want to reset the configuration? Once this operation is completed, it cannot be undone."
+    },
+    "complete-dialog": {
+      "title": "Reset Configuration",
+      "body": "The configuration is resetted."
     }
   },
   "top": {

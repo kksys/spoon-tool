@@ -13,7 +13,10 @@ const useStyles = makeStyles({
     marginTop: "4px",
     marginLeft: "8px",
     flexDirection: "column",
-    gridRowGap: tokens.spacingVerticalS,
+    gridRowGap: tokens.spacingVerticalL,
+  },
+  pageTitle: {
+    textWrap: 'nowrap'
   },
 })
 
@@ -36,7 +39,10 @@ export const AboutPage: FC = memo(() => {
   return (
     <Page>
       <StPageHeader>
-        <Title3 align="start">
+        <Title3
+          align="start"
+          className={styles.pageTitle}
+        >
           { t('about.title') }
         </Title3>
       </StPageHeader>

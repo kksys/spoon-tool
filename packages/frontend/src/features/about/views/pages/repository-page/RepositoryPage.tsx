@@ -16,6 +16,9 @@ const useStyles = makeStyles({
     flexDirection: "column",
     gridRowGap: tokens.spacingVerticalS,
   },
+  pageTitle: {
+    textWrap: 'nowrap'
+  },
 })
 
 export const RepositoryPage: FC = memo(() => {
@@ -25,7 +28,10 @@ export const RepositoryPage: FC = memo(() => {
   return (
     <Page>
       <StPageHeader>
-        <Title3 align="start">
+        <Title3
+          align="start"
+          className={styles.pageTitle}
+        >
           { t('repository.title') }
         </Title3>
       </StPageHeader>

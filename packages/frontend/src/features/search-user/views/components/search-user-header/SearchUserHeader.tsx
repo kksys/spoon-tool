@@ -15,6 +15,10 @@ const searchBoxWidth = 402
 const searchButtonWidth = 110
 
 const useStyle = makeStyles({
+  pageTitle: {
+    textWrap: 'nowrap',
+    height: 'fit-content',
+  },
   spacer: {
     height: '36px'
   },
@@ -22,7 +26,7 @@ const useStyle = makeStyles({
     justifyContent: 'flex-end',
     alignItems: 'center',
     gap: tokens.spacingHorizontalS,
-    minWidth: '190px',
+    minWidth: '155px',
     flexBasis: `calc(${searchBoxWidth}px + ${searchButtonWidth}px + ${tokens.spacingHorizontalS})`
   },
   searchBox: {
@@ -63,9 +67,12 @@ export const SearchUserHeader: FC = memo(() => {
 
   return (
     <StPageHeader>
-      <Flex style={{ width: '100%', minHeight: '36px', flexFlow: 'wrap', flexWrap: 'wrap', rowGap: '16px', columnGap: '8px', justifyContent: 'end' }}>
+      <Flex style={{ width: '100%', minHeight: '36px', flexFlow: 'wrap', flexWrap: 'wrap', rowGap: '16px', columnGap: '8px', justifyContent: 'start' }}>
         <Flex style={{ alignItems: 'center' }}>
-          <Title3 style={{ height: 'fit-content' }}>
+          <Title3
+            align="start"
+            className={styles.pageTitle}
+          >
             { t('top.title') }
           </Title3>
         </Flex>

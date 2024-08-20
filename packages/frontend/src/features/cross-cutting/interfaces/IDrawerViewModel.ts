@@ -1,6 +1,6 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs'
 
-import { IViewModel } from "./IViewModel";
+import { IViewModel } from './IViewModel'
 
 export interface IDrawerViewModel extends IViewModel {
   readonly open$: Observable<boolean>

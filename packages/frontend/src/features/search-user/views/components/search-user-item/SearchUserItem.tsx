@@ -1,10 +1,10 @@
 import { Avatar, AvatarProps, Skeleton } from '@fluentui/react-components'
 import { FC, memo, MouseEventHandler, ReactElement, useCallback, useState } from 'react'
 
-import { crossCuttingTypes } from '~/features/cross-cutting/di/crossCuttingTypes'
-import { ILoggerService } from '~/features/cross-cutting/interfaces/ILoggerService'
 import { diContainer } from '~/inversify.config'
 
+import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
+import { ILoggerService } from '#/cross-cutting/interfaces/ILoggerService'
 import { Flex } from '#/cross-cutting/views/components/flex/Flex'
 import { IUserViewModel } from '#/search-user/interfaces/view-models/IUserViewModel'
 

@@ -17,7 +17,7 @@ export const languages = ObjectTyped.keys(resources)
 declare module 'i18next' {
   interface CustomTypeOptions {
     defaultNS: 'translation'
-    resources: typeof resources[typeof languages[number]],
+    resources: typeof resources[typeof languages[number]]
   }
 
   interface i18n {

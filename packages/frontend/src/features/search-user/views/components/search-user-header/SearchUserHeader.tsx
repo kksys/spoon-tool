@@ -4,10 +4,10 @@ import { FC, memo, MouseEvent, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useObservable } from 'react-use'
 
-import { StPageHeader } from '~/features/cross-cutting/views/components/st-page-header/StPageHeader'
 import { diContainer } from '~/inversify.config'
 
 import { Flex } from '#/cross-cutting/views/components/flex/Flex'
+import { StPageHeader } from '#/cross-cutting/views/components/st-page-header/StPageHeader'
 import { searchUserTypes } from '#/search-user/di/searchUserTypes'
 import { IUserListViewModel } from '#/search-user/interfaces/view-models/IUserListViewModel'
 

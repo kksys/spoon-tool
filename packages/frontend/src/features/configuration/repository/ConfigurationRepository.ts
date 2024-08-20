@@ -1,28 +1,93 @@
-import { injectable } from "inversify";
+import { injectable } from 'inversify'
+import { BehaviorSubject, combineLatestWith, map, Observable } from 'rxjs'
 
-import { IConfiguration, IConfigurationRepository } from "#/cross-cutting/interfaces/IConfigurationRepository";
+import { IConfiguration, IConfigurationRepository } from '#/cross-cutting/interfaces/IConfigurationRepository'
 
 @injectable()
 export class ConfigurationRepository implements IConfigurationRepository {
-  private configuration: IConfiguration = {}
+  private fallbackConfiguration: IConfiguration = {
+    language: 'ja-JP'
+  }
+
+  private localStorageKey = 'configuration' as const
+
+  private configurationSubject = new BehaviorSubject<IConfiguration>(this.fallbackConfiguration)
+  private changedConfigurationSubject = new BehaviorSubject<Partial<IConfiguration>>({})
+
+  savedConfiguration$: Observable<IConfiguration> = this.configurationSubject.asObservable()
+  currentConfiguration$: Observable<IConfiguration> = this.changedConfigurationSubject.asObservable()
+    .pipe(
+      combineLatestWith(this.savedConfiguration$),
+      map(([changedConfiguration, savedConfiguration]) => ({
+        ...savedConfiguration,
+        ...changedConfiguration
+      })),
+    )
+  hasChange$: Observable<boolean> = this.changedConfigurationSubject.asObservable()
+    .pipe(
+      map(changed => Object.keys(changed).length > 0)
+    )
+  hasConfiguration$: Observable<boolean> = this.changedConfigurationSubject.asObservable()
+    .pipe(
+      combineLatestWith(this.savedConfiguration$),
+      map(() => window.localStorage.getItem(this.localStorageKey) !== null),
+    )
+
+  private getCurrentConfiguration(): IConfiguration {
+    return {
+      ...this.configurationSubject.getValue(),
+      ...this.changedConfigurationSubject.getValue(),
+    }
+  }
 
   async load(): Promise<void> {
-    this.configuration = JSON.parse(window.localStorage.getItem('configuration') || '{}')
+    let loadedConfiguration: IConfiguration
+    try {
+      loadedConfiguration = JSON.parse(window.localStorage.getItem(this.localStorageKey) || 'undefined') as IConfiguration || this.fallbackConfiguration
+    } catch {
+      loadedConfiguration = { ...this.fallbackConfiguration }
+    }
+
+    this.configurationSubject.next(loadedConfiguration)
+    this.changedConfigurationSubject.next({})
   }
 
   async save(): Promise<void> {
-    window.localStorage.setItem('configuration', JSON.stringify(this.configuration))
+    const newConfiguration = this.getCurrentConfiguration()
+
+    window.localStorage.setItem(this.localStorageKey, JSON.stringify(newConfiguration))
+
+    this.configurationSubject.next(newConfiguration)
+    this.changedConfigurationSubject.next({})
+  }
+
+  async restore(): Promise<void> {
+    this.changedConfigurationSubject.next({})
   }
 
   async reset(): Promise<void> {
-    window.localStorage.removeItem('configuration')
+    window.localStorage.removeItem(this.localStorageKey)
+
+    this.configurationSubject.next({ ...this.fallbackConfiguration })
+    this.changedConfigurationSubject.next({})
   }
 
-  setLanguage(language: NonNullable<IConfiguration["language"]>): void {
-    this.configuration.language = language
+  setLanguage(language: NonNullable<IConfiguration['language']>): void {
+    let changedValue = this.changedConfigurationSubject.getValue()
+
+    if (this.configurationSubject.getValue().language !== language) {
+      changedValue = {
+        ...changedValue,
+        language
+      }
+    } else {
+      delete changedValue.language
+    }
+
+    this.changedConfigurationSubject.next(changedValue)
   }
 
-  getLanguage(): IConfiguration["language"] {
-    return this.configuration.language
+  getLanguage(): IConfiguration['language'] {
+    return this.getCurrentConfiguration().language
   }
 }

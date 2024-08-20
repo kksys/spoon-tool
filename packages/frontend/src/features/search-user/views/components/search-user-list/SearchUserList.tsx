@@ -31,7 +31,7 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
     ? () => {}
     : loadNextItems
 
-  const Row = ({ index, style }: { index: number, style: CSSProperties }) => {
+  const Row = ({ index, style }: { index: number; style: CSSProperties }) => {
     const [styleProp, setStyleProp] = useState<Pick<CSSProperties, 'backgroundColor'>>({ backgroundColor: 'unset' })
     const handleOver = useCallback<MouseEventHandler<HTMLDivElement>>(() => {
       setStyleProp({

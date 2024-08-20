@@ -23,7 +23,7 @@ export class UserPaginatorViewModel extends ViewModelBase implements IUserPagina
     return this.#itemCount > 0 ? Math.ceil(this.#itemCount / this.itemsPerPage) : 1
   }
 
-  updateCursors(cursors: { previous: string, next: string }): void {
+  updateCursors(cursors: { previous: string; next: string }): void {
     this.#cursorSubject.next(cursors)
   }
 

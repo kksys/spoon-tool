@@ -11,6 +11,25 @@ module.exports = {
     },
   },
   rules: {
+    quotes: ['warn', 'single', { avoidEscape: true }],
+
+    semi: 'off',
+    '@typescript-eslint/semi': ['error', 'never'],
+    '@typescript-eslint/member-delimiter-style': [
+      'error',
+      {
+        multiline: {
+          delimiter: 'none',
+          requireLast: false,
+        },
+        singleline: {
+          delimiter: 'semi',
+          requireLast: false,
+        },
+        multilineDetection: 'brackets',
+      }
+    ],
+
     '@typescript-eslint/no-unused-vars': [
       'error',
       {

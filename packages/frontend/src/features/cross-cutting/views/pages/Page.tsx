@@ -1,5 +1,5 @@
-import { makeStyles, mergeClasses } from "@fluentui/react-components";
-import { FC, memo, ReactNode } from "react";
+import { makeStyles, mergeClasses } from '@fluentui/react-components'
+import { FC, memo, ReactNode } from 'react'
 
 interface IPageProps {
   fixedLayout?: boolean
@@ -9,10 +9,10 @@ interface IPageProps {
 const useStyles = makeStyles({
   container: {
     position: 'relative',
-    flex: "1",
-    display: "grid",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    flex: '1',
+    display: 'grid',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     width: '100%',
     gridTemplateColumns: '1fr',
     overflow: 'scroll',
@@ -20,11 +20,11 @@ const useStyles = makeStyles({
   content: {
     position: 'absolute',
     boxSizing: 'border-box',
-    flex: "1",
-    padding: "12px",
-    display: "grid",
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    flex: '1',
+    padding: '12px',
+    display: 'grid',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     width: '100%',
     gridTemplateColumns: '1fr',
   },

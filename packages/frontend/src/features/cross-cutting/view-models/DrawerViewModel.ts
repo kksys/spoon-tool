@@ -1,8 +1,8 @@
-import { injectable } from "inversify";
-import { BehaviorSubject, Observable } from "rxjs";
+import { injectable } from 'inversify'
+import { BehaviorSubject, Observable } from 'rxjs'
 
-import { IDrawerViewModel } from "../interfaces/IDrawerViewModel";
-import { ViewModelBase } from "./ViewModelBase";
+import { IDrawerViewModel } from '../interfaces/IDrawerViewModel'
+import { ViewModelBase } from './ViewModelBase'
 
 @injectable()
 export class DrawerViewModel extends ViewModelBase implements IDrawerViewModel {

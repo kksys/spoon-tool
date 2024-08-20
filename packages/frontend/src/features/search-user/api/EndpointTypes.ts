@@ -47,7 +47,7 @@ export interface EndpointTypes {
         keyword?: string
         page_size?: undefined
         cursor: string
-      },
+      }
       response: {
         status_code: number
         detail: string
@@ -59,7 +59,7 @@ export interface EndpointTypes {
     getProfile: {
       parameters: {
         id: string
-      },
+      }
       response: {
         status_code: number
         detail: string

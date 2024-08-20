@@ -1,15 +1,21 @@
-import { i18n } from "i18next";
+import { i18n } from 'i18next'
+import { Observable } from 'rxjs'
 
 export interface IConfiguration {
-  language?: i18n['language'] | undefined
+  language: i18n['language']
 }
 
 export interface IConfigurationRepository {
+  savedConfiguration$: Observable<IConfiguration>
+  currentConfiguration$: Observable<IConfiguration>
+  hasChange$: Observable<boolean>
+  hasConfiguration$: Observable<boolean>
+
   load(): Promise<void>
   save(): Promise<void>
-
+  restore(): Promise<void>
   reset(): Promise<void>
 
-  setLanguage(language: NonNullable<IConfiguration['language']>): void
+  setLanguage(language: IConfiguration['language']): void
   getLanguage(): IConfiguration['language']
 }

@@ -1,8 +1,8 @@
-import { AppGeneric20Regular, DocumentChevronDouble20Filled, Info20Filled } from "@fluentui/react-icons"
-import { NavDrawer, NavDrawerBody, NavItem,NavProps } from "@fluentui/react-nav-preview"
-import { FC, memo, useCallback, useEffect, useState } from "react"
-import { useTranslation } from "react-i18next"
-import { useLocation, useNavigate } from "react-router-dom"
+import { AppGeneric20Regular, DocumentChevronDouble20Filled, Info20Filled } from '@fluentui/react-icons'
+import { NavDrawer, NavDrawerBody, NavItem,NavProps } from '@fluentui/react-nav-preview'
+import { FC, memo, useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 interface IDrawerMenuProps {
   open: boolean

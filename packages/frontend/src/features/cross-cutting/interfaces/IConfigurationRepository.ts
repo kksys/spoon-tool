@@ -1,5 +1,5 @@
-import { i18n } from 'i18next';
-import { Observable } from 'rxjs';
+import { i18n } from 'i18next'
+import { Observable } from 'rxjs'
 
 export interface IConfiguration {
   language: i18n['language']

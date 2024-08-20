@@ -8,7 +8,7 @@ interface LangSelectorData {
 }
 
 export interface ILangSelectorProps {
-  id: string,
+  id: string
   languages: i18n['language'][]
   language: i18n['language']
   onChange?: (event: SelectionEvents, data: LangSelectorData) => void

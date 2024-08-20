@@ -1,12 +1,12 @@
-import { Link, makeStyles, Title3, tokens } from '@fluentui/react-components';
-import { WindowNewRegular } from '@fluentui/react-icons';
-import { FC, memo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Link, makeStyles, Title3, tokens } from '@fluentui/react-components'
+import { WindowNewRegular } from '@fluentui/react-icons'
+import { FC, memo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { repositoryUrl } from '~/assets/autogen/app-info.json'
 
-import { StPageHeader } from '#/cross-cutting/views/components/st-page-header/StPageHeader';
-import { Page } from '#/cross-cutting/views/pages/Page';
+import { StPageHeader } from '#/cross-cutting/views/components/st-page-header/StPageHeader'
+import { Page } from '#/cross-cutting/views/pages/Page'
 
 const useStyles = makeStyles({
   field: {

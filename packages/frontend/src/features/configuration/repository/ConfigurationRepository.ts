@@ -1,7 +1,7 @@
-import { injectable } from 'inversify';
-import { BehaviorSubject, combineLatestWith, map, Observable } from 'rxjs';
+import { injectable } from 'inversify'
+import { BehaviorSubject, combineLatestWith, map, Observable } from 'rxjs'
 
-import { IConfiguration, IConfigurationRepository } from '#/cross-cutting/interfaces/IConfigurationRepository';
+import { IConfiguration, IConfigurationRepository } from '#/cross-cutting/interfaces/IConfigurationRepository'
 
 @injectable()
 export class ConfigurationRepository implements IConfigurationRepository {

@@ -1,6 +1,6 @@
-import { injectable } from 'inversify';
+import { injectable } from 'inversify'
 
-import { ILoggerService } from '../interfaces/ILoggerService';
+import { ILoggerService } from '../interfaces/ILoggerService'
 
 @injectable()
 export class DebugLoggerService implements ILoggerService {

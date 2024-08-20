@@ -1,14 +1,14 @@
-import { FC, memo, ReactNode, useCallback } from 'react';
-import { useObservable } from 'react-use';
+import { FC, memo, ReactNode, useCallback } from 'react'
+import { useObservable } from 'react-use'
 
-import { diContainer } from '~/inversify.config';
+import { diContainer } from '~/inversify.config'
 
-import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes';
-import { IDrawerViewModel } from '#/cross-cutting/interfaces/IDrawerViewModel';
+import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
+import { IDrawerViewModel } from '#/cross-cutting/interfaces/IDrawerViewModel'
 
-import { DrawerMenu } from '../drawer-menu/DrawerMenu';
-import { Flex } from '../flex/Flex';
-import { Header } from '../header/Header';
+import { DrawerMenu } from '../drawer-menu/DrawerMenu'
+import { Flex } from '../flex/Flex'
+import { Header } from '../header/Header'
 
 interface ILayoutProps {
   children: ReactNode

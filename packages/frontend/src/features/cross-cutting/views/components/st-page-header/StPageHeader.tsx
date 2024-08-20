@@ -1,5 +1,5 @@
-import { Toolbar } from '@fluentui/react-components';
-import { FC, memo, ReactNode } from 'react';
+import { Toolbar } from '@fluentui/react-components'
+import { FC, memo, ReactNode } from 'react'
 
 interface IStPageHeaderProps {
   children: ReactNode

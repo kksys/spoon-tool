@@ -1,5 +1,5 @@
-import { makeStyles, mergeClasses } from '@fluentui/react-components';
-import { FC, memo, ReactNode } from 'react';
+import { makeStyles, mergeClasses } from '@fluentui/react-components'
+import { FC, memo, ReactNode } from 'react'
 
 interface IPageProps {
   fixedLayout?: boolean

@@ -1,7 +1,7 @@
-import { injectable } from "inversify";
-import { BehaviorSubject, combineLatestWith, map, Observable } from "rxjs";
+import { injectable } from 'inversify';
+import { BehaviorSubject, combineLatestWith, map, Observable } from 'rxjs';
 
-import { IConfiguration, IConfigurationRepository } from "#/cross-cutting/interfaces/IConfigurationRepository";
+import { IConfiguration, IConfigurationRepository } from '#/cross-cutting/interfaces/IConfigurationRepository';
 
 @injectable()
 export class ConfigurationRepository implements IConfigurationRepository {
@@ -62,7 +62,7 @@ export class ConfigurationRepository implements IConfigurationRepository {
     window.localStorage.removeItem('configuration')
   }
 
-  setLanguage(language: NonNullable<IConfiguration["language"]>): void {
+  setLanguage(language: NonNullable<IConfiguration['language']>): void {
     let changedValue = this.changedConfigurationSubject.getValue()
 
     if (this.configurationSubject.getValue().language !== language) {
@@ -77,7 +77,7 @@ export class ConfigurationRepository implements IConfigurationRepository {
     this.changedConfigurationSubject.next(changedValue)
   }
 
-  getLanguage(): IConfiguration["language"] {
+  getLanguage(): IConfiguration['language'] {
     return this.getCurrentConfiguration().language
   }
 }

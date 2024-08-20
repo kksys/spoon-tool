@@ -1,7 +1,7 @@
-import { Combobox, ComboboxProps, makeStyles, Option, SelectionEvents } from "@fluentui/react-components"
-import { i18n } from "i18next"
-import { FC, memo, useCallback } from "react"
-import { useTranslation } from "react-i18next"
+import { Combobox, ComboboxProps, makeStyles, Option, SelectionEvents } from '@fluentui/react-components'
+import { i18n } from 'i18next'
+import { FC, memo, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface LangSelectorData {
   selectedLanguage: i18n['language']

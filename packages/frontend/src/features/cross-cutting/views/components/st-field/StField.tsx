@@ -1,5 +1,5 @@
-import { Field, FieldProps } from "@fluentui/react-components"
-import { FC, memo, useCallback, useEffect, useState } from "react"
+import { Field, FieldProps } from '@fluentui/react-components'
+import { FC, memo, useCallback, useEffect, useState } from 'react'
 
 interface IStFieldProps extends Omit<FieldProps, 'orientation'> {}
 

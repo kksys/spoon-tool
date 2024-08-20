@@ -1,7 +1,7 @@
-import { i18n } from "i18next";
-import { Observable } from "rxjs";
+import { i18n } from 'i18next';
+import { Observable } from 'rxjs';
 
-import { IViewModel } from "#/cross-cutting/interfaces/IViewModel";
+import { IViewModel } from '#/cross-cutting/interfaces/IViewModel';
 
 export interface IConfigurationViewModel extends IViewModel {
   unchanged$: Observable<boolean>

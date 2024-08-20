@@ -11,29 +11,29 @@ import {
   makeStyles,
   Title3,
   tokens
-} from "@fluentui/react-components"
-import { Info16Regular } from "@fluentui/react-icons"
-import { FC, memo, useCallback, useId, useState } from "react"
-import { useTranslation } from "react-i18next"
-import { useObservable } from "react-use"
+} from '@fluentui/react-components'
+import { Info16Regular } from '@fluentui/react-icons'
+import { FC, memo, useCallback, useId, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useObservable } from 'react-use'
 
-import { languages } from "~/i18n.resources"
-import { diContainer } from "~/inversify.config"
+import { languages } from '~/i18n.resources'
+import { diContainer } from '~/inversify.config'
 
-import { configurationTypes } from "#/configuration/di/configurationTypes"
-import { IConfigurationViewModel } from "#/configuration/interfaces/IConfigurationViewModel"
-import { ILangSelectorProps, LangSelector } from "#/configuration/views/components/lang-selector/LangSelector"
-import { Flex } from "#/cross-cutting/views/components/flex/Flex"
-import { StField } from "#/cross-cutting/views/components/st-field/StField"
-import { StPageHeader } from "#/cross-cutting/views/components/st-page-header/StPageHeader"
-import { Page } from "#/cross-cutting/views/pages/Page"
+import { configurationTypes } from '#/configuration/di/configurationTypes'
+import { IConfigurationViewModel } from '#/configuration/interfaces/IConfigurationViewModel'
+import { ILangSelectorProps, LangSelector } from '#/configuration/views/components/lang-selector/LangSelector'
+import { Flex } from '#/cross-cutting/views/components/flex/Flex'
+import { StField } from '#/cross-cutting/views/components/st-field/StField'
+import { StPageHeader } from '#/cross-cutting/views/components/st-page-header/StPageHeader'
+import { Page } from '#/cross-cutting/views/pages/Page'
 
 const useStyles = makeStyles({
   field: {
-    display: "flex",
-    marginTop: "4px",
-    marginLeft: "8px",
-    flexDirection: "column",
+    display: 'flex',
+    marginTop: '4px',
+    marginLeft: '8px',
+    flexDirection: 'column',
     gridRowGap: tokens.spacingVerticalL,
   },
   pageTitle: {

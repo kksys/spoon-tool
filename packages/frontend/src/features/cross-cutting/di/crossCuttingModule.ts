@@ -1,12 +1,12 @@
-import i18next, { i18n } from "i18next"
-import { ContainerModule } from "inversify"
+import i18next, { i18n } from 'i18next'
+import { ContainerModule } from 'inversify'
 
-import { IDrawerViewModel } from "../interfaces/IDrawerViewModel"
-import { ILoggerService } from "../interfaces/ILoggerService"
-import { DebugLoggerService } from "../services/DebugLoggerService"
-import { EmptyLoggerService } from "../services/EmptyLoggerService"
-import { DrawerViewModel } from "../view-models/DrawerViewModel"
-import { crossCuttingTypes } from "./crossCuttingTypes"
+import { IDrawerViewModel } from '../interfaces/IDrawerViewModel'
+import { ILoggerService } from '../interfaces/ILoggerService'
+import { DebugLoggerService } from '../services/DebugLoggerService'
+import { EmptyLoggerService } from '../services/EmptyLoggerService'
+import { DrawerViewModel } from '../view-models/DrawerViewModel'
+import { crossCuttingTypes } from './crossCuttingTypes'
 
 export const crossCuttingModule = new ContainerModule((bind) => {
   bind<IDrawerViewModel>(crossCuttingTypes.DrawerViewModel)

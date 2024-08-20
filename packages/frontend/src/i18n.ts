@@ -13,7 +13,7 @@ async function main() {
     .use(initReactI18next)
     .init({
       resources,
-      lng: configurationRepository.getLanguage() || 'ja-JP',
+      lng: configurationRepository.getLanguage(),
       fallbackLng: languages,
       supportedLngs: languages,
       interpolation: { escapeValue: false },

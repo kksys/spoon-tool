@@ -1,3 +1,4 @@
+import i18next, { i18n } from "i18next"
 import { ContainerModule } from "inversify"
 
 import { IDrawerViewModel } from "../interfaces/IDrawerViewModel"
@@ -14,4 +15,6 @@ export const crossCuttingModule = new ContainerModule((bind) => {
   bind<ILoggerService>(crossCuttingTypes.LoggerService)
     .to(import.meta.env.DEV ? DebugLoggerService : EmptyLoggerService)
     .inSingletonScope()
+  bind<i18n>(crossCuttingTypes.I18n)
+    .toConstantValue(i18next)
 })

@@ -1,13 +1,29 @@
-import { Button, Dialog, DialogActions, DialogBody, DialogContent, DialogSurface, DialogTitle, DialogTrigger, InfoLabel, makeStyles, Title3, tokens } from "@fluentui/react-components"
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogBody,
+  DialogContent,
+  DialogSurface,
+  DialogTitle,
+  DialogTrigger,
+  InfoLabel,
+  makeStyles,
+  Title3,
+  tokens
+} from "@fluentui/react-components"
 import { Info16Regular } from "@fluentui/react-icons"
 import { FC, memo, useCallback, useId, useState } from "react"
 import { useTranslation } from "react-i18next"
+import { useObservable } from "react-use"
 
+import { languages } from "~/i18n.resources"
 import { diContainer } from "~/inversify.config"
 
 import { configurationTypes } from "#/configuration/di/configurationTypes"
-import { IConfigurationRepository } from "#/cross-cutting/interfaces/IConfigurationRepository"
-import { LangSelector } from "#/cross-cutting/views/components/lang-selector/LangSelector"
+import { IConfigurationViewModel } from "#/configuration/interfaces/IConfigurationViewModel"
+import { ILangSelectorProps, LangSelector } from "#/configuration/views/components/lang-selector/LangSelector"
+import { Flex } from "#/cross-cutting/views/components/flex/Flex"
 import { StField } from "#/cross-cutting/views/components/st-field/StField"
 import { StPageHeader } from "#/cross-cutting/views/components/st-page-header/StPageHeader"
 import { Page } from "#/cross-cutting/views/pages/Page"
@@ -30,15 +46,30 @@ export const ConfigurationPage: FC = memo(() => {
   const { t } = useTranslation()
   const langId = useId()
 
-  const configurationRepository = diContainer.get<IConfigurationRepository>(configurationTypes.ConfigurationRepository)
+  const configurationViewModel = diContainer.get<IConfigurationViewModel>(configurationTypes.ConfigurationViewModel)
 
   const [warningDialog, setWarningDialog] = useState(false)
   const [completeDialog, setCompleteDialog] = useState(false)
 
+  const unchanged = useObservable(configurationViewModel.unchanged$, false)
+  const language = useObservable(configurationViewModel.language$, 'ja-JP')
+
+  const handleLanguageSelect = useCallback<NonNullable<ILangSelectorProps['onChange']>>((_event, data) => {
+    configurationViewModel.setLanguage(data.selectedLanguage)
+  }, [configurationViewModel])
+
   const handleResetButton = useCallback(async () => {
-    await configurationRepository.reset()
+    await configurationViewModel.reset()
     setCompleteDialog(true)
-  }, [configurationRepository])
+  }, [configurationViewModel])
+
+  const handleSaveButton = useCallback(async () => {
+    await configurationViewModel.save()
+  }, [configurationViewModel])
+
+  const handleCancelButton = useCallback(async () => {
+    await configurationViewModel.restore()
+  }, [configurationViewModel])
 
   return (
     <Page>
@@ -64,7 +95,12 @@ export const ConfigurationPage: FC = memo(() => {
           )}
           validationState="none"
         >
-          <LangSelector id={langId} />
+          <LangSelector
+            id={langId}
+            languages={languages}
+            language={language}
+            onChange={handleLanguageSelect}
+          />
         </StField>
         <StField
           label={(
@@ -77,10 +113,33 @@ export const ConfigurationPage: FC = memo(() => {
           )}
           validationState="none"
         >
-          <Button onClick={() => setWarningDialog(true)}>
+          <Button
+            onClick={() => setWarningDialog(true)}
+            appearance="primary"
+            style={{
+              backgroundColor: tokens.colorStatusDangerBackground3
+            }}
+          >
             { t('reset-configuration.label') }
           </Button>
         </StField>
+
+        <Flex style={{ justifyContent: 'end', columnGap: tokens.spacingVerticalM }}>
+          <Button
+            appearance="primary"
+            onClick={handleSaveButton}
+            disabled={unchanged}
+          >
+            { t('common.save') }
+          </Button>
+          <Button
+            appearance="secondary"
+            onClick={handleCancelButton}
+            disabled={unchanged}
+          >
+            { t('common.cancel') }
+          </Button>
+        </Flex>
       </div>
       <Dialog
         open={warningDialog}

@@ -4,7 +4,9 @@ import { crossCuttingTypes } from "#/cross-cutting/di/crossCuttingTypes"
 import { IConfigurationRepository } from "#/cross-cutting/interfaces/IConfigurationRepository"
 import { ILoggerService } from "#/cross-cutting/interfaces/ILoggerService"
 
+import { IConfigurationViewModel } from "../interfaces/IConfigurationViewModel"
 import { ConfigurationRepository } from "../repository/ConfigurationRepository"
+import { ConfigurationViewModel } from "../view-models/ConfigurationViewModel"
 import { configurationTypes } from "./configurationTypes"
 
 export const configurationModule = new ContainerModule((bind) => {
@@ -29,4 +31,8 @@ export const configurationModule = new ContainerModule((bind) => {
       })
       .whenTargetIsDefault()
   }
+
+  bind<IConfigurationViewModel>(configurationTypes.ConfigurationViewModel)
+    .to(ConfigurationViewModel)
+    .inSingletonScope()
 })

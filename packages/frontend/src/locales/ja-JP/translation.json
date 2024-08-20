@@ -11,6 +11,8 @@
   },
   "common": {
     "enabled": "有効",
+    "save": "保存",
+    "cancel": "キャンセル",
     "no": "いいえ",
     "yes": "はい",
     "close": "閉じる",
@@ -25,16 +27,16 @@
       "link": "リンク: "
     }
   },
-  "configuration": {
-    "title": "設定"
-  },
   "lang-selector": {
-    "info": "アプリケーション全体の言語を変更します",
-    "title": "言語:",
     "values": {
       "en-US": "英語 (米国)",
       "ja-JP": "日本語"
-    }
+    },
+    "info": "アプリケーション全体の言語を変更します",
+    "title": "言語:"
+  },
+  "configuration": {
+    "title": "設定"
   },
   "reset-configuration": {
     "info": "このページで設定された設定を全てリセットし、初期状態に戻します",

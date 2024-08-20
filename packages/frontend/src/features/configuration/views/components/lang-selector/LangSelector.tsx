@@ -1,11 +1,17 @@
-import { Combobox, ComboboxProps, makeStyles, Option } from "@fluentui/react-components"
+import { Combobox, ComboboxProps, makeStyles, Option, SelectionEvents } from "@fluentui/react-components"
+import { i18n } from "i18next"
 import { FC, memo, useCallback } from "react"
 import { useTranslation } from "react-i18next"
 
-import { languages } from "~/i18n.resources"
+interface LangSelectorData {
+  selectedLanguage: i18n['language']
+}
 
-interface ILangSelector {
-  id: string
+export interface ILangSelectorProps {
+  id: string,
+  languages: i18n['language'][]
+  language: i18n['language']
+  onChange?: (event: SelectionEvents, data: LangSelectorData) => void
 }
 
 const useStyles = makeStyles({
@@ -17,26 +23,35 @@ const useStyles = makeStyles({
   }
 })
 
-export const LangSelector: FC<ILangSelector> = memo(({ id }) => {
+export const LangSelector: FC<ILangSelectorProps> = memo(({ id, languages, language, onChange }) => {
   const styles = useStyles()
-  const { t, i18n } = useTranslation('translation')
+  const { t } = useTranslation('translation')
 
-  const onChangeLanguage = useCallback<NonNullable<ComboboxProps['onOptionSelect']>>((_event, data) => {
-    if (data.optionValue === i18n.language) {
+  const onChangeLanguage = useCallback<NonNullable<ComboboxProps['onOptionSelect']>>((event, data) => {
+    const isLanguage = (value: string | undefined): value is i18n['language'] => {
+      return languages.map(lang => `${lang}`)
+        .includes(value || '')
+    }
+
+    if (data.optionValue === language) {
       // no need to update when the selected language is already set to current language
       return
     }
 
-    i18n.changeLanguage(data.optionValue)
-  }, [i18n])
+    if (!isLanguage(data.optionValue)) {
+      throw new Error('Unknown option')
+    }
+
+    onChange?.(event, { selectedLanguage: data.optionValue })
+  }, [language, languages, onChange])
 
   return (
     <Combobox
       id={id}
       readOnly={true}
       className={styles.combobox}
-      value={ t(`lang-selector.values.${i18n.language}`) }
-      selectedOptions={[i18n.language]}
+      value={ t(`lang-selector.values.${language}`) }
+      selectedOptions={[language]}
       onOptionSelect={onChangeLanguage}
       input={{ autoComplete: 'off' }}
     >

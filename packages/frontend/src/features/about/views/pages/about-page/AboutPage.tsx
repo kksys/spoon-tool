@@ -3,9 +3,10 @@ import { FC, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { appName, author, revision, version } from '~/assets/autogen/app-info.json'
-import { StField } from '~/features/cross-cutting/views/components/st-field/StField';
-import { StPageHeader } from '~/features/cross-cutting/views/components/st-page-header/StPageHeader';
-import { Page } from '~/features/cross-cutting/views/pages/Page';
+
+import { StField } from '#/cross-cutting/views/components/st-field/StField';
+import { StPageHeader } from '#/cross-cutting/views/components/st-page-header/StPageHeader';
+import { Page } from '#/cross-cutting/views/pages/Page';
 
 const useStyles = makeStyles({
   field: {

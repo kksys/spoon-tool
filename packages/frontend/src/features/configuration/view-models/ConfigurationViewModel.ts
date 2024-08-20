@@ -2,8 +2,7 @@ import type { i18n } from 'i18next';
 import { inject, injectable } from 'inversify';
 import { map, Observable } from 'rxjs';
 
-import { type IConfigurationRepository } from '~/features/cross-cutting/interfaces/IConfigurationRepository';
-
+import type { IConfigurationRepository } from '#/cross-cutting/interfaces/IConfigurationRepository';
 import { ViewModelBase } from '#/cross-cutting/view-models/ViewModelBase';
 
 import { configurationTypes } from '../di/configurationTypes';

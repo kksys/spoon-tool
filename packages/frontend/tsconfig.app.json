@@ -26,9 +26,9 @@
     /* Alias */
     "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"],
-      "@/*": ["src/assets/*"],
       "#/*": ["src/features/*"],
+      "@/*": ["src/assets/*"],
+      "~/*": ["src/*"],
     },
 
     /* Decorator */

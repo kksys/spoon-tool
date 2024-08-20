@@ -23,6 +23,7 @@ import { diContainer } from '~/inversify.config'
 import { configurationTypes } from '#/configuration/di/configurationTypes'
 import { IConfigurationViewModel } from '#/configuration/interfaces/IConfigurationViewModel'
 import { ILangSelectorProps, LangSelector } from '#/configuration/views/components/lang-selector/LangSelector'
+import { useDeviceLayout } from '#/cross-cutting/hooks/useDeviceLayout'
 import { Flex } from '#/cross-cutting/views/components/flex/Flex'
 import { StField } from '#/cross-cutting/views/components/st-field/StField'
 import { StPageHeader } from '#/cross-cutting/views/components/st-page-header/StPageHeader'
@@ -45,6 +46,7 @@ export const ConfigurationPage: FC = memo(() => {
   const styles = useStyles()
   const { t } = useTranslation()
   const langId = useId()
+  const device = useDeviceLayout()
 
   const configurationViewModel = diContainer.get<IConfigurationViewModel>(configurationTypes.ConfigurationViewModel)
 
@@ -126,11 +128,15 @@ export const ConfigurationPage: FC = memo(() => {
           </Button>
         </StField>
 
-        <Flex style={{ justifyContent: 'end', columnGap: tokens.spacingVerticalM }}>
+        <Flex style={{ justifyContent: 'end', gap: tokens.spacingVerticalM, flexWrap: 'wrap', marginTop: tokens.spacingVerticalXXXL }}>
+          {
+            device === 'pc' ? <Flex grow={true} /> : undefined
+          }
           <Button
             appearance="primary"
             onClick={handleSaveButton}
             disabled={unchanged}
+            style={ device === 'mobile' ? ({ width: '100%' }) : undefined }
           >
             { t('common.save') }
           </Button>
@@ -138,6 +144,7 @@ export const ConfigurationPage: FC = memo(() => {
             appearance="secondary"
             onClick={handleCancelButton}
             disabled={unchanged}
+            style={ device === 'mobile' ? ({ width: '100%' }) : undefined }
           >
             { t('common.cancel') }
           </Button>

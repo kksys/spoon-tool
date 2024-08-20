@@ -16,7 +16,9 @@ export interface ILangSelectorProps {
 
 const useStyles = makeStyles({
   combobox: {
+    minWidth: 0,
     '> input': {
+      minWidth: 0,
       cursor: 'pointer',
       userSelect: 'none'
     }

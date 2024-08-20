@@ -51,6 +51,7 @@ export const ConfigurationPage: FC = memo(() => {
   const [warningDialog, setWarningDialog] = useState(false)
   const [completeDialog, setCompleteDialog] = useState(false)
 
+  const disableReset = useObservable(configurationViewModel.disableReset$, false)
   const unchanged = useObservable(configurationViewModel.unchanged$, false)
   const language = useObservable(configurationViewModel.language$, 'ja-JP')
 
@@ -117,8 +118,9 @@ export const ConfigurationPage: FC = memo(() => {
             onClick={() => setWarningDialog(true)}
             appearance="primary"
             style={{
-              backgroundColor: tokens.colorStatusDangerBackground3
+              backgroundColor: disableReset ? undefined : tokens.colorStatusDangerBackground3
             }}
+            disabled={disableReset}
           >
             { t('reset-configuration.label') }
           </Button>

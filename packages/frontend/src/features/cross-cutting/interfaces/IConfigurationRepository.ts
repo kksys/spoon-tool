@@ -9,11 +9,11 @@ export interface IConfigurationRepository {
   savedConfiguration$: Observable<IConfiguration>
   currentConfiguration$: Observable<IConfiguration>
   hasChange$: Observable<boolean>
+  hasConfiguration$: Observable<boolean>
 
   load(): Promise<void>
   save(): Promise<void>
   restore(): Promise<void>
-
   reset(): Promise<void>
 
   setLanguage(language: IConfiguration['language']): void

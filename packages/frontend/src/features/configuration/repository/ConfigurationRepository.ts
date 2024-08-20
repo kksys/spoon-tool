@@ -9,6 +9,8 @@ export class ConfigurationRepository implements IConfigurationRepository {
     language: 'ja-JP'
   }
 
+  private localStorageKey = 'configuration' as const
+
   private configurationSubject = new BehaviorSubject<IConfiguration>(this.fallbackConfiguration)
   private changedConfigurationSubject = new BehaviorSubject<Partial<IConfiguration>>({})
 
@@ -25,6 +27,11 @@ export class ConfigurationRepository implements IConfigurationRepository {
     .pipe(
       map(changed => Object.keys(changed).length > 0)
     )
+  hasConfiguration$: Observable<boolean> = this.changedConfigurationSubject.asObservable()
+    .pipe(
+      combineLatestWith(this.savedConfiguration$),
+      map(() => window.localStorage.getItem(this.localStorageKey) !== null),
+    )
 
   private getCurrentConfiguration(): IConfiguration {
     return {
@@ -36,9 +43,9 @@ export class ConfigurationRepository implements IConfigurationRepository {
   async load(): Promise<void> {
     let loadedConfiguration: IConfiguration
     try {
-      loadedConfiguration = JSON.parse(window.localStorage.getItem('configuration') || 'undefined') as IConfiguration || this.fallbackConfiguration
+      loadedConfiguration = JSON.parse(window.localStorage.getItem(this.localStorageKey) || 'undefined') as IConfiguration || this.fallbackConfiguration
     } catch {
-      loadedConfiguration = this.fallbackConfiguration
+      loadedConfiguration = { ...this.fallbackConfiguration }
     }
 
     this.configurationSubject.next(loadedConfiguration)
@@ -48,7 +55,7 @@ export class ConfigurationRepository implements IConfigurationRepository {
   async save(): Promise<void> {
     const newConfiguration = this.getCurrentConfiguration()
 
-    window.localStorage.setItem('configuration', JSON.stringify(newConfiguration))
+    window.localStorage.setItem(this.localStorageKey, JSON.stringify(newConfiguration))
 
     this.configurationSubject.next(newConfiguration)
     this.changedConfigurationSubject.next({})
@@ -59,7 +66,10 @@ export class ConfigurationRepository implements IConfigurationRepository {
   }
 
   async reset(): Promise<void> {
-    window.localStorage.removeItem('configuration')
+    window.localStorage.removeItem(this.localStorageKey)
+
+    this.configurationSubject.next({ ...this.fallbackConfiguration })
+    this.changedConfigurationSubject.next({})
   }
 
   setLanguage(language: NonNullable<IConfiguration['language']>): void {

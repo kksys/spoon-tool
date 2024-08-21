@@ -1,4 +1,4 @@
-import { Combobox, ComboboxProps, makeStyles, Option, SelectionEvents } from '@fluentui/react-components'
+import { Dropdown, DropdownProps, makeStyles, Option, SelectionEvents } from '@fluentui/react-components'
 import { i18n } from 'i18next'
 import { FC, memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -17,11 +17,6 @@ export interface ILangSelectorProps {
 const useStyles = makeStyles({
   combobox: {
     minWidth: 0,
-    '> input': {
-      minWidth: 0,
-      cursor: 'pointer',
-      userSelect: 'none'
-    }
   }
 })
 
@@ -29,7 +24,7 @@ export const LangSelector: FC<ILangSelectorProps> = memo(({ id, languages, langu
   const styles = useStyles()
   const { t } = useTranslation('translation')
 
-  const onChangeLanguage = useCallback<NonNullable<ComboboxProps['onOptionSelect']>>((event, data) => {
+  const onChangeLanguage = useCallback<NonNullable<DropdownProps['onOptionSelect']>>((event, data) => {
     const isLanguage = (value: string | undefined): value is i18n['language'] => {
       return languages.map(lang => `${lang}`)
         .includes(value || '')
@@ -48,14 +43,12 @@ export const LangSelector: FC<ILangSelectorProps> = memo(({ id, languages, langu
   }, [language, languages, onChange])
 
   return (
-    <Combobox
+    <Dropdown
       id={id}
-      readOnly={true}
       className={styles.combobox}
       value={ t(`lang-selector.values.${language}`) }
       selectedOptions={[language]}
       onOptionSelect={onChangeLanguage}
-      input={{ autoComplete: 'off' }}
     >
       { languages
         .map((lang, index) => {
@@ -78,7 +71,7 @@ export const LangSelector: FC<ILangSelectorProps> = memo(({ id, languages, langu
           )
         })
       }
-    </Combobox>
+    </Dropdown>
   )
 })
 

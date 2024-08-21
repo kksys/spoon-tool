@@ -1,14 +1,18 @@
 import './App.css'
 
-import { FluentProvider, webDarkTheme, webLightTheme } from '@fluentui/react-components'
+import { FluentProvider, Theme, webDarkTheme, webLightTheme } from '@fluentui/react-components'
+import { ObjectTyped } from 'object-typed'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { createRoutesFromElements, Route, RouterProvider } from 'react-router'
 import { createBrowserRouter } from 'react-router-dom'
+import { filter } from 'rxjs'
 
 import { AboutPage } from '#/about/views/pages/about-page/AboutPage'
 import { RepositoryPage } from '#/about/views/pages/repository-page/RepositoryPage'
 import { ConfigurationPage } from '#/configuration/views/pages/configuration-page/ConfigurationPage'
+import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
+import { IEventAggregator } from '#/cross-cutting/interfaces/IEventAggregator'
 import { Layout } from '#/cross-cutting/views/components/layout/Layout'
 import { Page } from '#/cross-cutting/views/pages/Page'
 import { SearchUserPage } from '#/search-user/views/pages/search-user-page/SearchUserPage'
@@ -16,8 +20,6 @@ import { SearchUserPage } from '#/search-user/views/pages/search-user-page/Searc
 import { configurationTypes } from './features/configuration/di/configurationTypes'
 import { IConfigurationRepository } from './features/cross-cutting/interfaces/IConfigurationRepository'
 import { diContainer } from './inversify.config'
-
-const mediaQueryList = matchMedia('(prefers-color-scheme: dark)')
 
 const router = createBrowserRouter(
   createRoutesFromElements((
@@ -68,14 +70,15 @@ const router = createBrowserRouter(
   ))
 )
 
-function App() {
-  const { t, i18n } = useTranslation()
-  const [prefersColorSchemeDark, updatePrefersColorSchemeDark] = useState(mediaQueryList.matches)
-  const configurationRepository = diContainer.get<IConfigurationRepository>(configurationTypes.ConfigurationRepository)
+const mediaQueryList = matchMedia('(prefers-color-scheme: dark)')
+
+function usePreferedTheme(): Theme {
+  const convertToTheme = (isDark: boolean) => isDark ? webDarkTheme : webLightTheme
+  const [preferedTheme, updatePreferedTheme] = useState<Theme>(convertToTheme(mediaQueryList.matches))
 
   useEffect(() => {
     function handlePrefersColorSchemeChange(event: MediaQueryListEvent) {
-      updatePrefersColorSchemeDark(event.matches)
+      updatePreferedTheme(convertToTheme(event.matches))
     }
 
     mediaQueryList.addEventListener('change', handlePrefersColorSchemeChange)
@@ -83,6 +86,37 @@ function App() {
       mediaQueryList.removeEventListener('change', handlePrefersColorSchemeChange)
     }
   }, [])
+
+  return preferedTheme
+}
+
+function App() {
+  const { t, i18n } = useTranslation()
+  const preferedTheme = usePreferedTheme()
+  const eventAggregator = diContainer.get<IEventAggregator>(crossCuttingTypes.EventAggregator)
+  const configurationRepository = diContainer.get<IConfigurationRepository>(configurationTypes.ConfigurationRepository)
+
+  useEffect(() => {
+    const subscription = eventAggregator.subscriber$
+      .pipe(
+        filter(event => {
+          switch (event.event) {
+          case 'configurationChanged':
+            return ObjectTyped.keys(event.data.changed)
+              .includes('language')
+          case 'configurationResetted':
+            return true
+          }
+        })
+      )
+      .subscribe(() => {
+        i18n.changeLanguage(configurationRepository.getLanguage())
+      })
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  })
 
   useEffect(() => {
     const handleLanguageChanged = async (language: typeof i18n.language) => {
@@ -107,7 +141,7 @@ function App() {
   }, [configurationRepository, i18n, t])
 
   return (
-    <FluentProvider theme={prefersColorSchemeDark ? webDarkTheme : webLightTheme}>
+    <FluentProvider theme={preferedTheme}>
       <RouterProvider router={router} />
     </FluentProvider>
   )

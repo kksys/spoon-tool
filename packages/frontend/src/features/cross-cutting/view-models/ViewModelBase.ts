@@ -38,8 +38,14 @@ export abstract class ViewModelBase implements IViewModel {
   }
 
   @autoBusy()
-  async transaction<F extends (...args: unknown[]) => unknown>(callback: F): Promise<void> {
-    isPromise(callback) ? await callback() : callback()
+  async transaction<F extends () => unknown>(callback: F): Promise<void> {
+    const returnValue = callback()
+
+    if (!isPromise(returnValue)) {
+      return
+    }
+
+    await returnValue
   }
 
   async load(): Promise<void> {}

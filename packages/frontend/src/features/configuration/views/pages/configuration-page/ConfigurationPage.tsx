@@ -1,17 +1,4 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogBody,
-  DialogContent,
-  DialogSurface,
-  DialogTitle,
-  DialogTrigger,
-  InfoLabel,
-  makeStyles,
-  Title3,
-  tokens
-} from '@fluentui/react-components'
+import { Button, InfoLabel, makeStyles, Spinner, Title3, tokens } from '@fluentui/react-components'
 import { Info16Regular } from '@fluentui/react-icons'
 import { FC, memo, useCallback, useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -24,10 +11,14 @@ import { configurationTypes } from '#/configuration/di/configurationTypes'
 import { IConfigurationViewModel } from '#/configuration/interfaces/IConfigurationViewModel'
 import { ILangSelectorProps, LangSelector } from '#/configuration/views/components/lang-selector/LangSelector'
 import { useDeviceLayout } from '#/cross-cutting/hooks/useDeviceLayout'
+import { sleep } from '#/cross-cutting/utils/sleep'
 import { Flex } from '#/cross-cutting/views/components/flex/Flex'
 import { StField } from '#/cross-cutting/views/components/st-field/StField'
 import { StPageHeader } from '#/cross-cutting/views/components/st-page-header/StPageHeader'
 import { Page } from '#/cross-cutting/views/pages/Page'
+
+import { ResetCompleteDialog } from './ResetCompleteDialog'
+import { ResetWarningDialog } from './ResetWarningDialog'
 
 const useStyles = makeStyles({
   field: {
@@ -53,8 +44,9 @@ export const ConfigurationPage: FC = memo(() => {
   const [warningDialog, setWarningDialog] = useState(false)
   const [completeDialog, setCompleteDialog] = useState(false)
 
-  const disableReset = useObservable(configurationViewModel.disableReset$, false)
-  const unchanged = useObservable(configurationViewModel.unchanged$, false)
+  const isBusy = useObservable(configurationViewModel.isBusy$, false)
+  const disableReset = useObservable(configurationViewModel.disableReset$, true)
+  const unchanged = useObservable(configurationViewModel.unchanged$, true)
   const language = useObservable(configurationViewModel.language$, 'ja-JP')
 
   const handleLanguageSelect = useCallback<NonNullable<ILangSelectorProps['onChange']>>((_event, data) => {
@@ -62,8 +54,20 @@ export const ConfigurationPage: FC = memo(() => {
   }, [configurationViewModel])
 
   const handleResetButton = useCallback(async () => {
-    await configurationViewModel.reset()
-    setCompleteDialog(true)
+    setWarningDialog(true)
+  }, [])
+
+  const handleConfirmedToResetButton = useCallback(async () => {
+    await configurationViewModel.transaction(async () => {
+      await sleep(1500)
+      await configurationViewModel.reset()
+      setCompleteDialog(true)
+    })
+  }, [configurationViewModel])
+
+  const handleCompletedToResetButton = useCallback(async () => {
+    await sleep(500)
+    configurationViewModel.notifyReset()
   }, [configurationViewModel])
 
   const handleSaveButton = useCallback(async () => {
@@ -117,7 +121,7 @@ export const ConfigurationPage: FC = memo(() => {
           validationState="none"
         >
           <Button
-            onClick={() => setWarningDialog(true)}
+            onClick={handleResetButton}
             appearance="primary"
             style={{
               backgroundColor: disableReset ? undefined : tokens.colorStatusDangerBackground3
@@ -150,68 +154,39 @@ export const ConfigurationPage: FC = memo(() => {
           </Button>
         </Flex>
       </div>
-      <Dialog
+
+      <ResetWarningDialog
         open={warningDialog}
         onOpenChange={(_event, data) => setWarningDialog(data.open)}
-      >
-        <DialogSurface>
-          <DialogBody>
-            <DialogTitle>
-              { t('reset-configuration.warning-dialog.title') }
-            </DialogTitle>
-            <DialogContent>
-              { t('reset-configuration.warning-dialog.body') }
-            </DialogContent>
-            <DialogActions>
-              <DialogTrigger action="close">
-                <Button
-                  appearance="secondary"
-                  aria-label="no"
-                >
-                  { t('common.no') }
-                </Button>
-              </DialogTrigger>
-              <DialogTrigger action="close">
-                <Button
-                  appearance="primary"
-                  aria-label="yes"
-                  style={{
-                    backgroundColor: tokens.colorStatusDangerBackground3
-                  }}
-                  onClick={handleResetButton}
-                >
-                  { t('common.yes') }
-                </Button>
-              </DialogTrigger>
-            </DialogActions>
-          </DialogBody>
-        </DialogSurface>
-      </Dialog>
-      <Dialog
+        onClickYes={handleConfirmedToResetButton}
+      />
+      <ResetCompleteDialog
         open={completeDialog}
         onOpenChange={(_event, data) => setCompleteDialog(data.open)}
-      >
-        <DialogSurface>
-          <DialogBody>
-            <DialogTitle>
-              { t('reset-configuration.complete-dialog.title') }
-            </DialogTitle>
-            <DialogContent>
-              { t('reset-configuration.complete-dialog.body') }
-            </DialogContent>
-            <DialogActions>
-              <DialogTrigger action="close">
-                <Button
-                  appearance="secondary"
-                  aria-label="close"
-                >
-                  { t('common.close') }
-                </Button>
-              </DialogTrigger>
-            </DialogActions>
-          </DialogBody>
-        </DialogSurface>
-      </Dialog>
+        onClickClose={handleCompletedToResetButton}
+      />
+
+      { isBusy
+        ? (
+          <div style={{
+            position: 'fixed',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: tokens.colorBackgroundOverlay
+          }}
+          >
+            <div>
+              <Spinner />
+              <p>
+                { t('configuration.resetting') }
+              </p>
+            </div>
+          </div>
+        )
+        : undefined
+      }
     </Page>
   )
 })

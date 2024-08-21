@@ -13,9 +13,8 @@
     "enabled": "有効",
     "save": "保存",
     "cancel": "キャンセル",
-    "no": "いいえ",
-    "yes": "はい",
     "close": "閉じる",
+    "continue": "続行する",
     "loading": "読込中...",
     "search": "検索"
   },
@@ -36,19 +35,21 @@
     "title": "言語:"
   },
   "configuration": {
-    "title": "設定"
+    "title": "設定",
+    "resetting": "設定をリセットしています..."
   },
   "reset-configuration": {
     "info": "このページで設定された設定を全てリセットし、初期状態に戻します",
     "title": "リセット:",
     "label": "設定をリセットする",
-    "warning-dialog": {
-      "title": "確認",
-      "body": "設定がリセットされますが本当によいですか？一度この操作が完了すると、元に戻すことはできません"
-    },
     "complete-dialog": {
       "title": "設定のリセット",
       "body": "設定がリセットされました"
+    },
+    "warning-dialog": {
+      "title": "確認",
+      "body": "設定がリセットされますが本当によいですか？一度この操作が完了すると、元に戻すことはできません",
+      "checkbox": "私は設定がリセットされることを確認しました"
     }
   },
   "top": {

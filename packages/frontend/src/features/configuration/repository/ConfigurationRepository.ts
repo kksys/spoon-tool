@@ -15,6 +15,7 @@ export class ConfigurationRepository implements IConfigurationRepository {
   private changedConfigurationSubject = new BehaviorSubject<Partial<IConfiguration>>({})
 
   savedConfiguration$: Observable<IConfiguration> = this.configurationSubject.asObservable()
+  changedConfiguration$: Observable<Partial<IConfiguration>> = this.changedConfigurationSubject.asObservable()
   currentConfiguration$: Observable<IConfiguration> = this.changedConfigurationSubject.asObservable()
     .pipe(
       combineLatestWith(this.savedConfiguration$),

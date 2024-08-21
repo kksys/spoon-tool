@@ -13,9 +13,8 @@
     "enabled": "Enabled",
     "save": "Save",
     "cancel": "Cancel",
-    "no": "No",
-    "yes": "Yes",
     "close": "Close",
+    "continue": "Continue",
     "loading": "Loading...",
     "search": "Search"
   },
@@ -36,19 +35,21 @@
     "title": "Language:"
   },
   "configuration": {
-    "title": "Configuration"
+    "title": "Configuration",
+    "resetting": "Resetting Configurations..."
   },
   "reset-configuration": {
     "info": "This would reset all settings configured on this page to their initial state.",
     "title": "Reset:",
     "label": "Reset Configuration",
-    "warning-dialog": {
-      "title": "Confirmation",
-      "body": "Are you sure you want to reset the configuration? Once this operation is completed, it cannot be undone."
-    },
     "complete-dialog": {
       "title": "Reset Configuration",
       "body": "The configuration is resetted."
+    },
+    "warning-dialog": {
+      "title": "Confirmation",
+      "body": "Are you sure you want to reset the configuration? Once this operation is completed, it cannot be undone.",
+      "checkbox": "Yes, I confirmed to reset the configuration."
     }
   },
   "top": {

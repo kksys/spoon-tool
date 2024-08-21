@@ -7,6 +7,7 @@ export interface IConfiguration {
 
 export interface IConfigurationRepository {
   savedConfiguration$: Observable<IConfiguration>
+  changedConfiguration$: Observable<Partial<IConfiguration>>
   currentConfiguration$: Observable<IConfiguration>
   hasChange$: Observable<boolean>
   hasConfiguration$: Observable<boolean>

@@ -9,6 +9,7 @@ export interface IConfigurationViewModel extends IViewModel {
   restore(): Promise<void>
   disableReset$: Observable<boolean>
   reset(): Promise<void>
+  notifyReset(): void
 
   language$: Observable<i18n['language']>
   setLanguage(language: i18n['language']): void

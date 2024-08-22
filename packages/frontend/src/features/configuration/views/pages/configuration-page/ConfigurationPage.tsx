@@ -1,4 +1,4 @@
-import { Button, InfoLabel, makeStyles, Spinner, Title3, tokens } from '@fluentui/react-components'
+import { Button, InfoLabel, makeStyles, Title3, tokens } from '@fluentui/react-components'
 import { Info16Regular } from '@fluentui/react-icons'
 import { FC, memo, useCallback, useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,6 +15,7 @@ import { sleep } from '#/cross-cutting/utils/sleep'
 import { Flex } from '#/cross-cutting/views/components/flex/Flex'
 import { StField } from '#/cross-cutting/views/components/st-field/StField'
 import { StPageHeader } from '#/cross-cutting/views/components/st-page-header/StPageHeader'
+import { StSpinnerScreen } from '#/cross-cutting/views/components/st-spinner-screen/StSpinnerScreen'
 import { Page } from '#/cross-cutting/views/pages/Page'
 
 import { ResetCompleteDialog } from './ResetCompleteDialog'
@@ -167,24 +168,7 @@ export const ConfigurationPage: FC = memo(() => {
       />
 
       { isBusy
-        ? (
-          <div style={{
-            position: 'fixed',
-            inset: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: tokens.colorBackgroundOverlay
-          }}
-          >
-            <div>
-              <Spinner />
-              <p>
-                { t('configuration.resetting') }
-              </p>
-            </div>
-          </div>
-        )
+        ? <StSpinnerScreen />
         : undefined
       }
     </Page>

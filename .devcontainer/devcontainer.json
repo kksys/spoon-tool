@@ -28,6 +28,6 @@
   "otherPortsAttributes": {
     "onAutoForward": "ignore"
   },
-  "postCreateCommand": "bash ./.devcontainer/scripts/post-create-command.sh",
+  "postCreateCommand": "bash -i ./.devcontainer/scripts/post-create-command.sh",
   "postAttachCommand": "bash ./.devcontainer/scripts/post-attach-command.sh"
 }

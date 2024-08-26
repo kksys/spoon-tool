@@ -5,12 +5,12 @@ on:
     types: [created]
 
 env:
-  BACKEND_DIRECTORY: packages/backend
+  OWNER: kksys
 
 jobs:
   approve:
     name: Auto Approve
-    if: ${{ github.event.issue.pull_request && github.event.comment.body == '/approve' && github.event.pull_request.user.login == env.GITHUB_REPOSITORY_OWNER }}
+    if: ${{ github.event.issue.pull_request && github.event.comment.body == '/approve' }} && github.event.pull_request.user.login == env.OWNER
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}

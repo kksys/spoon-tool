@@ -15,6 +15,9 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Put a reaction to the comment
         run: |
           gh api graphql \

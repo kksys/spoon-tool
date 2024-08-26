@@ -10,7 +10,8 @@
         "editorconfig.editorconfig",
         "redhat.vscode-yaml",
         "humao.rest-client",
-        "vitest.explorer"
+        "vitest.explorer",
+        "GitHub.copilot"
       ]
     }
   },
@@ -27,6 +28,6 @@
   "otherPortsAttributes": {
     "onAutoForward": "ignore"
   },
-  "postCreateCommand": "bash ./.devcontainer/scripts/post-create-command.sh",
+  "postCreateCommand": "bash -i ./.devcontainer/scripts/post-create-command.sh",
   "postAttachCommand": "bash ./.devcontainer/scripts/post-attach-command.sh"
 }

@@ -7,6 +7,7 @@
     "editorconfig.editorconfig",
     "redhat.vscode-yaml",
     "humao.rest-client",
-    "vitest.explorer"
+    "vitest.explorer",
+    "github.copilot"
   ]
 }

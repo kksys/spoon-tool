@@ -25,8 +25,27 @@ jobs:
           GITHUB_TOKEN: ${{ env.GH_TOKEN }}
           NODE_ID: ${{ github.event.comment.node_id }}
 
+      - uses: actions/github-script@v6
+        id: get_issue_number
+        with:
+          script: |
+            if (context.issue.number) {
+              // Return issue number if present
+              return context.issue.number;
+            } else {
+              // Otherwise return issue number from commit
+              return (
+                await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                  commit_sha: context.sha,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                })
+              ).data[0].number;
+            }
+          result-encoding: string
+
       - name: Approve Pull Request
         run: |
           gh pr review $NUMBER --approve
         env:
-          NUMBER: ${{ github.event.number }}
+          NUMBER: ${{ steps.get_issue_number.outputs.result }}

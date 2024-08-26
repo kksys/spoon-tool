@@ -34,6 +34,15 @@
     "info": "This would change the language in all of this application.",
     "title": "Language:"
   },
+  "theme": {
+    "values": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "info": "This would change the theme for this application.",
+    "title": "Theme:"
+  },
   "configuration": {
     "title": "Configuration",
     "resetting": "Resetting Configurations..."

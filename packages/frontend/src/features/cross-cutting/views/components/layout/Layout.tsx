@@ -1,3 +1,4 @@
+import { tokens } from '@fluentui/react-components'
 import { FC, memo, ReactNode, useCallback } from 'react'
 import { useObservable } from 'react-use'
 
@@ -26,7 +27,7 @@ export const Layout: FC<ILayoutProps> = memo(({ children }) => {
   return (
     <Flex
       direction='row'
-      style={{ width: '100vw', height: '100dvh', position: 'fixed' }}
+      style={{ width: '100vw', height: '100dvh', position: 'fixed', backgroundColor: tokens.colorNeutralBackground4 }}
     >
       <Flex
         direction='column'

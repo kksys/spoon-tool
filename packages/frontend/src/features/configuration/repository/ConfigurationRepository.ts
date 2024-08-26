@@ -6,7 +6,8 @@ import { IConfiguration, IConfigurationRepository } from '#/cross-cutting/interf
 @injectable()
 export class ConfigurationRepository implements IConfigurationRepository {
   private fallbackConfiguration: IConfiguration = {
-    language: 'ja-JP'
+    language: 'ja-JP',
+    theme: 'system',
   }
 
   private localStorageKey = 'configuration' as const
@@ -73,7 +74,7 @@ export class ConfigurationRepository implements IConfigurationRepository {
     this.changedConfigurationSubject.next({})
   }
 
-  setLanguage(language: NonNullable<IConfiguration['language']>): void {
+  setLanguage(language: IConfiguration['language']): void {
     let changedValue = this.changedConfigurationSubject.getValue()
 
     if (this.configurationSubject.getValue().language !== language) {
@@ -90,5 +91,24 @@ export class ConfigurationRepository implements IConfigurationRepository {
 
   getLanguage(): IConfiguration['language'] {
     return this.getCurrentConfiguration().language
+  }
+
+  setTheme(theme: IConfiguration['theme']): void {
+    let changedValue = this.changedConfigurationSubject.getValue()
+
+    if (this.configurationSubject.getValue().theme !== theme) {
+      changedValue = {
+        ...changedValue,
+        theme
+      }
+    } else {
+      delete changedValue.theme
+    }
+
+    this.changedConfigurationSubject.next(changedValue)
+  }
+
+  getTheme(): IConfiguration['theme'] {
+    return this.getCurrentConfiguration().theme
   }
 }

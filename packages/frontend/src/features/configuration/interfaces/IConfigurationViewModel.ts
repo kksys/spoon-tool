@@ -1,6 +1,6 @@
-import { i18n } from 'i18next'
 import { Observable } from 'rxjs'
 
+import { IConfiguration } from '#/cross-cutting/interfaces/IConfigurationRepository'
 import { IViewModel } from '#/cross-cutting/interfaces/IViewModel'
 
 export interface IConfigurationViewModel extends IViewModel {
@@ -11,6 +11,8 @@ export interface IConfigurationViewModel extends IViewModel {
   reset(): Promise<void>
   notifyReset(): void
 
-  language$: Observable<i18n['language']>
-  setLanguage(language: i18n['language']): void
+  language$: Observable<IConfiguration['language']>
+  setLanguage(language: IConfiguration['language']): void
+  theme$: Observable<IConfiguration['theme']>
+  setTheme(theme: IConfiguration['theme']): void
 }

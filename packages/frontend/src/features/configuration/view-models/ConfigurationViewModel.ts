@@ -1,9 +1,8 @@
-import type { i18n } from 'i18next'
 import { inject, injectable } from 'inversify'
 import { firstValueFrom, map, Observable } from 'rxjs'
 
 import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
-import type { IConfigurationRepository } from '#/cross-cutting/interfaces/IConfigurationRepository'
+import type { IConfiguration, IConfigurationRepository } from '#/cross-cutting/interfaces/IConfigurationRepository'
 import { EventType } from '#/cross-cutting/interfaces/IEvent'
 import type { IEventAggregator } from '#/cross-cutting/interfaces/IEventAggregator'
 import { ViewModelBase } from '#/cross-cutting/view-models/ViewModelBase'
@@ -53,12 +52,21 @@ export class ConfigurationViewModel extends ViewModelBase implements IConfigurat
     })
   }
 
-  language$: Observable<i18n['language']> = this.repository.currentConfiguration$
+  language$: Observable<IConfiguration['language']> = this.repository.currentConfiguration$
     .pipe(
       map(config => config.language)
     )
 
-  setLanguage(language: i18n['language']) {
+  setLanguage(language: IConfiguration['language']) {
     this.repository.setLanguage(language)
+  }
+
+  theme$: Observable<IConfiguration['theme']> = this.repository.currentConfiguration$
+    .pipe(
+      map(config => config.theme)
+    )
+
+  setTheme(theme: IConfiguration['theme']): void {
+    this.repository.setTheme(theme)
   }
 }

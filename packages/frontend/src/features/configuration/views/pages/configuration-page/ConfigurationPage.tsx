@@ -10,6 +10,7 @@ import { diContainer } from '~/inversify.config'
 import { configurationTypes } from '#/configuration/di/configurationTypes'
 import { IConfigurationViewModel } from '#/configuration/interfaces/IConfigurationViewModel'
 import { ILangSelectorProps, LangSelector } from '#/configuration/views/components/lang-selector/LangSelector'
+import { IThemeSelectorProps, ThemeSelector } from '#/configuration/views/components/theme-selector/ThemeSelector'
 import { useDeviceLayout } from '#/cross-cutting/hooks/useDeviceLayout'
 import { sleep } from '#/cross-cutting/utils/sleep'
 import { Flex } from '#/cross-cutting/views/components/flex/Flex'
@@ -38,6 +39,7 @@ export const ConfigurationPage: FC = memo(() => {
   const styles = useStyles()
   const { t } = useTranslation()
   const langId = useId()
+  const themeId = useId()
   const device = useDeviceLayout()
 
   const configurationViewModel = diContainer.get<IConfigurationViewModel>(configurationTypes.ConfigurationViewModel)
@@ -49,9 +51,14 @@ export const ConfigurationPage: FC = memo(() => {
   const disableReset = useObservable(configurationViewModel.disableReset$, true)
   const unchanged = useObservable(configurationViewModel.unchanged$, true)
   const language = useObservable(configurationViewModel.language$, 'ja-JP')
+  const theme = useObservable(configurationViewModel.theme$, 'system')
 
   const handleLanguageSelect = useCallback<NonNullable<ILangSelectorProps['onChange']>>((_event, data) => {
     configurationViewModel.setLanguage(data.selectedLanguage)
+  }, [configurationViewModel])
+
+  const handleThemeSelect = useCallback<NonNullable<IThemeSelectorProps['onChange']>>((_event, data) => {
+    configurationViewModel.setTheme(data.selectedTheme)
   }, [configurationViewModel])
 
   const handleResetButton = useCallback(async () => {
@@ -108,6 +115,25 @@ export const ConfigurationPage: FC = memo(() => {
             languages={languages}
             language={language}
             onChange={handleLanguageSelect}
+          />
+        </StField>
+        <StField
+          label={(
+            <InfoLabel
+              infoButton={<Info16Regular />}
+              info={ t('theme.info') }
+              htmlFor={langId}
+            >
+              { t('theme.title') }
+            </InfoLabel>
+          )}
+          validationState="none"
+        >
+          <ThemeSelector
+            id={themeId}
+            themes={['light', 'dark', 'system']}
+            theme={theme}
+            onChange={handleThemeSelect}
           />
         </StField>
         <StField

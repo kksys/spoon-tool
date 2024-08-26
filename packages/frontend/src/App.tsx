@@ -2,7 +2,7 @@ import './App.css'
 
 import { FluentProvider, Theme, webDarkTheme, webLightTheme } from '@fluentui/react-components'
 import { ObjectTyped } from 'object-typed'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { createRoutesFromElements, Route, RouterProvider } from 'react-router'
 import { createBrowserRouter } from 'react-router-dom'
@@ -18,7 +18,7 @@ import { Page } from '#/cross-cutting/views/pages/Page'
 import { SearchUserPage } from '#/search-user/views/pages/search-user-page/SearchUserPage'
 
 import { configurationTypes } from './features/configuration/di/configurationTypes'
-import { IConfigurationRepository } from './features/cross-cutting/interfaces/IConfigurationRepository'
+import { IConfiguration, IConfigurationRepository } from './features/cross-cutting/interfaces/IConfigurationRepository'
 import { diContainer } from './inversify.config'
 
 const router = createBrowserRouter(
@@ -72,9 +72,9 @@ const router = createBrowserRouter(
 
 const mediaQueryList = matchMedia('(prefers-color-scheme: dark)')
 
-function usePreferedTheme(): Theme {
-  const convertToTheme = (isDark: boolean) => isDark ? webDarkTheme : webLightTheme
-  const [preferedTheme, updatePreferedTheme] = useState<Theme>(convertToTheme(mediaQueryList.matches))
+function usePreferedTheme(): 'light' | 'dark' {
+  const convertToTheme = (isDark: boolean) => isDark ? 'dark' : 'light'
+  const [preferedTheme, updatePreferedTheme] = useState<'light' | 'dark'>(convertToTheme(mediaQueryList.matches))
 
   useEffect(() => {
     function handlePrefersColorSchemeChange(event: MediaQueryListEvent) {
@@ -90,11 +90,39 @@ function usePreferedTheme(): Theme {
   return preferedTheme
 }
 
+function useTheme(defaultThemeType: IConfiguration['theme']): [Theme, (themeType: IConfiguration['theme']) => void] {
+  const preferedTheme = usePreferedTheme()
+  const getTheme = useCallback((themeType: IConfiguration['theme']): Theme => {
+    switch (themeType) {
+    case 'system':
+      return getTheme(preferedTheme)
+    case 'dark':
+      return webDarkTheme
+    case 'light':
+      return webLightTheme
+    }
+  }, [preferedTheme])
+  const [themeType, setThemeType] = useState(defaultThemeType)
+  const [theme, setTheme] = useState<Theme>(getTheme(defaultThemeType))
+
+  useEffect(() => {
+    setTheme(getTheme(themeType))
+  }, [getTheme, preferedTheme, themeType])
+
+  return [
+    theme,
+    (themeType) => {
+      setThemeType(themeType)
+      setTheme(getTheme(themeType))
+    }
+  ]
+}
+
 function App() {
   const { t, i18n } = useTranslation()
-  const preferedTheme = usePreferedTheme()
   const eventAggregator = diContainer.get<IEventAggregator>(crossCuttingTypes.EventAggregator)
   const configurationRepository = diContainer.get<IConfigurationRepository>(configurationTypes.ConfigurationRepository)
+  const [theme, setTheme] = useTheme(configurationRepository.getTheme())
 
   useEffect(() => {
     const subscription = eventAggregator.subscriber$
@@ -111,6 +139,28 @@ function App() {
       )
       .subscribe(() => {
         i18n.changeLanguage(configurationRepository.getLanguage())
+      })
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  })
+
+  useEffect(() => {
+    const subscription = eventAggregator.subscriber$
+      .pipe(
+        filter(event => {
+          switch (event.event) {
+          case 'configurationChanged':
+            return ObjectTyped.keys(event.data.changed)
+              .includes('theme')
+          case 'configurationResetted':
+            return true
+          }
+        })
+      )
+      .subscribe(() => {
+        setTheme(configurationRepository.getTheme())
       })
 
     return () => {
@@ -141,7 +191,7 @@ function App() {
   }, [configurationRepository, i18n, t])
 
   return (
-    <FluentProvider theme={preferedTheme}>
+    <FluentProvider theme={theme}>
       <RouterProvider router={router} />
     </FluentProvider>
   )

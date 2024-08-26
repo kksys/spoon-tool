@@ -34,6 +34,15 @@
     "info": "アプリケーション全体の言語を変更します",
     "title": "言語:"
   },
+  "theme": {
+    "values": {
+      "light": "ライト",
+      "dark": "ダーク",
+      "system": "システム"
+    },
+    "info": "アプリケーションのテーマを変更します",
+    "title": "テーマ"
+  },
   "configuration": {
     "title": "設定",
     "resetting": "設定をリセットしています..."

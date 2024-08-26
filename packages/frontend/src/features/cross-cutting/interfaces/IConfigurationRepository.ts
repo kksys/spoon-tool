@@ -3,6 +3,7 @@ import { Observable } from 'rxjs'
 
 export interface IConfiguration {
   language: i18n['language']
+  theme: 'light' | 'dark' | 'system'
 }
 
 export interface IConfigurationRepository {
@@ -19,4 +20,7 @@ export interface IConfigurationRepository {
 
   setLanguage(language: IConfiguration['language']): void
   getLanguage(): IConfiguration['language']
+
+  setTheme(language: IConfiguration['theme']): void
+  getTheme(): IConfiguration['theme']
 }

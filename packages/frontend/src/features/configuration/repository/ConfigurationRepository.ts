@@ -36,16 +36,27 @@ export class ConfigurationRepository implements IConfigurationRepository {
     )
 
   private getCurrentConfiguration(): IConfiguration {
-    return {
+    const temp = {
       ...this.configurationSubject.getValue(),
       ...this.changedConfigurationSubject.getValue(),
+    }
+    return {
+      language: temp.language,
+      theme: temp.theme,
     }
   }
 
   async load(): Promise<void> {
     let loadedConfiguration: IConfiguration
     try {
-      loadedConfiguration = JSON.parse(window.localStorage.getItem(this.localStorageKey) || 'undefined') as IConfiguration || this.fallbackConfiguration
+      const temp = {
+        ...this.fallbackConfiguration,
+        ...(JSON.parse(window.localStorage.getItem(this.localStorageKey) || 'undefined') as IConfiguration || {})
+      }
+      loadedConfiguration = {
+        language: temp.language,
+        theme: temp.theme,
+      }
     } catch {
       loadedConfiguration = { ...this.fallbackConfiguration }
     }

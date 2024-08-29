@@ -13,9 +13,10 @@ export const ResetWarningDialog: FC<IResetWarningDialogProps> = memo(({ open, on
   const [checked, setChecked] = useState(false)
 
   useEffect(() => {
-    if (open) {
-      // checkbox should be false everytime when the dialog is opened
-      setChecked(false)
+    const opened = !!open
+
+    return () => {
+      opened && setTimeout(() => setChecked(false), 500)
     }
   }, [open])
 

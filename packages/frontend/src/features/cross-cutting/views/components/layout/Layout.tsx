@@ -27,23 +27,23 @@ export const Layout: FC<ILayoutProps> = memo(({ children }) => {
   return (
     <Flex
       direction='row'
-      style={{ width: '100vw', height: '100dvh', position: 'fixed', backgroundColor: tokens.colorNeutralBackground4 }}
+      style={ { width: '100vw', height: '100dvh', position: 'fixed', backgroundColor: tokens.colorNeutralBackground4 } }
     >
       <Flex
         direction='column'
-        style={{ width: '100vw', height: '100dvh' }}
+        style={ { width: '100vw', height: '100dvh' } }
       >
         <Header
-          isDrawerOpen={open}
-          onDrawerVisibilityChanged={handleChangedOpen}
+          isDrawerOpen={ open }
+          onDrawerVisibilityChanged={ handleChangedOpen }
         />
         <Flex
           direction="row"
-          grow={true}
+          grow
         >
           <DrawerMenu
-            open={open}
-            onOpenChanged={handleChangedOpen}
+            open={ open }
+            onOpenChanged={ handleChangedOpen }
           />
           {children}
         </Flex>

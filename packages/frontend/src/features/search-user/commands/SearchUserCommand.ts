@@ -4,19 +4,19 @@ import { ISearchUserReceiver } from '#/search-user/interfaces/receivers/ISearchU
 
 import { apiClient } from '../api/ApiClient'
 
-export interface SearchUserCommandParamsWithCursor {
+export interface ISearchUserCommandParamsWithCursor {
   keyword: string
   page_size: undefined
   cursor: string
 }
 
-export interface SearchUserCommandParamsWithKeyword {
+export interface ISearchUserCommandParamsWithKeyword {
   keyword: string
   page_size: number
   cursor: undefined
 }
 
-export type SearchUserCommandParams = SearchUserCommandParamsWithKeyword | SearchUserCommandParamsWithCursor
+export type SearchUserCommandParams = ISearchUserCommandParamsWithKeyword | ISearchUserCommandParamsWithCursor
 
 export class SearchUserCommand extends CommandBase<ISearchUserReceiver> implements ICommand {
   constructor(
@@ -40,6 +40,6 @@ export class SearchUserCommand extends CommandBase<ISearchUserReceiver> implemen
       }
     const result = await apiClient.spoonApi.fetchUsers(params)
 
-    await this.receiver.receivedResult(result)
+    await this.receiver.receivedSearchUserResult(result)
   }
 }

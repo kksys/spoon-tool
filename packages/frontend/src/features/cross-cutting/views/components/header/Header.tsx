@@ -31,21 +31,21 @@ export const Header: FC<IHeaderProps> = memo(({ isDrawerOpen, onDrawerVisibility
   }, [isDrawerOpen, onDrawerVisibilityChanged])
 
   return (
-    <Toolbar className={styles.toolbar}>
-      <Flex style={{ width: '100%', height: '36px', justifyContent: 'space-between', alignItems: 'center' }}>
+    <Toolbar className={ styles.toolbar }>
+      <Flex style={ { width: '100%', height: '36px', justifyContent: 'space-between', alignItems: 'center' } }>
         <Flex>
           <Hamburger
             size="large"
-            onClick={onDrawerChanged}
+            onClick={ onDrawerChanged }
             aria-label="Toggle Navigation"
           />
         </Flex>
 
         <Flex>
           <Title2
-            className={styles.title}
+            className={ styles.title }
             align="start"
-            onClick={() => navigate('/')}
+            onClick={ () => navigate('/') }
           >
             { t('app.title') }
           </Title2>
@@ -53,7 +53,7 @@ export const Header: FC<IHeaderProps> = memo(({ isDrawerOpen, onDrawerVisibility
 
         <Flex
           direction='row'
-          grow={true}
+          grow
         />
       </Flex>
     </Toolbar>

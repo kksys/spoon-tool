@@ -16,7 +16,8 @@
     "close": "Close",
     "continue": "Continue",
     "loading": "Loading...",
-    "search": "Search"
+    "search": "Search",
+    "clear": "Clear"
   },
   "license": {
     "repository": "Repository:",

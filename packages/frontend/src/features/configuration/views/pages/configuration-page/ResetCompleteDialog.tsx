@@ -17,8 +17,8 @@ export const ResetCompleteDialog: FC<IResetCompleteDialogProps> = memo(({ open, 
 
   return (
     <StDialog
-      open={open}
-      onOpenChange={onOpenChange}
+      open={ open }
+      onOpenChange={ onOpenChange }
     >
       <DialogBody>
         <DialogTitle>
@@ -34,7 +34,7 @@ export const ResetCompleteDialog: FC<IResetCompleteDialogProps> = memo(({ open, 
             <Button
               appearance="secondary"
               aria-label="close"
-              onClick={handleClickClose}
+              onClick={ handleClickClose }
             >
               { t('common.close') }
             </Button>

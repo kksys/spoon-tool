@@ -16,7 +16,8 @@
     "close": "閉じる",
     "continue": "続行する",
     "loading": "読込中...",
-    "search": "検索"
+    "search": "検索",
+    "clear": "クリア"
   },
   "license": {
     "repository": "リポジトリ:",

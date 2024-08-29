@@ -64,47 +64,47 @@ export const DrawerMenu: FC<IDrawerMenuProps> = memo(({ open, onOpenChanged }) =
 
   return (
     <NavDrawer
-      type={drawerMode}
+      type={ drawerMode }
       separator
       position="start"
-      open={open}
-      onOpenChange={(_, { open }) => onOpenChanged(open)}
-      selectedValue={navItemSelect}
-      onNavItemSelect={onNavItemSelect}
+      open={ open }
+      onOpenChange={ (_, { open }) => onOpenChanged(open) }
+      selectedValue={ navItemSelect }
+      onNavItemSelect={ onNavItemSelect }
     >
       <NavDrawerBody>
         <NavItem
-          icon={<AppGeneric20Regular />}
+          icon={ <AppGeneric20Regular /> }
           value="top"
-          onClick={() => navigate('/')}
+          onClick={ () => navigate('/') }
         >
           { t('top.title') }
         </NavItem>
         <NavItem
-          icon={<DocumentChevronDouble20Filled />}
+          icon={ <DocumentChevronDouble20Filled /> }
           value="configuration"
-          onClick={() => navigate('/configuration')}
+          onClick={ () => navigate('/configuration') }
         >
           { t('configuration.title') }
         </NavItem>
         <NavItem
-          icon={<DocumentChevronDouble20Filled />}
+          icon={ <DocumentChevronDouble20Filled /> }
           value="repository"
-          onClick={() => navigate('/repository')}
+          onClick={ () => navigate('/repository') }
         >
           { t('repository.title') }
         </NavItem>
         <NavItem
-          icon={<DocumentBulletList20Filled />}
+          icon={ <DocumentBulletList20Filled /> }
           value="license"
-          onClick={() => navigate('/license')}
+          onClick={ () => navigate('/license') }
         >
           { t('license.title') }
         </NavItem>
         <NavItem
-          icon={<Info20Filled />}
+          icon={ <Info20Filled /> }
           value="about"
-          onClick={() => navigate('/about')}
+          onClick={ () => navigate('/about') }
         >
           { t('about.title') }
         </NavItem>

@@ -1,8 +1,10 @@
-import { makeStyles } from '@fluentui/react-components'
+import { makeStyles, mergeClasses } from '@fluentui/react-components'
 import { FC, memo, ReactNode } from 'react'
 
 interface IStackItemProps {
-  children?: ReactNode
+  children?: ReactNode | undefined
+  grow?: boolean | undefined
+  className?: string | undefined
 }
 
 const useStyles = makeStyles({
@@ -11,13 +13,21 @@ const useStyles = makeStyles({
     width: 'auto',
     flexShrink: 1,
   },
+  grow: {
+    flexGrow: 1,
+  },
 })
 
-export const StackItem: FC<IStackItemProps> = memo(({ children }) => {
+export const StackItem: FC<IStackItemProps> = memo(({ children, grow, className }) => {
   const styles = useStyles()
 
   return (
-    <div className={styles.item}>
+    <div className={ mergeClasses(
+      styles.item,
+      grow ? styles.grow : undefined,
+      className
+    ) }
+    >
       {children}
     </div>
   )

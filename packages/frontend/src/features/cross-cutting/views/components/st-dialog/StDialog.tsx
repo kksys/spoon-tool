@@ -16,7 +16,7 @@ export const StDialog: FC<IStDialogProps> = memo(({ children, ...props }) => {
 
   return (
     <Dialog { ...props }>
-      <DialogSurface style={{ maxWidth }}>
+      <DialogSurface style={ { maxWidth } }>
         { children }
       </DialogSurface>
     </Dialog>

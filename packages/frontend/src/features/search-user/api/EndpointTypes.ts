@@ -16,11 +16,24 @@
  *    "badge_style_ids": []
  *  }
  */
+export type TierName = 'Original' | 'Red_Choice' | 'Orange_Choice' | 'Yellow_Choice' | ''
+type Country = 'jp' | 'us' | 'kr'
+export type BadgeStyleId = 'curation' | 'rainy_ring' | 'vip' | 'vip_ring' | 'voice' | 'firework_ring'
+type VipGrade = 'vip'
+interface Membership {
+  grade: 'PREMIUM' | 'PRO'
+  status: 'ACTIVE'
+  cast_id: null
+  image_url: string | null
+  color_code: number
+  description: string | null
+}
+
 export interface UserEntry {
   id: number
   nickname: string
   profile_url: string
-  tier_name: 'Original' | 'Red_Choice' | 'Orange_Choice' | ''
+  tier_name: TierName
   description: string
   tag: string
   is_verified: boolean
@@ -30,10 +43,61 @@ export interface UserEntry {
   following_count: number
   is_live: boolean
   is_active: boolean
-  badge_style_ids: ('curation' | 'rainy_ring')[]
+  badge_style_ids: BadgeStyleId[]
 }
 export interface ProfileEntry {
+  id: number
+  tag: string
+  nickname: string
+  description: string
+  top_impressions: [number, number]
+  profile_url: string
+  profile_cover_url: string
+  follower_count: number
+  following_count: number
+  is_active: boolean
+  top_fans: {
+    user: Pick<
+      ProfileEntry,
+      'id' | 'nickname' | 'tag' | 'top_impressions' | 'description' | 'profile_url' |
+      'follow_status' | 'follower_count' | 'following_count' | 'is_active' | 'is_vip' |
+      'date_joined' | 'current_live' | 'country' | 'is_verified'
+    > | {
+      gender: (0 | -1)
+      is_staff: boolean
+    }
+    total_spoon: number
+  }[]
+  follow_status: number
+  /**
+   * Current Live ID
+   * @description
+   * This field is indicating the current live ID of the user.
+   * But this field will be null when current live is for following users only or there is no current live.
+   */
+  current_live: {
+    id: number
+  } | null
+  country: Country
+  is_public_like: boolean
+  is_public_cast_storage: boolean
+  tier: {
+    name: TierName
+    title: TierName
+  } | null
+  is_vip: boolean
+  is_verified: boolean
   date_joined: string
+  self_introduction: string | null
+  is_award_user: boolean
+  badge_style_ids: BadgeStyleId[]
+  vip_grade: VipGrade | null
+  /**
+   * Membership
+   * @description
+   * This field is indicating the membership status of the user.
+   */
+  membership: Membership | null
 }
 
 export interface EndpointTypes {
@@ -63,8 +127,6 @@ export interface EndpointTypes {
       response: {
         status_code: number
         detail: string
-        next: string
-        previous: string
         results: ProfileEntry[]
       }
     }

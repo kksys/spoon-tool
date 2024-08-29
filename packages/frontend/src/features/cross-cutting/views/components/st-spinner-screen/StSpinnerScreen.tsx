@@ -27,9 +27,9 @@ export const StSpinnerScreen: FC = memo(() => {
 
   return (
     <Portal>
-      <div className={styles.backdrop} />
-      <div className={styles.contents}>
-        <div className={styles.surface}>
+      <div className={ styles.backdrop } />
+      <div className={ styles.contents }>
+        <div className={ styles.surface }>
           <Spinner
             labelPosition="below"
             label={ t('configuration.resetting') }

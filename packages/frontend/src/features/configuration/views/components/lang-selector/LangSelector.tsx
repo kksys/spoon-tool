@@ -45,19 +45,19 @@ export const LangSelector: FC<ILangSelectorProps> = memo(({ id, languages, langu
 
   return (
     <Dropdown
-      id={id}
-      className={styles.combobox}
+      id={ id }
+      className={ styles.combobox }
       value={ t(`lang-selector.values.${language}`) }
-      selectedOptions={[language]}
-      onOptionSelect={onChangeLanguage}
+      selectedOptions={ [language] }
+      onOptionSelect={ onChangeLanguage }
     >
       { languages
         .map((lang, index) => {
           const message = `lang-selector.values.${lang}` as const
           return (
             <Option
-              key={index}
-              value={lang}
+              key={ index }
+              value={ lang }
             >
               {
               /**

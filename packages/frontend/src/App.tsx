@@ -27,53 +27,53 @@ const router = createBrowserRouter(
     <>
       <Route
         path="/"
-        element={(
+        element={ (
           <Layout>
             <SearchUserPage />
           </Layout>
-        )}
+        ) }
       />
       <Route
         path="/configuration"
-        element={(
+        element={ (
           <Layout>
             <ConfigurationPage />
           </Layout>
-        )}
+        ) }
       />
       <Route
         path="/repository"
-        element={(
+        element={ (
           <Layout>
             <RepositoryPage />
           </Layout>
-        )}
+        ) }
       />
       <Route
         path="/license"
-        element={(
+        element={ (
           <Layout>
             <LicensePage />
           </Layout>
-        )}
+        ) }
       />
       <Route
         path="/about"
-        element={(
+        element={ (
           <Layout>
             <AboutPage />
           </Layout>
-        )}
+        ) }
       />
       <Route
         path="*"
-        element={(
+        element={ (
           <Layout>
             <Page>
               NotFound
             </Page>
           </Layout>
-        )}
+        ) }
       />
     </>
   ))
@@ -204,8 +204,8 @@ function App() {
   const theme = useApplyingTheme()
 
   return (
-    <FluentProvider theme={theme}>
-      <RouterProvider router={router} />
+    <FluentProvider theme={ theme }>
+      <RouterProvider router={ router } />
     </FluentProvider>
   )
 }

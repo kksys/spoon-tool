@@ -41,8 +41,8 @@ export const Page: FC<IPageProps> = memo(({ fixedLayout, children }) => {
   const styles = useStyles()
 
   return (
-    <div className={mergeClasses(styles.container, fixedLayout ? styles.fixedLayoutContainer : undefined)}>
-      <div className={mergeClasses(styles.content, fixedLayout ? styles.fixedLayout : undefined)}>
+    <div className={ mergeClasses(styles.container, fixedLayout ? styles.fixedLayoutContainer : undefined) }>
+      <div className={ mergeClasses(styles.content, fixedLayout ? styles.fixedLayout : undefined) }>
         { children }
       </div>
     </div>

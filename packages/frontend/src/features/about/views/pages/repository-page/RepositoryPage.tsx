@@ -30,13 +30,13 @@ export const RepositoryPage: FC = memo(() => {
       <StPageHeader>
         <Title3
           align="start"
-          className={styles.pageTitle}
+          className={ styles.pageTitle }
         >
           { t('repository.title') }
         </Title3>
       </StPageHeader>
 
-      <div className={styles.field}>
+      <div className={ styles.field }>
         <div>
           { t('repository.description.maintainancedByGithub') }
           { t('repository.description.pleaseDownloadFromGithub') }
@@ -44,7 +44,7 @@ export const RepositoryPage: FC = memo(() => {
           <br/>
           { t('repository.description.link') }
           <Link
-            href={repositoryUrl}
+            href={ repositoryUrl }
             target="_blank"
           >
             { repositoryUrl }

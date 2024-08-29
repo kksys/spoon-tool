@@ -1,4 +1,4 @@
-import { Avatar, AvatarProps, Skeleton } from '@fluentui/react-components'
+import { Avatar, AvatarProps, makeStyles, Skeleton, tokens } from '@fluentui/react-components'
 import { FC, memo, MouseEventHandler, ReactElement, useCallback, useState } from 'react'
 
 import { diContainer } from '~/inversify.config'
@@ -6,7 +6,11 @@ import { diContainer } from '~/inversify.config'
 import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
 import { ILoggerService } from '#/cross-cutting/interfaces/ILoggerService'
 import { Flex } from '#/cross-cutting/views/components/flex/Flex'
+import { Stack } from '#/cross-cutting/views/components/stack/Stack'
+import { StackItem } from '#/cross-cutting/views/components/stack-item/StackItem'
 import { IUserViewModel } from '#/search-user/interfaces/view-models/IUserViewModel'
+
+import { SearchUserBadge, SearchUserBadgeType } from '../search-user-badge/SearchUserBadge'
 
 const SearchUserItemSize = {
   height: 64,
@@ -17,8 +21,18 @@ export const getSearchUserItemHeight = () => {
   return SearchUserItemSize.height + SearchUserItemSize.padding * 2
 }
 
+const useStyles = makeStyles({
+  propertyContainer: {
+    justifyContent: 'center'
+  },
+  badgeContainer: {
+    paddingBottom: tokens.spacingVerticalS,
+  }
+})
+
 interface ISearchUserItemBaseProps {
   renderIcon: ReactElement
+  renderBadge?: ReactElement | undefined
   renderNickName: ReactElement
   renderTag: ReactElement
   renderNumberOfFollowers: ReactElement
@@ -28,38 +42,50 @@ interface ISearchUserItemBaseProps {
 
 const SearchUserItemBase: FC<ISearchUserItemBaseProps> = memo(({
   renderIcon,
+  renderBadge,
   renderNickName,
   renderTag,
   renderNumberOfFollowers,
   renderNumberOfFollowing,
   onClick
 }) => {
+  const styles = useStyles()
+
   return (
     <Flex
-      style={{ padding: `${SearchUserItemSize.padding}px` }}
-      onClick={onClick}
+      style={ { padding: `${SearchUserItemSize.padding}px`, columnGap: `${SearchUserItemSize.padding}px` } }
+      onClick={ onClick }
     >
       {renderIcon}
-      <Flex>
-        <Flex>
-          { renderNickName }
-        </Flex>
-        <Flex>
-          { renderTag }
-        </Flex>
-        <Flex>
+      <Stack className={ styles.propertyContainer }>
+        { renderBadge && (
+          <StackItem className={ styles.badgeContainer }>
+            {renderBadge}
+          </StackItem>
+        ) }
+        <StackItem>
           <span>
-            Number Of Followers
+            { renderNickName }
           </span>
-          { renderNumberOfFollowers }
-        </Flex>
-        <Flex>
           <span>
-            Number Of Following
+            { renderTag }
           </span>
-          { renderNumberOfFollowing }
-        </Flex>
-      </Flex>
+        </StackItem>
+        <StackItem>
+          <span>
+            <span>
+              Number Of Followers
+            </span>
+            { renderNumberOfFollowers }
+          </span>
+          <span>
+            <span>
+              Number Of Following
+            </span>
+            { renderNumberOfFollowing }
+          </span>
+        </StackItem>
+      </Stack>
     </Flex>
   )
 })
@@ -76,29 +102,29 @@ const SearchUserItemLoading: FC<Omit<ISearchUserItemLoadingProps, 'loading'>> = 
   return (
     <SearchUserItemBase
       key='loading'
-      renderIcon={(
-        <Skeleton style={{ width: `${SearchUserItemSize.height}px`, height: `${SearchUserItemSize.height}px` }} />
-      )}
-      renderNickName={(
+      renderIcon={ (
+        <Skeleton style={ { width: `${SearchUserItemSize.height}px`, height: `${SearchUserItemSize.height}px` } } />
+      ) }
+      renderNickName={ (
         <span>
           <Skeleton />
         </span>
-      )}
-      renderTag={(
+      ) }
+      renderTag={ (
         <span>
           <Skeleton />
         </span>
-      )}
-      renderNumberOfFollowers={(
+      ) }
+      renderNumberOfFollowers={ (
         <span>
           <Skeleton />
         </span>
-      )}
-      renderNumberOfFollowing={(
+      ) }
+      renderNumberOfFollowing={ (
         <span>
           <Skeleton />
         </span>
-      )}
+      ) }
     />
   )
 })
@@ -111,69 +137,96 @@ interface ISearchUserItemNormalProps {
   onClick: MouseEventHandler<never>
 }
 
-const SearchUserItemNormal: FC<Omit<ISearchUserItemNormalProps, 'loading'>> = memo(({ user, onClick }) => {
+const AvatarForSearchUserItemNormal: FC<{ user: IUserViewModel }> = memo(({ user }) => {
   const loggerService = diContainer.get<ILoggerService>(crossCuttingTypes.LoggerService)
 
-  const [icon, setIcon] = useState<string | undefined>(() => {
-    let profileIcon = user.profileIcon
-    loggerService.info(profileIcon)
-
-    if (profileIcon.startsWith('http:') && window.location.protocol === 'https:') {
-      // http resource is referenced by https resource
-      // but it is not secure, so it will be fallback to https automatically
-      profileIcon = profileIcon.replace(/^http:/gi, 'https:')
-    }
-
-    return profileIcon
-  })
+  const [icon, setIcon] = useState<string | undefined>(user.properties.profileIcon)
 
   const handleAvatarChange = useCallback<NonNullable<AvatarProps['onLoadedData']>>((...args) => {
-    loggerService.log(`${user.id}-icon`, 'handleAvatarChange', ...args)
-  }, [loggerService, user.id])
+    loggerService.log(`${user.properties.id}-icon`, 'handleAvatarChange', ...args)
+  }, [loggerService, user.properties.id])
 
   const handleAvatarLoad = useCallback<NonNullable<AvatarProps['onLoad']>>((...args) => {
-    loggerService.log(`${user.id}-icon`, 'handleAvatarLoad', ...args)
-  }, [loggerService, user.id])
+    loggerService.log(`${user.properties.id}-icon`, 'handleAvatarLoad', ...args)
+  }, [loggerService, user.properties.id])
 
   const handleAvatarError = useCallback<NonNullable<AvatarProps['onError']>>((...args) => {
-    loggerService.log(`${user.id}-icon`, 'handleAvatarError', ...args)
+    loggerService.log(`${user.properties.id}-icon`, 'handleAvatarError', ...args)
     setIcon(undefined)
-  }, [loggerService, user.id])
+  }, [loggerService, user.properties.id])
 
   return (
-    <SearchUserItemBase
-      key={`${user.id}`}
-      renderIcon={(
+    <div style={ { position: 'relative' } }>
+      <div>
         <Avatar
-          key={`${user.id}-icon`}
-          image={{ src: icon }}
-          onLoadedData={handleAvatarChange}
-          onLoad={handleAvatarLoad}
-          onError={handleAvatarError}
-          style={{ width: `${SearchUserItemSize.height}px`, height: `${SearchUserItemSize.height}px` }}
+          key={ `${user.properties.id}-icon` }
+          image={ { src: icon } }
+          onLoadedData={ handleAvatarChange }
+          onLoad={ handleAvatarLoad }
+          onError={ handleAvatarError }
+          style={ { width: `${SearchUserItemSize.height}px`, height: `${SearchUserItemSize.height}px` } }
         />
-      )}
-      renderNickName={(
+      </div>
+    </div>
+  )
+})
+
+AvatarForSearchUserItemNormal.displayName = 'AvatarForSearchUserItemNormal'
+
+const SearchUserItemNormal: FC<Omit<ISearchUserItemNormalProps, 'loading'>> = memo(({ user, onClick }) => {
+  return (
+    <SearchUserItemBase
+      key={ `${user.properties.id}` }
+      renderIcon={ (
+        <AvatarForSearchUserItemNormal user={ user } />
+      ) }
+      renderBadge={ user.properties.badges.length > 0
+        ? (
+          <div style={ { display: 'flex', flexWrap: 'wrap', gap: '4px', justifyContent: 'flex-start', alignContent: 'center' } }>
+            { user.properties.badges.includes('Original') && (
+              <SearchUserBadge type={ SearchUserBadgeType.Original } />
+            )}
+
+            { user.properties.badges.includes('Red_Choice') && (
+              <SearchUserBadge type={ SearchUserBadgeType.Red_Choice } />
+            )}
+
+            { user.properties.badges.includes('Orange_Choice') && (
+              <SearchUserBadge type={ SearchUserBadgeType.Orange_Choice } />
+            )}
+
+            { user.properties.badges.includes('Yellow_Choice') && (
+              <SearchUserBadge type={ SearchUserBadgeType.Yellow_Choice } />
+            )}
+
+            { user.properties.badges.includes('voice') && (
+              <SearchUserBadge type={ SearchUserBadgeType.Voice } />
+            )}
+          </div>
+        )
+        : undefined
+      }
+      renderNickName={ (
         <span>
-          {user.nickname}
+          {user.properties.nickname}
         </span>
-      )}
-      renderTag={(
+      ) }
+      renderTag={ (
         <span>
-          {`@${user.tag}`}
+          {`@${user.properties.tag}`}
         </span>
-      )}
-      renderNumberOfFollowers={(
+      ) }
+      renderNumberOfFollowers={ (
         <span>
-          {user.numberOfFollowers}
+          {user.properties.numberOfFollowers}
         </span>
-      )}
-      renderNumberOfFollowing={(
+      ) }
+      renderNumberOfFollowing={ (
         <span>
-          {user.numberOfFollowing}
+          {user.properties.numberOfFollowing}
         </span>
-      )}
-      onClick={onClick}
+      ) }
+      onClick={ onClick }
     />
   )
 })
@@ -189,8 +242,8 @@ export const SearchUserItem: FC<ISearchUserItemProps> = memo(({ loading, user, o
     )
     : (
       <SearchUserItemNormal
-        user={user}
-        onClick={onClick}
+        user={ user }
+        onClick={ onClick }
       />
     )
 })

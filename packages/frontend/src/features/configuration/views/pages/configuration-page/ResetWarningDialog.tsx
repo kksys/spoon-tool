@@ -37,8 +37,8 @@ export const ResetWarningDialog: FC<IResetWarningDialogProps> = memo(({ open, on
 
   return (
     <StDialog
-      open={open}
-      onOpenChange={onOpenChange}
+      open={ open }
+      onOpenChange={ onOpenChange }
     >
       <DialogBody>
         <DialogTitle>
@@ -49,8 +49,8 @@ export const ResetWarningDialog: FC<IResetWarningDialogProps> = memo(({ open, on
             { t('reset-configuration.warning-dialog.body') }
           </p>
           <Checkbox
-            checked={checked}
-            onChange={handleChange}
+            checked={ checked }
+            onChange={ handleChange }
             label={ t('reset-configuration.warning-dialog.checkbox') }
           />
         </DialogContent>
@@ -67,11 +67,11 @@ export const ResetWarningDialog: FC<IResetWarningDialogProps> = memo(({ open, on
             <Button
               appearance="primary"
               aria-label="continue"
-              style={{
+              style={ {
                 backgroundColor: checked ? tokens.colorStatusDangerBackground3 : undefined
-              }}
-              disabled={!checked}
-              onClick={handleClickYes}
+              } }
+              disabled={ !checked }
+              onClick={ handleClickYes }
             >
               { t('common.continue') }
             </Button>

@@ -22,18 +22,16 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
   @inject(searchUserTypes.UserPaginatorViewModel) public readonly paginator!: IUserPaginatorViewModel
   @inject(searchUserTypes.UserViewModelFactory)   private readonly userFactory!: interfaces.SimpleFactory<IUserViewModel, [IUserViewModelProps]>
 
-  constructor() {
-    super()
-  }
-
   readonly keyword$: Observable<string> = this._keywordSubject.asObservable()
 
   updateKeyword(value: string) {
     this._keywordSubject.next(value)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   async load(): Promise<void> {}
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   async unload(): Promise<void> {}
 
   readonly userList$: Observable<IUserViewModel[]> = this._usersSubject.asObservable()

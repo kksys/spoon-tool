@@ -16,7 +16,11 @@ export const ResetWarningDialog: FC<IResetWarningDialogProps> = memo(({ open, on
     const opened = !!open
 
     return () => {
-      opened && setTimeout(() => setChecked(false), 500)
+      if (!opened) {
+        return
+      }
+
+      setTimeout(() => setChecked(false), 500)
     }
   }, [open])
 

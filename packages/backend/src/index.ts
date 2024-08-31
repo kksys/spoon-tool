@@ -1,8 +1,8 @@
-import { Context, Hono } from "hono";
-import { cors } from "hono/cors";
-import { env } from "hono/adapter";
+import { Context, Hono } from 'hono'
+import { env } from 'hono/adapter'
+import { cors } from 'hono/cors'
 
-type Env = {
+interface Env extends Record<string, string> {
   BACKEND_HOST: string
   FRONTEND_HOST: string
 }
@@ -30,8 +30,10 @@ app.use(
 const isRequestFromFrontend = (c: Context) => {
   const { BACKEND_HOST, FRONTEND_HOST } = env<Env>(c)
   return (
-    !!c.req.header('host')?.match(new RegExp(`^${BACKEND_HOST}$`)) &&
-    !!c.req.header('origin')?.match(new RegExp(`^https://${FRONTEND_HOST}`))
+    !!c.req.header('host')
+      ?.match(new RegExp(`^${BACKEND_HOST}$`)) &&
+    !!c.req.header('origin')
+      ?.match(new RegExp(`^https://${FRONTEND_HOST}`))
   )
 }
 

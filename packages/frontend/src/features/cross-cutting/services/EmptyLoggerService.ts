@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { injectable } from 'inversify'
 
 import { ILoggerService } from '../interfaces/ILoggerService'

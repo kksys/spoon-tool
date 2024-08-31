@@ -27,9 +27,13 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
 
   const isItemLoaded = (index: number) => !hasNextPage || index < userList.length
 
-  const loadMoreItems = isBusy
-    ? () => {}
-    : loadNextItems
+  const loadMoreItems = useCallback((startIndex: number, stopIndex: number) => {
+    if (isBusy) {
+      return
+    }
+
+    loadNextItems(startIndex, stopIndex)
+  }, [isBusy, loadNextItems])
 
   const Row = ({ index, style }: { index: number; style: CSSProperties }) => {
     const [styleProp, setStyleProp] = useState<Pick<CSSProperties, 'backgroundColor'>>({ backgroundColor: 'unset' })
@@ -84,14 +88,14 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
       }
     })
 
-    ref
-      ? resizeObserver.observe(ref)
-      : undefined
+    if (!ref) {
+      return
+    }
+
+    resizeObserver.observe(ref)
 
     return () => {
-      ref
-        ? resizeObserver.unobserve(ref)
-        : undefined
+      resizeObserver.unobserve(ref)
     }
   }, [])
 

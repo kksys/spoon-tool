@@ -48,6 +48,8 @@ export abstract class ViewModelBase implements IViewModel {
     await returnValue
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   async load(): Promise<void> {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   async unload(): Promise<void> {}
 }

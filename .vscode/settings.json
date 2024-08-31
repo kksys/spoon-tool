@@ -6,4 +6,11 @@
   "editor.formatOnSaveMode": "file",
   "editor.codeActionsOnSave": ["source.fixAll.format", "source.fixAll.eslint"],
   "eslint.format.enable": true,
+  "eslint.useFlatConfig": true,
+  "eslint.workingDirectories": [
+    { "mode": "auto" }
+  ],
+  "eslint.options": {
+    "flags": ["unstable_ts_config"]
+  },
 }

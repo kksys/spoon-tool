@@ -2,7 +2,7 @@ import { inject, injectable, type interfaces } from 'inversify'
 import { BehaviorSubject, firstValueFrom, last, Observable } from 'rxjs'
 
 import { Invoker } from '#/cross-cutting/commands/Invoker'
-import { autoBusy } from '#/cross-cutting/decorators/autoBusy'
+import { autoBusyAsync } from '#/cross-cutting/decorators/autoBusy'
 import { ViewModelBase } from '#/cross-cutting/view-models/ViewModelBase'
 import { EndpointTypes } from '#/search-user/api/EndpointTypes'
 import { SearchUserCommand } from '#/search-user/commands/SearchUserCommand'
@@ -38,13 +38,13 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
 
   readonly userList$: Observable<IUserViewModel[]> = this._usersSubject.asObservable()
 
-  @autoBusy()
+  @autoBusyAsync()
   async resetResult(): Promise<void> {
     this._usersSubject.next([])
     this.paginator.updateCursors({ previous: '', next: '' })
   }
 
-  @autoBusy()
+  @autoBusyAsync()
   async fetchUserList(): Promise<void> {
     const searchUserCommand = new SearchUserCommand(this, {
       keyword: this._keywordSubject.value,
@@ -55,7 +55,7 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
     await this._invoker.execute(searchUserCommand)
   }
 
-  @autoBusy()
+  @autoBusyAsync()
   async fetchPreviousUserList(): Promise<void> {
     const cursors = await firstValueFrom(this.paginator.cursors$.pipe(last()))
     const url = new URL(cursors.previous)
@@ -69,7 +69,7 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
     await this._invoker.execute(searchUserCommand)
   }
 
-  @autoBusy()
+  @autoBusyAsync()
   async fetchNextUserList(): Promise<void> {
     const cursors = await firstValueFrom(this.paginator.cursors$)
     const url = new URL(cursors.next)
@@ -83,7 +83,7 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
     await this._invoker.execute(searchUserCommand)
   }
 
-  @autoBusy()
+  @autoBusyAsync()
   async receivedResult({ next, previous, results }: EndpointTypes['spoonApi']['fetchUsers']['response']): Promise<void> {
     const currentUsers = [...this._usersSubject.getValue()]
     const targetIndex = currentUsers.length

@@ -1,10 +1,6 @@
-import { Observable } from 'rxjs'
+import { IBusyable } from './IBusyable'
 
-export interface IViewModel {
-  readonly isBusy$: Observable<boolean>
-  readonly isLocalBusy$: Observable<boolean>
-  setIsBusy(value: boolean): void
-
+export interface IViewModel extends IBusyable {
   transaction<F extends (...args: unknown[]) => unknown>(callback: F): Promise<void>
 
   load(): Promise<void>

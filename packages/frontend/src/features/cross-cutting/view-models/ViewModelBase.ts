@@ -2,7 +2,7 @@ import { injectable } from 'inversify'
 import { BehaviorSubject, map, Observable } from 'rxjs'
 import { isPromise } from 'rxjs/internal/util/isPromise'
 
-import { autoBusy } from '#/cross-cutting/decorators/autoBusy'
+import { autoBusyAsync } from '#/cross-cutting/decorators/autoBusy'
 
 import { IViewModel } from '../interfaces/IViewModel'
 
@@ -37,7 +37,7 @@ export abstract class ViewModelBase implements IViewModel {
     }
   }
 
-  @autoBusy()
+  @autoBusyAsync()
   async transaction<F extends () => unknown>(callback: F): Promise<void> {
     const returnValue = callback()
 

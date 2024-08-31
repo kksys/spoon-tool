@@ -16,7 +16,7 @@
  *    "badge_style_ids": []
  *  }
  */
-export type UserEntry = {
+export interface UserEntry {
   id: number
   nickname: string
   profile_url: string
@@ -32,7 +32,7 @@ export type UserEntry = {
   is_active: boolean
   badge_style_ids: ('curation' | 'rainy_ring')[]
 }
-export type ProfileEntry = {
+export interface ProfileEntry {
   date_joined: string
 }
 

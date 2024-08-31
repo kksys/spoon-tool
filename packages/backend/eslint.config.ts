@@ -10,7 +10,10 @@ export default typescriptEslintPlugin.config(
     files: ['**/*.{js,ts,mjs,mts,cjs,cts,jsx,tsx}'],
   },
   {
-    ignores: ['**/.wrangler/**'],
+    ignores: [
+      '**/.wrangler/**',
+      'worker-configuration.d.ts',
+    ],
   },
   {
     extends: [

@@ -3,7 +3,7 @@ import { FC, memo } from 'react'
 
 import { useDeviceLayoutWithCustomValue } from '#/cross-cutting/hooks/useDeviceLayout'
 
-interface IStFieldProps extends Omit<FieldProps, 'orientation'> {}
+type IStFieldProps = Omit<FieldProps, 'orientation'>
 
 export const StField: FC<IStFieldProps> = memo(({ children, ...props }) => {
   const orientation = useDeviceLayoutWithCustomValue(device => device === 'pc' ? 'horizontal' : 'vertical')

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-extraneous-class */
 export class ApiUtil {
   static convertToURLSearchParams<T extends Record<string, unknown>>(params: T): URLSearchParams {
     return new URLSearchParams(

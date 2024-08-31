@@ -4,13 +4,13 @@ import { ISearchUserReceiver } from '#/search-user/interfaces/receivers/ISearchU
 
 import { apiClient } from '../api/ApiClient'
 
-export type SearchUserCommandParamsWithCursor = {
+export interface SearchUserCommandParamsWithCursor {
   keyword: string
   page_size: undefined
   cursor: string
 }
 
-export type SearchUserCommandParamsWithKeyword = {
+export interface SearchUserCommandParamsWithKeyword {
   keyword: string
   page_size: number
   cursor: undefined

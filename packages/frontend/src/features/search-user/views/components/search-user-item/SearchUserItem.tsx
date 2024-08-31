@@ -13,7 +13,6 @@ const SearchUserItemSize = {
   padding: 12
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const getSearchUserItemHeight = () => {
   return SearchUserItemSize.height + SearchUserItemSize.padding * 2
 }
@@ -117,7 +116,7 @@ const SearchUserItemNormal: FC<Omit<ISearchUserItemNormalProps, 'loading'>> = me
 
   const [icon, setIcon] = useState<string | undefined>(() => {
     let profileIcon = user.profileIcon
-    import.meta.env.DEV && console.log(profileIcon)
+    loggerService.info(profileIcon)
 
     if (profileIcon.startsWith('http:') && window.location.protocol === 'https:') {
       // http resource is referenced by https resource

@@ -6,8 +6,8 @@ import { IUserPaginatorViewModel } from '#/search-user/interfaces/view-models/IU
 
 @injectable()
 export class UserPaginatorViewModel extends ViewModelBase implements IUserPaginatorViewModel {
-  #currentPage: number = 1
-  #itemCount: number = 0
+  #currentPage = 1
+  #itemCount = 0
   readonly itemsPerPage: number = 30
   #cursorSubject = new BehaviorSubject({ previous: '', next: '' })
 

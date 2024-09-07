@@ -11,7 +11,10 @@
         "redhat.vscode-yaml",
         "humao.rest-client",
         "vitest.explorer",
-        "GitHub.copilot"
+        "GitHub.copilot",
+        "bierner.markdown-preview-github-styles",
+        "bierner.github-markdown-preview",
+        "yahyabatulu.vscode-markdown-alert"
       ]
     }
   },

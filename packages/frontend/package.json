@@ -3,10 +3,12 @@
   "private": true,
   "version": "0.0.9",
   "type": "module",
+  "license": "MIT",
   "scripts": {
     "gen-app-info": "cd $(git rev-parse --show-superproject-working-tree --show-toplevel | head -1) && ./build-scripts/generate-app-info",
-    "dev": "pnpm gen-app-info && vite",
-    "build": "pnpm gen-app-info && tsc -b && vite build",
+    "prebuild": "run-p gen-app-info license",
+    "dev": "pnpm prebuild && vite",
+    "build": "pnpm prebuild && tsc -b && vite build",
     "lint": "tsc --noEmit && eslint . --flag unstable_ts_config --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint --fix . --flag unstable_ts_config --report-unused-disable-directives --max-warnings 0",
     "format": "prettier ./**/*.{ts,tsx,cjs,html}",
@@ -15,7 +17,8 @@
     "test": "echo 'Please add test commands here'",
     "preview": "vite preview",
     "i18next-extract": "i18next 'src/**/*.{tsx,ts}'",
-    "live-server": "live-server --port=5173 ./dist/"
+    "live-server": "live-server --port=5173 ./dist/",
+    "license": "./build-scripts/enumerate-license"
   },
   "dependencies": {
     "@fluentui/react-components": "^9.54.13",
@@ -53,7 +56,9 @@
     "globals": "^15.9.0",
     "i18next-parser": "^9.0.2",
     "jiti": "^1.21.6",
+    "license-checker": "^25.0.1",
     "live-server": "^1.2.2",
+    "npm-run-all": "^4.1.5",
     "prettier": "^3.3.3",
     "reflect-metadata": "^0.2.2",
     "typescript": "^5.5.4",

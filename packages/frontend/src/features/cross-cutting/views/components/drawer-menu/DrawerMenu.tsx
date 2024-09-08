@@ -1,4 +1,4 @@
-import { AppGeneric20Regular, DocumentChevronDouble20Filled, Info20Filled } from '@fluentui/react-icons'
+import { AppGeneric20Regular, DocumentBulletList20Filled, DocumentChevronDouble20Filled, Info20Filled } from '@fluentui/react-icons'
 import { NavDrawer, NavDrawerBody, NavItem,NavProps } from '@fluentui/react-nav-preview'
 import { FC, memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -18,7 +18,7 @@ export const DrawerMenu: FC<IDrawerMenuProps> = memo(({ open, onOpenChanged }) =
   const location = useLocation()
   const { t } = useTranslation('translation')
   const [ drawerMode, setDrawerMode ] = useState<'inline' | 'overlay'>(getDrawerMode())
-  const [ navItemSelect, setNavItemSelect ] = useState<'top' | 'configuration' | 'repository' | 'about'>(() => {
+  const [ navItemSelect, setNavItemSelect ] = useState<'top' | 'configuration' | 'repository' | 'license' | 'about'>(() => {
     const currentRoute = location.pathname
 
     switch (currentRoute) {
@@ -26,6 +26,8 @@ export const DrawerMenu: FC<IDrawerMenuProps> = memo(({ open, onOpenChanged }) =
       return 'configuration'
     case '/repository':
       return 'repository'
+    case '/license':
+      return 'license'
     case '/about':
       return 'about'
     default:
@@ -36,7 +38,7 @@ export const DrawerMenu: FC<IDrawerMenuProps> = memo(({ open, onOpenChanged }) =
   const onNavItemSelect = useCallback<NonNullable<NavProps['onNavItemSelect']>>((_event, data) => {
     const selector = data.value
 
-    if (!(selector === 'top' || selector === 'configuration' || selector === 'repository' || selector === 'about')) {
+    if (!(selector === 'top' || selector === 'configuration' || selector === 'repository' || selector === 'license' || selector === 'about')) {
       return
     }
 
@@ -91,6 +93,13 @@ export const DrawerMenu: FC<IDrawerMenuProps> = memo(({ open, onOpenChanged }) =
           onClick={() => navigate('/repository')}
         >
           { t('repository.title') }
+        </NavItem>
+        <NavItem
+          icon={<DocumentBulletList20Filled />}
+          value="license"
+          onClick={() => navigate('/license')}
+        >
+          { t('license.title') }
         </NavItem>
         <NavItem
           icon={<Info20Filled />}

@@ -63,5 +63,8 @@
   },
   "top": {
     "title": "Top"
+  },
+  "license": {
+    "title": "License"
   }
 }

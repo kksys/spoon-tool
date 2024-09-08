@@ -9,6 +9,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import { filter } from 'rxjs'
 
 import { AboutPage } from '#/about/views/pages/about-page/AboutPage'
+import { LicensePage } from '#/about/views/pages/license-page/LicensePage'
 import { RepositoryPage } from '#/about/views/pages/repository-page/RepositoryPage'
 import { ConfigurationPage } from '#/configuration/views/pages/configuration-page/ConfigurationPage'
 import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
@@ -45,6 +46,14 @@ const router = createBrowserRouter(
         element={(
           <Layout>
             <RepositoryPage />
+          </Layout>
+        )}
+      />
+      <Route
+        path="/license"
+        element={(
+          <Layout>
+            <LicensePage />
           </Layout>
         )}
       />

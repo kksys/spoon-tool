@@ -18,6 +18,12 @@
     "loading": "読込中...",
     "search": "検索"
   },
+  "license": {
+    "title": "ライセンス",
+    "repository": "リポジトリ:",
+    "publisher": "発行元:",
+    "license-type": "ライセンス:"
+  },
   "repository": {
     "title": "リポジトリ",
     "description": {
@@ -63,8 +69,5 @@
   },
   "top": {
     "title": "トップ"
-  },
-  "license": {
-    "title": "ライセンス"
   }
 }

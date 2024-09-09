@@ -18,6 +18,12 @@
     "loading": "Loading...",
     "search": "Search"
   },
+  "license": {
+    "title": "License",
+    "repository": "Repository:",
+    "publisher": "Publisher:",
+    "license-type": "License:"
+  },
   "repository": {
     "title": "Repository",
     "description": {
@@ -63,8 +69,5 @@
   },
   "top": {
     "title": "Top"
-  },
-  "license": {
-    "title": "License"
   }
 }

@@ -81,57 +81,34 @@ const router = createBrowserRouter(
 
 const mediaQueryList = matchMedia('(prefers-color-scheme: dark)')
 
-function usePreferedTheme(): 'light' | 'dark' {
-  const convertToTheme = (isDark: boolean) => isDark ? 'dark' : 'light'
-  const [preferedTheme, updatePreferedTheme] = useState<'light' | 'dark'>(convertToTheme(mediaQueryList.matches))
-
-  useEffect(() => {
-    function handlePrefersColorSchemeChange(event: MediaQueryListEvent) {
-      updatePreferedTheme(convertToTheme(event.matches))
-    }
-
-    mediaQueryList.addEventListener('change', handlePrefersColorSchemeChange)
-    return () => {
-      mediaQueryList.removeEventListener('change', handlePrefersColorSchemeChange)
-    }
-  }, [])
-
-  return preferedTheme
-}
-
-function useTheme(defaultThemeType: IConfiguration['theme']): [Theme, (themeType: IConfiguration['theme']) => void] {
-  const preferedTheme = usePreferedTheme()
-  const getTheme = useCallback((themeType: IConfiguration['theme']): Theme => {
+function useTheme(defaultThemeType: Exclude<IConfiguration['theme'], 'system'>): [Theme, (themeType: Exclude<IConfiguration['theme'], 'system'>) => void] {
+  const mapToTheme = useCallback((themeType: Exclude<IConfiguration['theme'], 'system'>): Theme => {
     switch (themeType) {
-    case 'system':
-      return getTheme(preferedTheme)
     case 'dark':
       return webDarkTheme
     case 'light':
       return webLightTheme
     }
-  }, [preferedTheme])
+  }, [])
   const [themeType, setThemeType] = useState(defaultThemeType)
-  const [theme, setTheme] = useState<Theme>(getTheme(defaultThemeType))
+  const [theme, setTheme] = useState<Theme>(mapToTheme(defaultThemeType))
 
   useEffect(() => {
-    setTheme(getTheme(themeType))
-  }, [getTheme, preferedTheme, themeType])
+    setTheme(mapToTheme(themeType))
+  }, [mapToTheme, themeType])
 
   return [
     theme,
     (themeType) => {
       setThemeType(themeType)
-      setTheme(getTheme(themeType))
     }
   ]
 }
 
-function App() {
-  const { t, i18n } = useTranslation()
+function useApplyingLanguage() {
+  const { i18n } = useTranslation()
   const eventAggregator = diContainer.get<IEventAggregator>(crossCuttingTypes.EventAggregator)
   const configurationRepository = diContainer.get<IConfigurationRepository>(configurationTypes.ConfigurationRepository)
-  const [theme, setTheme] = useTheme(configurationRepository.getTheme())
 
   useEffect(() => {
     const subscription = eventAggregator.subscriber$
@@ -147,13 +124,26 @@ function App() {
         })
       )
       .subscribe(() => {
-        i18n.changeLanguage(configurationRepository.getLanguage())
+        i18n.changeLanguage(configurationRepository.getCalculatedLanguage())
       })
+
+    const handleLanguageChanged = () => {
+      i18n.changeLanguage(configurationRepository.getCalculatedLanguage())
+    }
+
+    window.addEventListener('languagechange', handleLanguageChanged)
 
     return () => {
       subscription.unsubscribe()
+      window.removeEventListener('languagechange', handleLanguageChanged)
     }
   })
+}
+
+function useApplyingTheme() {
+  const eventAggregator = diContainer.get<IEventAggregator>(crossCuttingTypes.EventAggregator)
+  const configurationRepository = diContainer.get<IConfigurationRepository>(configurationTypes.ConfigurationRepository)
+  const [theme, setTheme] = useTheme(configurationRepository.getCalculatedTheme())
 
   useEffect(() => {
     const subscription = eventAggregator.subscriber$
@@ -169,13 +159,26 @@ function App() {
         })
       )
       .subscribe(() => {
-        setTheme(configurationRepository.getTheme())
+        setTheme(configurationRepository.getCalculatedTheme())
       })
+
+    const handleThemeChanged = () => {
+      setTheme(configurationRepository.getCalculatedTheme())
+    }
+
+    mediaQueryList.addEventListener('change', handleThemeChanged)
 
     return () => {
       subscription.unsubscribe()
+      mediaQueryList.removeEventListener('change', handleThemeChanged)
     }
   })
+
+  return theme
+}
+
+function useUpdatingLanguageOnOutOfReactWorld() {
+  const { t, i18n } = useTranslation()
 
   useEffect(() => {
     const handleLanguageChanged = async (language: typeof i18n.language) => {
@@ -183,11 +186,6 @@ function App() {
       const html = document.querySelector('html')
       html?.setAttribute('lang', language)
       html?.setAttribute('translate', 'no')
-
-      if (configurationRepository.getLanguage() !== language) {
-        configurationRepository.setLanguage(language)
-        await configurationRepository.save()
-      }
     }
 
     handleLanguageChanged(i18n.language)
@@ -197,7 +195,13 @@ function App() {
     return () => {
       i18n.off('languageChanged', handleLanguageChanged)
     }
-  }, [configurationRepository, i18n, t])
+  }, [i18n, t])
+}
+
+function App() {
+  useApplyingLanguage()
+  useUpdatingLanguageOnOutOfReactWorld()
+  const theme = useApplyingTheme()
 
   return (
     <FluentProvider theme={theme}>

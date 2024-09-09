@@ -1,6 +1,8 @@
 import i18next, { i18n } from 'i18next'
 import { ContainerModule } from 'inversify'
 
+import { languages } from '~/i18n.resources'
+
 import { EventAggregator } from '../event-aggregator/EventAggregator'
 import { IDrawerViewModel } from '../interfaces/IDrawerViewModel'
 import { IEventAggregator } from '../interfaces/IEventAggregator'
@@ -22,4 +24,6 @@ export const crossCuttingModule = new ContainerModule((bind) => {
   bind<IEventAggregator>(crossCuttingTypes.EventAggregator)
     .to(EventAggregator)
     .inSingletonScope()
+  bind<i18n['languages']>(crossCuttingTypes.Languages)
+    .toConstantValue(languages)
 })

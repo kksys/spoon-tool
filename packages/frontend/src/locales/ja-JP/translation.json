@@ -19,10 +19,10 @@
     "search": "検索"
   },
   "license": {
-    "title": "ライセンス",
     "repository": "リポジトリ:",
     "publisher": "発行元:",
-    "license-type": "ライセンス:"
+    "license-type": "ライセンス:",
+    "title": "ライセンス"
   },
   "repository": {
     "title": "リポジトリ",
@@ -35,7 +35,8 @@
   "lang-selector": {
     "values": {
       "en-US": "英語 (米国)",
-      "ja-JP": "日本語"
+      "ja-JP": "日本語",
+      "system": "システム設定に従う"
     },
     "info": "アプリケーション全体の言語を変更します",
     "title": "言語:"
@@ -44,7 +45,7 @@
     "values": {
       "light": "ライト",
       "dark": "ダーク",
-      "system": "システム"
+      "system": "システム設定に従う"
     },
     "info": "アプリケーションのテーマを変更します",
     "title": "テーマ"

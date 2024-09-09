@@ -19,10 +19,10 @@
     "search": "Search"
   },
   "license": {
-    "title": "License",
     "repository": "Repository:",
     "publisher": "Publisher:",
-    "license-type": "License:"
+    "license-type": "License:",
+    "title": "License"
   },
   "repository": {
     "title": "Repository",
@@ -35,7 +35,8 @@
   "lang-selector": {
     "values": {
       "en-US": "English (US)",
-      "ja-JP": "Japanese"
+      "ja-JP": "Japanese",
+      "system": "Follows System Language"
     },
     "info": "This would change the language in all of this application.",
     "title": "Language:"
@@ -44,7 +45,7 @@
     "values": {
       "light": "Light",
       "dark": "Dark",
-      "system": "System"
+      "system": "Follows System Language"
     },
     "info": "This would change the theme for this application.",
     "title": "Theme:"

@@ -1,16 +1,17 @@
 import { Dropdown, DropdownProps, makeStyles, Option, SelectionEvents } from '@fluentui/react-components'
-import { i18n } from 'i18next'
 import { FC, memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { IConfiguration } from '#/cross-cutting/interfaces/IConfigurationRepository'
+
 interface LangSelectorData {
-  selectedLanguage: i18n['language']
+  selectedLanguage: IConfiguration['language']
 }
 
 export interface ILangSelectorProps {
   id: string
-  languages: i18n['language'][]
-  language: i18n['language']
+  languages: IConfiguration['language'][]
+  language: IConfiguration['language']
   onChange?: (event: SelectionEvents, data: LangSelectorData) => void
 }
 
@@ -25,7 +26,7 @@ export const LangSelector: FC<ILangSelectorProps> = memo(({ id, languages, langu
   const { t } = useTranslation('translation')
 
   const onChangeLanguage = useCallback<NonNullable<DropdownProps['onOptionSelect']>>((event, data) => {
-    const isLanguage = (value: string | undefined): value is i18n['language'] => {
+    const isLanguage = (value: string | undefined): value is IConfiguration['language'] => {
       return languages.map(lang => `${lang}`)
         .includes(value || '')
     }
@@ -64,6 +65,7 @@ export const LangSelector: FC<ILangSelectorProps> = memo(({ id, languages, langu
                *
                * t('lang-selector.values.en-US')
                * t('lang-selector.values.ja-JP')
+               * t('lang-selector.values.system')
                */
                 t(message)
               }

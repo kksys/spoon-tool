@@ -2,7 +2,7 @@ import { i18n } from 'i18next'
 import { Observable } from 'rxjs'
 
 export interface IConfiguration {
-  language: i18n['language']
+  language: i18n['language'] | 'system'
   theme: 'light' | 'dark' | 'system'
 }
 
@@ -20,7 +20,9 @@ export interface IConfigurationRepository {
 
   setLanguage(language: IConfiguration['language']): void
   getLanguage(): IConfiguration['language']
+  getCalculatedLanguage(): Exclude<IConfiguration['language'], 'system'>
 
   setTheme(language: IConfiguration['theme']): void
   getTheme(): IConfiguration['theme']
+  getCalculatedTheme(): Exclude<IConfiguration['theme'], 'system'>
 }

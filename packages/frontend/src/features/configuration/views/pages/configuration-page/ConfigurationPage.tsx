@@ -1,16 +1,17 @@
 import { Button, InfoLabel, makeStyles, Title3, tokens } from '@fluentui/react-components'
 import { Info16Regular } from '@fluentui/react-icons'
+import { i18n } from 'i18next'
 import { FC, memo, useCallback, useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useObservable } from 'react-use'
 
-import { languages } from '~/i18n.resources'
 import { diContainer } from '~/inversify.config'
 
 import { configurationTypes } from '#/configuration/di/configurationTypes'
 import { IConfigurationViewModel } from '#/configuration/interfaces/IConfigurationViewModel'
 import { ILangSelectorProps, LangSelector } from '#/configuration/views/components/lang-selector/LangSelector'
 import { IThemeSelectorProps, ThemeSelector } from '#/configuration/views/components/theme-selector/ThemeSelector'
+import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
 import { useDeviceLayout } from '#/cross-cutting/hooks/useDeviceLayout'
 import { sleep } from '#/cross-cutting/utils/sleep'
 import { Flex } from '#/cross-cutting/views/components/flex/Flex'
@@ -43,6 +44,7 @@ export const ConfigurationPage: FC = memo(() => {
   const device = useDeviceLayout()
 
   const configurationViewModel = diContainer.get<IConfigurationViewModel>(configurationTypes.ConfigurationViewModel)
+  const languages = diContainer.get<i18n['languages']>(crossCuttingTypes.Languages)
 
   const [warningDialog, setWarningDialog] = useState(false)
   const [completeDialog, setCompleteDialog] = useState(false)
@@ -112,7 +114,7 @@ export const ConfigurationPage: FC = memo(() => {
         >
           <LangSelector
             id={langId}
-            languages={languages}
+            languages={[...languages, 'system']}
             language={language}
             onChange={handleLanguageSelect}
           />

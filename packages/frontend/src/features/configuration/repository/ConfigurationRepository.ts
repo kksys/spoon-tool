@@ -1,16 +1,20 @@
-import { injectable } from 'inversify'
+import type { i18n } from 'i18next'
+import { inject, injectable } from 'inversify'
 import { BehaviorSubject, combineLatestWith, map, Observable } from 'rxjs'
 
+import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
 import { IConfiguration, IConfigurationRepository } from '#/cross-cutting/interfaces/IConfigurationRepository'
 
 @injectable()
 export class ConfigurationRepository implements IConfigurationRepository {
   private fallbackConfiguration: IConfiguration = {
-    language: 'ja-JP',
+    language: 'system',
     theme: 'system',
   }
 
   private localStorageKey = 'configuration' as const
+
+  @inject(crossCuttingTypes.Languages) private languages!: i18n['language'][]
 
   private configurationSubject = new BehaviorSubject<IConfiguration>(this.fallbackConfiguration)
   private changedConfigurationSubject = new BehaviorSubject<Partial<IConfiguration>>({})
@@ -101,7 +105,15 @@ export class ConfigurationRepository implements IConfigurationRepository {
   }
 
   getLanguage(): IConfiguration['language'] {
-    return this.getCurrentConfiguration().language
+    return this.configurationSubject.getValue().language
+  }
+
+  getCalculatedLanguage(): Exclude<IConfiguration['language'], 'system'> {
+    const language = this.getLanguage()
+
+    return language === 'system'
+      ? this.languages.find(l => l.startsWith(window.navigator.language)) || 'en-US'
+      : language
   }
 
   setTheme(theme: IConfiguration['theme']): void {
@@ -120,6 +132,17 @@ export class ConfigurationRepository implements IConfigurationRepository {
   }
 
   getTheme(): IConfiguration['theme'] {
-    return this.getCurrentConfiguration().theme
+    return this.configurationSubject.getValue().theme
+  }
+
+  getCalculatedTheme(): Exclude<IConfiguration['theme'], 'system'> {
+    const mediaQuery = matchMedia('(prefers-color-scheme: dark)')
+    const theme = this.getTheme()
+
+    return theme === 'system'
+      ? mediaQuery.matches
+        ? 'dark'
+        : 'light'
+      : theme
   }
 }

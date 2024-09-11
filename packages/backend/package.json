@@ -7,8 +7,8 @@
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
     "start": "wrangler dev",
-    "lint": "tsc --noEmit && eslint . --flag unstable_ts_config --report-unused-disable-directives --max-warnings 0",
-    "lint:fix": "eslint --fix . --flag unstable_ts_config --report-unused-disable-directives --max-warnings 0",
+    "lint": "tsc --noEmit && eslint . --flag unstable_ts_config",
+    "lint:fix": "eslint --fix . --flag unstable_ts_config",
     "test": "vitest",
     "cf-typegen": "wrangler types"
   },

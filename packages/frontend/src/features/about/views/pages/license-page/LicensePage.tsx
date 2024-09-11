@@ -1,4 +1,5 @@
 import { Divider, Link, makeStyles, Subtitle1, Title3, tokens } from '@fluentui/react-components'
+import { WindowNewRegular } from '@fluentui/react-icons'
 import { FC, Fragment, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -17,7 +18,7 @@ const useStyles = makeStyles({
     gridRowGap: tokens.spacingVerticalL,
   },
   pageTitle: {
-    textWrap: 'nowrap'
+    textWrap: 'nowrap',
   },
   licenseTitle: {
     position: 'sticky',
@@ -45,11 +46,11 @@ const useStyles = makeStyles({
   licenseBodyBlock: {
     wordBreak: 'break-all',
     textWrap: 'wrap',
-  }
+  },
 })
 
 interface ILicenseViewProps {
-  license: typeof Licenses[number]
+  license: (typeof Licenses)[number]
 }
 
 const LicenseView: FC<ILicenseViewProps> = memo(({ license }) => {
@@ -59,23 +60,45 @@ const LicenseView: FC<ILicenseViewProps> = memo(({ license }) => {
   return (
     <div key={`${license.name}@${license.version}`}>
       <div className={styles.licenseTitle}>
-        <Subtitle1>{license.name}@{license.version}</Subtitle1>
+        <Subtitle1>
+          {license.name}
+          @
+          {license.version}
+        </Subtitle1>
 
         <Flex className={styles.licenseTitleRow}>
-          <span className={styles.licenseTitleRowHeader}>{ t('license.repository') }</span>
-          <span className={styles.licenseTitleRowValue}><Link href={license.repository} target='_blank'>{license.repository}</Link></span>
+          <span className={styles.licenseTitleRowHeader}>
+            {t('license.repository')}
+          </span>
+          <span className={styles.licenseTitleRowValue}>
+            <Link
+              href={license.repository}
+              target="_blank"
+            >
+              {license.repository}
+              <WindowNewRegular />
+            </Link>
+          </span>
         </Flex>
 
-        { license.publisher && (
+        {license.publisher && (
           <Flex className={styles.licenseTitleRow}>
-            <span className={styles.licenseTitleRowHeader}>{ t('license.publisher') }</span>
-            <span className={styles.licenseTitleRowValue}>{license.publisher}</span>
+            <span className={styles.licenseTitleRowHeader}>
+              {t('license.publisher')}
+            </span>
+            <span className={styles.licenseTitleRowValue}>
+              {license.publisher}
+            </span>
           </Flex>
-        ) }
+        )}
 
         <Flex className={styles.licenseTitleRow}>
-          <span className={styles.licenseTitleRowHeader}>{ t('license.license-type') }</span>
-          <span className={styles.licenseTitleRowValue}>{license.licenses}</span>
+          <span className={styles.licenseTitleRowHeader}>
+            {t('license.license-type')}
+          </span>
+          <span className={styles.licenseTitleRowValue}>
+            {license.licenses}
+          </span>
         </Flex>
       </div>
 
@@ -99,16 +122,16 @@ export const LicensePage: FC = memo(() => {
           align="start"
           className={styles.pageTitle}
         >
-          { t('license.title') }
+          {t('license.title')}
         </Title3>
       </StPageHeader>
 
       <div className={styles.field}>
-        { Licenses.map((license, index) => (
+        {Licenses.map((license, index) => (
           <Fragment key={index}>
             <LicenseView license={license} />
 
-            { index < Licenses.length - 1 && (<Divider />) }
+            {index < Licenses.length - 1 && <Divider />}
           </Fragment>
         ))}
       </div>

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 BACKEND_PORT='8787'
 FRONTEND_PORT='5173'

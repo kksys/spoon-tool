@@ -1,0 +1,60 @@
+#/usr/bin/env bash
+
+VERBOSE=false
+
+function killpstree() {
+  local children=`ps --ppid $1 --no-heading | awk '{ print $1 }'`
+
+  for child in $children; do
+    killpstree $child
+  done
+
+  if "${VERBOSE}"; then
+    echo "[VERBOSE]: pid $1 will be killed."
+  else
+    kill $1
+    echo "pid $1 killed."
+  fi
+}
+
+function main() {
+  if "${VERBOSE}"; then
+    echo "[VERBOSE]: Verbose mode enabled."
+  fi
+
+  echo "Killing all debug processes..."
+
+  for PID in $(ps aux | grep -E 'pnpm.cjs\ -C\ packages\/.+\ dev$' | awk '{ print $2 }'); do
+    PROJECT_NAME=$(ps -p "$PID" u | grep -E 'pnpm.cjs\ -C\ packages\/.+\ dev$' | sed -E 's/^.+pnpm.cjs\ -C\ packages\/(.+)\ dev$/\1/')
+    echo "detect $PROJECT_NAME process (PID: $PID)"
+    killpstree $PID
+  done
+
+  echo "All debug processes killed."
+}
+
+function print_help() {
+  echo "Usage: kill-all-debug-process PID [-v|--verbose] [-h|--help]"
+  exit 0
+}
+
+function parse_arguments() {
+  for option in "${@}"; do
+    case $option in
+      -v|--verbose)
+        VERBOSE=true
+        ;;
+      -h|--help)
+        print_help
+        ;;
+      *)
+        echo "Unknown option: $option"
+        exit 1
+        ;;
+    esac
+  done
+
+  main
+}
+
+parse_arguments $@

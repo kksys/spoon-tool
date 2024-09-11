@@ -3,7 +3,7 @@ import StylisticPlugin from '@stylistic/eslint-plugin'
 import StylisticJsPlugin from '@stylistic/eslint-plugin-js'
 import ReactPlugin from 'eslint-plugin-react'
 import ReactHooksPlugin from 'eslint-plugin-react-hooks'
-import ReactRefreshPlugin from 'eslint-plugin-react-refresh'
+import * as ReactRefreshPlugin from 'eslint-plugin-react-refresh'
 import SimpleImportSortPlugin from 'eslint-plugin-simple-import-sort'
 import globals from 'globals'
 import typescriptEslintPlugin from 'typescript-eslint'
@@ -110,7 +110,7 @@ export default typescriptEslintPlugin.config(
   },
   // react configurations for tsx files
   {
-    files: ['*.tsx'],
+    files: ['**/*.tsx'],
     settings: {
       react: {
         version: 'detect',

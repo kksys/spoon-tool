@@ -19,7 +19,7 @@
   },
   "packageManager": "pnpm@9.8.0",
   "devDependencies": {
-    "eslint": "^9.9.1",
+    "eslint": "^9.10.0",
     "jiti": "^1.21.6"
   }
 }

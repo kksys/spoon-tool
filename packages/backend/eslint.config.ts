@@ -1,11 +1,12 @@
-import jsEslint from '@eslint/js'
+import eslint from '@eslint/js'
 import StylisticPlugin from '@stylistic/eslint-plugin'
 import StylisticJsPlugin from '@stylistic/eslint-plugin-js'
+import type { TSESLint } from '@typescript-eslint/utils'
 import SimpleImportSortPlugin from 'eslint-plugin-simple-import-sort'
 import globals from 'globals'
-import typescriptEslintPlugin from 'typescript-eslint'
+import tseslint from 'typescript-eslint'
 
-export default typescriptEslintPlugin.config(
+const configs: TSESLint.FlatConfig.ConfigArray = tseslint.config(
   {
     files: ['**/*.{js,ts,mjs,mts,cjs,cts,jsx,tsx}'],
   },
@@ -17,9 +18,9 @@ export default typescriptEslintPlugin.config(
   },
   {
     extends: [
-      jsEslint.configs.recommended,
-      ...typescriptEslintPlugin.configs.strict,
-      ...typescriptEslintPlugin.configs.stylistic,
+      eslint.configs.recommended,
+      ...tseslint.configs.strict,
+      ...tseslint.configs.stylistic,
     ],
   },
   // global configurations for all of sources
@@ -28,6 +29,10 @@ export default typescriptEslintPlugin.config(
       globals: {
         ...globals.browser,
         ...globals.es2020,
+      },
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: __dirname,
       },
     },
   },
@@ -105,7 +110,10 @@ export default typescriptEslintPlugin.config(
       ],
       '@typescript-eslint/no-empty-function': [
         'warn'
-      ]
+      ],
+      '@typescript-eslint/switch-exhaustiveness-check': 'error',
     },
   },
 )
+
+export default configs

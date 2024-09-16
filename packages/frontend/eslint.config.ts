@@ -14,7 +14,10 @@ const configs: TSESLint.FlatConfig.ConfigArray = tseslint.config(
     files: ['**/*.{js,ts,mjs,mts,cjs,cts,jsx,tsx}'],
   },
   {
-    ignores: ['**/dist/**'],
+    ignores: [
+      '**/dist/**',
+      '.dependency-cruiser.cjs',
+    ],
   },
   {
     extends: [

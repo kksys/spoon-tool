@@ -48,7 +48,10 @@ jobs:
         run: pnpm i
 
       - name: Lint Check
-        run: pnpm -C ${{ env.FRONTEND_DIRECTORY }} lint
+        run: |
+          # create auto-generated files before linting because linter requires them to check
+          pnpm -C ${{ env.FRONTEND_DIRECTORY }} exec run-p gen-app-info license
+          pnpm -C ${{ env.FRONTEND_DIRECTORY }} exec run-p "circular" "lint"
 
   build:
     runs-on: ubuntu-latest

@@ -48,6 +48,9 @@ importers:
       jiti:
         specifier: ^1.21.6
         version: 1.21.6
+      npm-run-all:
+        specifier: ^4.1.5
+        version: 4.1.5
       typescript:
         specifier: ^5.5.4
         version: 5.5.4

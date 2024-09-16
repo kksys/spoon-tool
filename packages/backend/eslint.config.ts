@@ -14,6 +14,7 @@ const configs: TSESLint.FlatConfig.ConfigArray = tseslint.config(
     ignores: [
       '**/.wrangler/**',
       'worker-configuration.d.ts',
+      '.dependency-cruiser.js',
     ],
   },
   {

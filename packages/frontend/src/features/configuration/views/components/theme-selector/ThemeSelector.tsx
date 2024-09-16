@@ -45,19 +45,19 @@ export const ThemeSelector: FC<IThemeSelectorProps> = memo(({ id, themes, theme,
 
   return (
     <Dropdown
-      id={id}
-      className={styles.combobox}
+      id={ id }
+      className={ styles.combobox }
       value={ t(`theme.values.${theme}`) }
-      selectedOptions={[theme]}
-      onOptionSelect={onChangeLanguage}
+      selectedOptions={ [theme] }
+      onOptionSelect={ onChangeLanguage }
     >
       { themes
         .map((theme, index) => {
           const message = `theme.values.${theme}` as const
           return (
             <Option
-              key={index}
-              value={theme}
+              key={ index }
+              value={ theme }
             >
               {
               /**

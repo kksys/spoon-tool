@@ -1,9 +1,16 @@
-import { makeStyles } from '@fluentui/react-components'
-import { FC, memo, ReactNode } from 'react'
+import { makeStyles, mergeClasses } from '@fluentui/react-components'
+import { FC, memo, ReactNode, useMemo } from 'react'
+
+import { generateCssVar } from '#/cross-cutting/utils/generateCssVar'
 
 interface IStackProps {
-  children?: ReactNode
+  children?: ReactNode | undefined
+  horizontal?: boolean | undefined
+  gap?: number | undefined
+  className?: string | undefined
 }
+
+const gapCssVar = generateCssVar()
 
 const useStyles = makeStyles({
   root: {
@@ -23,13 +30,32 @@ const useStyles = makeStyles({
       flexShrink: 1,
     },
   },
+  horizontal: {
+    flexDirection: 'row',
+  },
+  gap: {
+    '> *': {
+      margin: `var(${gapCssVar})`,
+    },
+  },
 })
 
-export const Stack: FC<IStackProps> = memo(({ children }) => {
+export const Stack: FC<IStackProps> = memo(({ children, horizontal, gap, className }) => {
   const styles = useStyles()
+  const gapStyle = useMemo(() => ({
+    [gapCssVar]: `${gap}px`
+  }), [gap])
 
   return (
-    <div className={styles.root}>
+    <div
+      className={ mergeClasses(
+        styles.root,
+        horizontal ? styles.horizontal : undefined,
+        gap !== undefined ? styles.gap : undefined,
+        className
+      ) }
+      style={ gapStyle }
+    >
       {children}
     </div>
   )

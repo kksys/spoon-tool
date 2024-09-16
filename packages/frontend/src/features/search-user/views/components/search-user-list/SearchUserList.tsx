@@ -20,9 +20,10 @@ interface ISearchUserListProps {
   hasNextPage: boolean
   isBusy: boolean
   loadNextItems: (startIndex: number, stopIndex: number) => Promise<void> | void
+  onSelectUser: (userId: number) => void
 }
 
-export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNextPage, isBusy, loadNextItems }) => {
+export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNextPage, isBusy, loadNextItems, onSelectUser }) => {
   const itemCount = userList.length + (hasNextPage ? 1 : 0)
 
   const isItemLoaded = (index: number) => !hasNextPage || index < userList.length
@@ -34,47 +35,6 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
 
     loadNextItems(startIndex, stopIndex)
   }, [isBusy, loadNextItems])
-
-  const Row = ({ index, style }: { index: number; style: CSSProperties }) => {
-    const [styleProp, setStyleProp] = useState<Pick<CSSProperties, 'backgroundColor'>>({ backgroundColor: 'unset' })
-    const handleOver = useCallback<MouseEventHandler<HTMLDivElement>>(() => {
-      setStyleProp({
-        ...styleProp,
-        backgroundColor: 'rgba(255, 255, 255, 0.16)'
-      })
-    }, [styleProp])
-    const handleOut = useCallback<MouseEventHandler<HTMLDivElement>>(() => {
-      setStyleProp({
-        ...styleProp,
-        backgroundColor: 'unset'
-      })
-    }, [styleProp])
-
-    const user = userList[index]
-    return (
-      <div
-        style={{ ...style, ...styleProp, cursor: 'pointer' }}
-        onMouseOver={handleOver}
-        onMouseOut={handleOut}
-      >
-        {user
-          ? (
-            <SearchUserItem
-              key={index}
-              user={user}
-              onClick={() => console.log(user.id)}
-            />
-          )
-          : (
-            <SearchUserItem
-              key={index}
-              loading={true}
-            />
-          )
-        }
-      </div>
-    )
-  }
 
   const containerRef = useRef<HTMLDivElement>(null)
   const [listHeight, setListHeight] = useState(64)
@@ -99,28 +59,73 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
     }
   }, [])
 
+  const Row = memo(({ index, style }: { index: number; style: CSSProperties }) => {
+    const [styleProp, setStyleProp] = useState<Pick<CSSProperties, 'backgroundColor'>>({ backgroundColor: 'unset' })
+    const handleOver = useCallback<MouseEventHandler<HTMLDivElement>>(() => {
+      setStyleProp({
+        ...styleProp,
+        backgroundColor: 'rgba(255, 255, 255, 0.16)',
+      })
+    }, [styleProp])
+    const handleOut = useCallback<MouseEventHandler<HTMLDivElement>>(() => {
+      setStyleProp({
+        ...styleProp,
+        backgroundColor: 'unset'
+      })
+    }, [styleProp])
+
+    const user = userList[index]
+    return (
+      <div
+        style={ { ...style, ...styleProp, cursor: 'pointer', transition: 'background-color .3s linear' } }
+        onMouseOver={ handleOver }
+        onMouseOut={ handleOut }
+      >
+        {user
+          ? (
+            <SearchUserItem
+              key={ index }
+              user={ user }
+              onClick={ () => onSelectUser(user.properties.id) }
+            />
+          )
+          : (
+            <SearchUserItem
+              key={ index }
+              loading
+            />
+          )
+        }
+      </div>
+    )
+  })
+
+  const List = useCallback<InfiniteLoader['props']['children']>(({ onItemsRendered, ref }) => {
+    return (
+      <FixedSizeList
+        itemCount={ itemCount }
+        itemSize={ getSearchUserItemHeight() }
+        width='100%'
+        height={ listHeight }
+        ref={ ref }
+        onItemsRendered={ onItemsRendered }
+      >
+        {Row}
+      </FixedSizeList>
+    )
+  }, [itemCount, listHeight])
+
   return (
     <div
-      style={{ width: 'calc(100% + 24px)', marginLeft: '-12px', marginRight: '-12px', position: 'relative', flex: '1 1 auto', minHeight: '0' }}
-      ref={containerRef}
+      style={ { width: 'calc(100% + 24px)', marginLeft: '-12px', marginRight: '-12px', position: 'relative', flex: '1 1 auto', minHeight: '0' } }
+      ref={ containerRef }
     >
       <InfiniteLoader
-        isItemLoaded={isItemLoaded}
-        itemCount={itemCount}
-        loadMoreItems={loadMoreItems}
+        isItemLoaded={ isItemLoaded }
+        itemCount={ itemCount }
+        loadMoreItems={ loadMoreItems }
       >
-        {({ onItemsRendered, ref }) => (
-          <FixedSizeList
-            itemCount={itemCount}
-            itemSize={getSearchUserItemHeight()}
-            width='100%'
-            height={listHeight}
-            ref={ref}
-            onItemsRendered={onItemsRendered}
-          >
-            {Row}
-          </FixedSizeList>
-        )}
+        { List }
       </InfiniteLoader>
     </div>
   )

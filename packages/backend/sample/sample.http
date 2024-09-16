@@ -1,5 +1,3 @@
-@host = localhost:{{$dotenv PORT}}
-
 GET https://jp-api.spooncast.net/search/user/?keyword=sample
 
 ###
@@ -8,12 +6,12 @@ GET https://jp-api.spooncast.net/users/313405341/
 
 ###
 
-GET http://{{host}}/search/user/?keyword=Spoon&page_size=2
-Host: api.spoon-tool.kk-systems.net
-Origin: spoon-tool.kk-systems.net
+GET {{$dotenv HOST}}/search/user/?keyword=Spoon&page_size=2
+Host: {{$dotenv HOST}}
+Origin: {{$dotenv ORIGIN}}
 
 ###
 
-GET http://{{host}}/users/313405341
-Host: api.spoon-tool.kk-systems.net
-Origin: spoon-tool.kk-systems.net
+GET {{$dotenv HOST}}/users/313405341
+Host: {{$dotenv HOST}}
+Origin: {{$dotenv ORIGIN}}

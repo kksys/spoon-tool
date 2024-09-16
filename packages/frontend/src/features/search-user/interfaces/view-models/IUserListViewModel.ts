@@ -16,4 +16,8 @@ export interface IUserListViewModel extends IViewModel {
   fetchUserList(): Promise<void>
   fetchPreviousUserList(): Promise<void>
   fetchNextUserList(): Promise<void>
+  fetchUserDetail(userId: number): Promise<void>
+
+  activeUser: IUserViewModel | undefined
+  setActiveUser(userId: number): void
 }

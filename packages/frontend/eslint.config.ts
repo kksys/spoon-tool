@@ -133,8 +133,12 @@ const configs: TSESLint.FlatConfig.ConfigArray = tseslint.config(
       'react/jsx-one-expression-per-line': 'error',
       'react/jsx-wrap-multilines': ['error', { arrow: 'parens-new-line', return: 'parens-new-line', declaration: 'parens-new-line' }],
       'react/jsx-closing-bracket-location': 'error',
+      'react/jsx-closing-tag-location': 'error',
       'react/jsx-first-prop-new-line': 'error',
       'react/jsx-max-props-per-line': ['error', { maximum: 1 }],
+      'react/jsx-boolean-value': 'error',
+      'react/jsx-curly-spacing': ['error', { when: 'always' }],
+      'react/jsx-equals-spacing': ['error', 'never'],
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     }
   },

@@ -1,0 +1,11 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+      "command": "./build-scripts/kill-all-debug-process",
+      "label": "Kill all debug processes",
+      "type": "shell",
+      "problemMatcher": []
+		},
+	]
+}

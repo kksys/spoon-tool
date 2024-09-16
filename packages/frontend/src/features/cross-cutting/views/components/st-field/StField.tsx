@@ -11,7 +11,7 @@ export const StField: FC<IStFieldProps> = memo(({ children, ...props }) => {
   return (
     <Field
       { ...props }
-      orientation={orientation}
+      orientation={ orientation }
     >
       { children }
     </Field>

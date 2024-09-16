@@ -47,9 +47,9 @@ export const Flex: FC<IFlexProps> = memo(({ children, style, className, directio
 
   return (
     <div
-      className={mergeClasses(styles.root, styles[interpolatedDirection], grow ? styles.grow : undefined, className)}
-      style={style}
-      onClick={onClick}
+      className={ mergeClasses(styles.root, styles[interpolatedDirection], grow ? styles.grow : undefined, className) }
+      style={ style }
+      onClick={ onClick }
     >
       {children}
     </div>

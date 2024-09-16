@@ -36,7 +36,10 @@ const useStyle = makeStyles({
   },
   searchButton: {
     width: `${searchButtonWidth}px`
-  }
+  },
+  clearButton: {
+    width: `${searchButtonWidth}px`
+  },
 })
 
 export const SearchUserHeader: FC = memo(() => {
@@ -45,6 +48,7 @@ export const SearchUserHeader: FC = memo(() => {
 
   const viewModel = diContainer.get<IUserListViewModel>(searchUserTypes.UserListViewModel)
 
+  const userList = useObservable(viewModel.userList$, [])
   const keyword = useObservable(viewModel.keyword$, '')
   const isBusy = useObservable(viewModel.isLocalBusy$, false)
 
@@ -65,13 +69,22 @@ export const SearchUserHeader: FC = memo(() => {
     [viewModel],
   )
 
+  const handleClearButton = useCallback(
+    (_event: MouseEvent<HTMLButtonElement>) => {
+      viewModel.transaction(async () => {
+        await viewModel.resetResult()
+      })
+    },
+    [viewModel],
+  )
+
   return (
     <StPageHeader>
-      <Flex style={{ width: '100%', minHeight: '36px', flexFlow: 'wrap', flexWrap: 'wrap', rowGap: '16px', columnGap: '8px', justifyContent: 'start' }}>
-        <Flex style={{ alignItems: 'center' }}>
+      <Flex style={ { width: '100%', minHeight: '36px', flexFlow: 'wrap', flexWrap: 'wrap', rowGap: '16px', columnGap: '8px', justifyContent: 'start' } }>
+        <Flex style={ { alignItems: 'center' } }>
           <Title3
             align="start"
-            className={styles.pageTitle}
+            className={ styles.pageTitle }
           >
             { t('top.title') }
           </Title3>
@@ -79,32 +92,41 @@ export const SearchUserHeader: FC = memo(() => {
 
         <Flex
           direction='row'
-          grow={true}
-          className={styles.spacer}
+          grow
+          className={ styles.spacer }
         />
 
         <Flex
           direction='row'
-          grow={true}
-          className={styles.searchBoxContainer}
+          grow
+          className={ styles.searchBoxContainer }
         >
           <SearchBox
             type="text"
-            className={styles.searchBox}
-            disabled={isBusy}
-            value={keyword}
-            onChange={handleKeywordChange}
-            contentBefore={<PeopleSearchRegular />}
+            className={ styles.searchBox }
+            disabled={ isBusy }
+            value={ keyword }
+            onChange={ handleKeywordChange }
+            contentBefore={ <PeopleSearchRegular /> }
           />
           <Button
-            className={styles.searchButton}
-            disabled={!keyword || isBusy}
-            disabledFocusable={!keyword || isBusy}
+            className={ styles.searchButton }
+            disabled={ !keyword || isBusy }
+            disabledFocusable={ !keyword || isBusy }
             appearance="primary"
-            onClick={handleSearchButton}
-            icon={isBusy ? <Spinner size="tiny" /> : undefined}
+            onClick={ handleSearchButton }
+            icon={ isBusy ? <Spinner size="tiny" /> : undefined }
           >
             {isBusy ? t('common.loading') : t('common.search')}
+          </Button>
+          <Button
+            className={ styles.clearButton }
+            disabled={ userList.length <= 0 || isBusy }
+            disabledFocusable={ userList.length <= 0 || isBusy }
+            appearance="primary"
+            onClick={ handleClearButton }
+          >
+            {t('common.clear')}
           </Button>
         </Flex>
       </Flex>

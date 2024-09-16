@@ -1,4 +1,5 @@
 import { IViewModel } from '#/cross-cutting/interfaces/IViewModel'
+import { BadgeStyleId, TierName } from '#/search-user/api/EndpointTypes'
 
 export interface IUserViewModelProps {
   id: number
@@ -7,8 +8,17 @@ export interface IUserViewModelProps {
   nickname: string
   numberOfFollowers: number
   numberOfFollowing: number
+  badges: (Exclude<TierName, ''> | Extract<BadgeStyleId, 'voice' | 'firework_ring'>)[]
 }
 
-export interface IUserViewModel extends IViewModel, IUserViewModelProps {
+export interface IUserViewModelDetail {
+  joinedDate: Date
+}
+
+export interface IUserViewModel extends IViewModel {
+  properties: IUserViewModelProps
   setProperties(props: IUserViewModelProps): void
+
+  detail: IUserViewModelDetail | undefined
+  setDetail(detail: IUserViewModelDetail): void
 }

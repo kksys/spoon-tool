@@ -7,7 +7,7 @@ interface IStPageHeaderProps {
 
 export const StPageHeader: FC<IStPageHeaderProps> = memo(({ children }) => {
   return (
-    <Toolbar style={{ minHeight: '36px' }}>
+    <Toolbar style={ { minHeight: '36px' } }>
       { children }
     </Toolbar>
   )

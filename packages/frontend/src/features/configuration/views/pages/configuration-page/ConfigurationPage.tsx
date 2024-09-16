@@ -93,90 +93,90 @@ export const ConfigurationPage: FC = memo(() => {
       <StPageHeader>
         <Title3
           align="start"
-          className={styles.pageTitle}
+          className={ styles.pageTitle }
         >
           { t('configuration.title') }
         </Title3>
       </StPageHeader>
 
-      <div className={styles.field}>
+      <div className={ styles.field }>
         <StField
-          label={(
+          label={ (
             <InfoLabel
-              infoButton={<Info16Regular />}
+              infoButton={ <Info16Regular /> }
               info={ t('lang-selector.info') }
-              htmlFor={langId}
+              htmlFor={ langId }
             >
               { t('lang-selector.title') }
             </InfoLabel>
-          )}
+          ) }
           validationState="none"
         >
           <LangSelector
-            id={langId}
-            languages={[...languages, 'system']}
-            language={language}
-            onChange={handleLanguageSelect}
+            id={ langId }
+            languages={ [...languages, 'system'] }
+            language={ language }
+            onChange={ handleLanguageSelect }
           />
         </StField>
         <StField
-          label={(
+          label={ (
             <InfoLabel
-              infoButton={<Info16Regular />}
+              infoButton={ <Info16Regular /> }
               info={ t('theme.info') }
-              htmlFor={langId}
+              htmlFor={ langId }
             >
               { t('theme.title') }
             </InfoLabel>
-          )}
+          ) }
           validationState="none"
         >
           <ThemeSelector
-            id={themeId}
-            themes={['light', 'dark', 'system']}
-            theme={theme}
-            onChange={handleThemeSelect}
+            id={ themeId }
+            themes={ ['light', 'dark', 'system'] }
+            theme={ theme }
+            onChange={ handleThemeSelect }
           />
         </StField>
         <StField
-          label={(
+          label={ (
             <InfoLabel
-              infoButton={<Info16Regular />}
+              infoButton={ <Info16Regular /> }
               info={ t('reset-configuration.info') }
             >
               { t('reset-configuration.title') }
             </InfoLabel>
-          )}
+          ) }
           validationState="none"
         >
           <Button
-            onClick={handleResetButton}
+            onClick={ handleResetButton }
             appearance="primary"
-            style={{
+            style={ {
               backgroundColor: disableReset ? undefined : tokens.colorStatusDangerBackground3
-            }}
-            disabled={disableReset}
+            } }
+            disabled={ disableReset }
           >
             { t('reset-configuration.label') }
           </Button>
         </StField>
 
-        <Flex style={{ justifyContent: 'end', gap: tokens.spacingVerticalM, flexWrap: 'wrap', marginTop: tokens.spacingVerticalXXXL }}>
+        <Flex style={ { justifyContent: 'end', gap: tokens.spacingVerticalM, flexWrap: 'wrap', marginTop: tokens.spacingVerticalXXXL } }>
           {
-            device === 'pc' ? <Flex grow={true} /> : undefined
+            device === 'pc' ? <Flex grow /> : undefined
           }
           <Button
             appearance="primary"
-            onClick={handleSaveButton}
-            disabled={unchanged}
+            onClick={ handleSaveButton }
+            disabled={ unchanged }
             style={ device === 'mobile' ? ({ width: '100%' }) : undefined }
           >
             { t('common.save') }
           </Button>
           <Button
             appearance="secondary"
-            onClick={handleCancelButton}
-            disabled={unchanged}
+            onClick={ handleCancelButton }
+            disabled={ unchanged }
             style={ device === 'mobile' ? ({ width: '100%' }) : undefined }
           >
             { t('common.cancel') }
@@ -185,14 +185,14 @@ export const ConfigurationPage: FC = memo(() => {
       </div>
 
       <ResetWarningDialog
-        open={warningDialog}
-        onOpenChange={(_event, data) => setWarningDialog(data.open)}
-        onClickYes={handleConfirmedToResetButton}
+        open={ warningDialog }
+        onOpenChange={ (_event, data) => setWarningDialog(data.open) }
+        onClickYes={ handleConfirmedToResetButton }
       />
       <ResetCompleteDialog
-        open={completeDialog}
-        onOpenChange={(_event, data) => setCompleteDialog(data.open)}
-        onClickClose={handleCompletedToResetButton}
+        open={ completeDialog }
+        onOpenChange={ (_event, data) => setCompleteDialog(data.open) }
+        onClickClose={ handleCompletedToResetButton }
       />
 
       { isBusy

@@ -42,24 +42,24 @@ export const AboutPage: FC = memo(() => {
       <StPageHeader>
         <Title3
           align="start"
-          className={styles.pageTitle}
+          className={ styles.pageTitle }
         >
           { t('about.title') }
         </Title3>
       </StPageHeader>
 
-      <div className={styles.field}>
+      <div className={ styles.field }>
         <StField
           label={ t('app.name') }
         >
-          <Text className={fieldStyles.value}>
+          <Text className={ fieldStyles.value }>
             { appName }
           </Text>
         </StField>
         <StField
           label={ t('app.version') }
         >
-          <Text className={fieldStyles.value}>
+          <Text className={ fieldStyles.value }>
             { `v${ version } (${ revision })` }
           </Text>
         </StField>
@@ -69,7 +69,7 @@ export const AboutPage: FC = memo(() => {
               <StField
                 label={ t('app.dev-mode') }
               >
-                <Text className={fieldStyles.value}>
+                <Text className={ fieldStyles.value }>
                   { t('common.enabled') }
                 </Text>
               </StField>
@@ -79,7 +79,7 @@ export const AboutPage: FC = memo(() => {
         <StField
           label={ t('app.author') }
         >
-          <Text className={fieldStyles.value}>
+          <Text className={ fieldStyles.value }>
             { author }
           </Text>
         </StField>

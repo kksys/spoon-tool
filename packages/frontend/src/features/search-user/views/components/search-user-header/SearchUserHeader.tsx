@@ -73,6 +73,7 @@ export const SearchUserHeader: FC = memo(() => {
     (_event: MouseEvent<HTMLButtonElement>) => {
       viewModel.transaction(async () => {
         await viewModel.resetResult()
+        viewModel.updateKeyword('')
       })
     },
     [viewModel],

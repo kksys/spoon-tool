@@ -9,6 +9,7 @@
     "prebuild": "run-p gen-app-info license",
     "dev": "pnpm prebuild && vite",
     "build": "pnpm prebuild && tsc -b && vite build",
+    "circular": "depcruise src",
     "lint": "tsc --noEmit && eslint . --flag unstable_ts_config",
     "lint:fix": "eslint --fix . --flag unstable_ts_config",
     "format": "prettier ./**/*.{ts,tsx,cjs,html}",

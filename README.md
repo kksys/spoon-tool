@@ -9,7 +9,7 @@ You can see this page from [here](https://spoon-tool.kk-systems.net).
 >
 > 1. go to "Run and Debug" section on vscode
 > 2. select "Launch frontend and backend" menu from pulldown menu
-> 3. click "<span class="run-button">▹</span>" button
+> 3. click "<img src=./.images/02-how-to-build-0001.png style="height: 20px;position: relative;top: 4px;" />" button
 
 1.  clone this repository
 2.  run below command on root directory of this repository to install dependencies

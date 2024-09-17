@@ -71,5 +71,14 @@
   },
   "top": {
     "title": "Top"
+  },
+  "numberOfFollowers": {
+    "format": "{{followers}} Followers"
+  },
+  "numberOfFollowing": {
+    "format": "{{following}} Following"
+  },
+  "joinedDateTime": {
+    "format": "Joined Date and Time: {{datetime}}"
   }
 }

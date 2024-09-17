@@ -1,5 +1,6 @@
 import { Avatar, AvatarProps, makeStyles, Skeleton, tokens } from '@fluentui/react-components'
 import { FC, memo, MouseEventHandler, ReactElement, useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { diContainer } from '~/inversify.config'
 
@@ -27,6 +28,10 @@ const useStyles = makeStyles({
   },
   badgeContainer: {
     paddingBottom: tokens.spacingVerticalS,
+  },
+  propertyRow: {
+    display: 'flex',
+    gap: tokens.spacingVerticalM,
   }
 })
 
@@ -63,7 +68,7 @@ const SearchUserItemBase: FC<ISearchUserItemBaseProps> = memo(({
             {renderBadge}
           </StackItem>
         ) }
-        <StackItem>
+        <StackItem className={ styles.propertyRow }>
           <span>
             { renderNickName }
           </span>
@@ -71,17 +76,11 @@ const SearchUserItemBase: FC<ISearchUserItemBaseProps> = memo(({
             { renderTag }
           </span>
         </StackItem>
-        <StackItem>
+        <StackItem className={ styles.propertyRow }>
           <span>
-            <span>
-              Number Of Followers
-            </span>
             { renderNumberOfFollowers }
           </span>
           <span>
-            <span>
-              Number Of Following
-            </span>
             { renderNumberOfFollowing }
           </span>
         </StackItem>
@@ -174,6 +173,8 @@ const AvatarForSearchUserItemNormal: FC<{ user: IUserViewModel }> = memo(({ user
 AvatarForSearchUserItemNormal.displayName = 'AvatarForSearchUserItemNormal'
 
 const SearchUserItemNormal: FC<Omit<ISearchUserItemNormalProps, 'loading'>> = memo(({ user, onClick }) => {
+  const { t } = useTranslation()
+
   return (
     <SearchUserItemBase
       key={ `${user.properties.id}` }
@@ -218,12 +219,12 @@ const SearchUserItemNormal: FC<Omit<ISearchUserItemNormalProps, 'loading'>> = me
       ) }
       renderNumberOfFollowers={ (
         <span>
-          {user.properties.numberOfFollowers}
+          { t('numberOfFollowers.format', { followers: user.properties.numberOfFollowers.toLocaleString() }) }
         </span>
       ) }
       renderNumberOfFollowing={ (
         <span>
-          {user.properties.numberOfFollowing}
+          { t('numberOfFollowing.format', { following: user.properties.numberOfFollowing.toLocaleString() }) }
         </span>
       ) }
       onClick={ onClick }

@@ -110,16 +110,13 @@ export const UserDetailDialog: FC<IUserDetailDialogProps> = memo(({ open, onOpen
                 </Text>
                 <br />
                 <Text>
-                  Number Of Followers:
-                  { user.properties.numberOfFollowers }
+                  { t('numberOfFollowers.format', { followers: user.properties.numberOfFollowers.toLocaleString() }) }
                 </Text>
                 <Text>
-                  Number Of Following:
-                  { user.properties.numberOfFollowing }
+                  { t('numberOfFollowing.format', { following: user.properties.numberOfFollowing.toLocaleString() }) }
                 </Text>
                 <Text>
-                  Joined DateTime:
-                  { user.detail?.joinedDate?.toLocaleString(i18n.language) }
+                  { t('joinedDateTime.format', { datetime: user.detail?.joinedDate?.toLocaleString(i18n.language) }) }
                 </Text>
               </Stack>
             </StackItem>

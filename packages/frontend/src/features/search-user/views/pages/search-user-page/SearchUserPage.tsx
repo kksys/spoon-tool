@@ -1,8 +1,18 @@
-import { FC, memo, useState } from 'react'
+import { Toast, ToastBody, Toaster, ToastTitle, useId, useToastController } from '@fluentui/react-components'
+import { FC, memo, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useObservable } from 'react-use'
+import { distinctUntilChanged } from 'rxjs'
 
 import { diContainer } from '~/inversify.config'
 
+import { isApiError } from '#/cross-cutting/errors/ApiErrorBase'
+import { CancelError } from '#/cross-cutting/errors/connection-failure/CancelError'
+import { ConnectionRefusedError } from '#/cross-cutting/errors/connection-failure/ConnectionRefusedError'
+import { GenericHttpError } from '#/cross-cutting/errors/http-error/GenericHttpError'
+import { InternalServerError } from '#/cross-cutting/errors/http-error/InternalServerError'
+import { NotFoundError } from '#/cross-cutting/errors/http-error/NotFoundError'
+import { UnauthorizedError } from '#/cross-cutting/errors/http-error/UnauthorizedError'
 import { Page } from '#/cross-cutting/views/pages/Page'
 import { searchUserTypes } from '#/search-user/di/searchUserTypes'
 import { IUserListViewModel } from '#/search-user/interfaces/view-models/IUserListViewModel'
@@ -11,12 +21,130 @@ import { SearchUserList } from '#/search-user/views/components/search-user-list/
 
 import { UserDetailDialog } from './UserDetailDialog'
 
+interface ToastSwitcherProps {
+  error: Error
+}
+
+const ToastSwitcher: FC<ToastSwitcherProps> = memo(({ error }) => {
+  const { t } = useTranslation()
+
+  if (!isApiError(error)) {
+    return (
+      <Toast>
+        <ToastTitle>
+          { t('common.error.title', { ns: 'common' }) }
+        </ToastTitle>
+        <ToastBody>
+          { error.message }
+        </ToastBody>
+      </Toast>
+    )
+  } else if (error instanceof NotFoundError) {
+    return (
+      <Toast>
+        <ToastTitle>
+          { t('common.error.title', { ns: 'common' }) }
+        </ToastTitle>
+        <ToastBody>
+          指定されたリソースが見つかりませんでした
+        </ToastBody>
+      </Toast>
+    )
+  } else if (error instanceof InternalServerError) {
+    return (
+      <Toast>
+        <ToastTitle>
+          { t('common.error.title', { ns: 'common' }) }
+        </ToastTitle>
+        <ToastBody>
+          サーバー内部でエラーが発生しました。しばらくしてから再度お試しください
+        </ToastBody>
+      </Toast>
+    )
+  } else if (error instanceof UnauthorizedError) {
+    return (
+      <Toast>
+        <ToastTitle>
+          { t('common.error.title', { ns: 'common' }) }
+        </ToastTitle>
+        <ToastBody>
+          サインインが必要です
+        </ToastBody>
+      </Toast>
+    )
+  } else if (error instanceof GenericHttpError) {
+    return (
+      <Toast>
+        <ToastTitle>
+          { t('common.error.title', { ns: 'common' }) }
+        </ToastTitle>
+        <ToastBody>
+          サーバーから対応していないエラーが返されました
+        </ToastBody>
+      </Toast>
+    )
+  } else if (error instanceof ConnectionRefusedError) {
+    return (
+      <Toast>
+        <ToastTitle>
+          { t('common.error.title', { ns: 'common' }) }
+        </ToastTitle>
+        <ToastBody>
+          通信エラーが発生しました。しばらくしてから再度お試しください
+        </ToastBody>
+      </Toast>
+    )
+  } else if (error instanceof CancelError) {
+    return (
+      <Toast>
+        <ToastTitle>
+          { t('common.error.title', { ns: 'common' }) }
+        </ToastTitle>
+        <ToastBody>
+          ユーザーによってキャンセルされました
+        </ToastBody>
+      </Toast>
+    )
+  }
+
+  return (
+    <Toast>
+      <ToastTitle>
+        { t('common.error.title', { ns: 'common' }) }
+      </ToastTitle>
+      <ToastBody>
+        原因不明のエラーが発生しました
+      </ToastBody>
+    </Toast>
+  )
+})
+
+ToastSwitcher.displayName = 'ToastSwitcher'
+
 export const SearchUserPage: FC = memo(() => {
   const viewModel = diContainer.get<IUserListViewModel>(searchUserTypes.UserListViewModel)
+
+  const toasterId = useId('toaster')
+  const { dispatchToast } = useToastController(toasterId)
 
   const isBusy = useObservable(viewModel.isLocalBusy$, false)
   const userList = useObservable(viewModel.userList$, [])
   const hasNextPage = useObservable(viewModel.paginator.hasNextPage$, false)
+
+  useEffect(() => {
+    const subscription = viewModel.errorBag$
+      .pipe(distinctUntilChanged())
+      .subscribe(error => {
+        dispatchToast(
+          <ToastSwitcher error={ error } />,
+          { intent: 'error' }
+        )
+      })
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [viewModel.errorBag$])
 
   const [openUserDetailDialog, setOpenUserDetailDialog] = useState(false)
 
@@ -49,6 +177,8 @@ export const SearchUserPage: FC = memo(() => {
           onClickClose={ () => setOpenUserDetailDialog(false) }
         />
       )}
+
+      <Toaster toasterId={ toasterId } />
     </>
   )
 })

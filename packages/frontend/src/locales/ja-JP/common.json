@@ -15,7 +15,10 @@
     "continue": "続行する",
     "loading": "読込中...",
     "search": "検索",
-    "clear": "クリア"
+    "clear": "クリア",
+    "error": {
+      "title": "エラー"
+    }
   },
   "configuration": {
     "resetting": "設定をリセットしています..."

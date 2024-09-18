@@ -1,5 +1,5 @@
 import { inject, injectable, type interfaces } from 'inversify'
-import { BehaviorSubject, firstValueFrom, last, Observable } from 'rxjs'
+import { BehaviorSubject, filter, firstValueFrom, last, Observable } from 'rxjs'
 
 import { Invoker } from '#/cross-cutting/commands/Invoker'
 import { autoBusyAsync } from '#/cross-cutting/decorators/autoBusy'
@@ -20,6 +20,7 @@ import { IUserViewModel, IUserViewModelProps } from '#/search-user/interfaces/vi
 @injectable()
 export class UserListViewModel extends ViewModelBase implements IUserListViewModel, ISearchUserReceiver, IFetchUserDetailReceiver {
   private _keywordSubject = new BehaviorSubject('')
+  private _errorBag = new BehaviorSubject<Error | undefined>(undefined)
   private _usersSubject = new BehaviorSubject<IUserViewModel[]>([])
   private _invoker = new Invoker()
 
@@ -35,6 +36,13 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
 
   updateKeyword(value: string) {
     this._keywordSubject.next(value)
+  }
+
+  readonly errorBag$: Observable<Error> = this._errorBag.asObservable()
+    .pipe(filter((error): error is Error => error !== undefined))
+
+  clearErrorBag() {
+    this._errorBag.next(undefined)
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -159,7 +167,8 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
   @autoBusyAsync()
   async receivedSearchUserResult(result: Result<EndpointTypes['spoonApi']['fetchUsers']['response'], ApiError>): Promise<void> {
     if (result.isError) {
-      return
+      this._errorBag.next(result.error)
+      throw result.error
     }
 
     const { next, previous, results } = result.value
@@ -189,7 +198,8 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
   @autoBusyAsync()
   async receivedFetchUserDetailResult(result: Result<EndpointTypes['spoonApi']['getProfile']['response'], ApiError>): Promise<void> {
     if (result.isError) {
-      return
+      this._errorBag.next(result.error)
+      throw result.error
     }
 
     const { results } = result.value

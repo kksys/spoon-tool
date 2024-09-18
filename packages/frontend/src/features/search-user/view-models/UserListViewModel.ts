@@ -1,5 +1,5 @@
 import { inject, injectable, type interfaces } from 'inversify'
-import { BehaviorSubject, firstValueFrom, last, Observable } from 'rxjs'
+import { BehaviorSubject, filter, firstValueFrom, last, Observable } from 'rxjs'
 
 import { Invoker } from '#/cross-cutting/commands/Invoker'
 import { autoBusyAsync } from '#/cross-cutting/decorators/autoBusy'
@@ -16,6 +16,7 @@ import { IUserViewModel, IUserViewModelProps } from '#/search-user/interfaces/vi
 @injectable()
 export class UserListViewModel extends ViewModelBase implements IUserListViewModel, ISearchUserReceiver {
   private _keywordSubject = new BehaviorSubject('')
+  private _errorBag = new BehaviorSubject<Error | undefined>(undefined)
   private _usersSubject = new BehaviorSubject<IUserViewModel[]>([])
   private _invoker = new Invoker()
 
@@ -26,6 +27,13 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
 
   updateKeyword(value: string) {
     this._keywordSubject.next(value)
+  }
+
+  readonly errorBag$: Observable<Error> = this._errorBag.asObservable()
+    .pipe(filter((error): error is Error => error !== undefined))
+
+  clearErrorBag() {
+    this._errorBag.next(undefined)
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -44,13 +52,19 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
 
   @autoBusyAsync()
   async fetchUserList(): Promise<void> {
-    const searchUserCommand = new SearchUserCommand(this, {
-      keyword: this._keywordSubject.value,
-      cursor: undefined,
-      page_size: this.paginator.itemsPerPage,
-    } as const)
+    try {
+      const searchUserCommand = new SearchUserCommand(this, {
+        keyword: this._keywordSubject.value,
+        cursor: undefined,
+        page_size: this.paginator.itemsPerPage,
+      } as const)
 
-    await this._invoker.execute(searchUserCommand)
+      await this._invoker.execute(searchUserCommand)
+    } catch (error) {
+      if (error instanceof Error) {
+        this._errorBag.next(error)
+      }
+    }
   }
 
   @autoBusyAsync()

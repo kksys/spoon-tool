@@ -1,5 +1,8 @@
-import { FC, memo, useState } from 'react'
+import { Toast, ToastBody, Toaster, ToastTitle, useId, useToastController } from '@fluentui/react-components'
+import { FC, memo, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useObservable } from 'react-use'
+import { distinctUntilChanged } from 'rxjs'
 
 import { diContainer } from '~/inversify.config'
 
@@ -14,9 +17,38 @@ import { UserDetailDialog } from './UserDetailDialog'
 export const SearchUserPage: FC = memo(() => {
   const viewModel = diContainer.get<IUserListViewModel>(searchUserTypes.UserListViewModel)
 
+  const toasterId = useId('toaster')
+  const { dispatchToast } = useToastController(toasterId)
+  const { t } = useTranslation()
+
   const isBusy = useObservable(viewModel.isLocalBusy$, false)
   const userList = useObservable(viewModel.userList$, [])
   const hasNextPage = useObservable(viewModel.paginator.hasNextPage$, false)
+
+  useEffect(() => {
+    const subscription = viewModel.errorBag$
+      .pipe(distinctUntilChanged())
+      .subscribe(error => {
+        console.log(error)
+        dispatchToast(
+          <Toast>
+            <ToastTitle>
+              { t('error.title') }
+            </ToastTitle>
+            <ToastBody>
+              {error.name}
+              {error.message}
+              {error.stack}
+            </ToastBody>
+          </Toast>,
+          { intent: 'error' }
+        )
+      })
+
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [viewModel.errorBag$])
 
   const [openUserDetailDialog, setOpenUserDetailDialog] = useState(false)
 
@@ -49,6 +81,8 @@ export const SearchUserPage: FC = memo(() => {
           onClickClose={ () => setOpenUserDetailDialog(false) }
         />
       )}
+
+      <Toaster toasterId={ toasterId } />
     </>
   )
 })

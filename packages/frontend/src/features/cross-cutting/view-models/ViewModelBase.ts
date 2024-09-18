@@ -4,7 +4,7 @@ import { isPromise } from 'rxjs/internal/util/isPromise'
 
 import { autoBusyAsync } from '#/cross-cutting/decorators/autoBusy'
 
-import { IViewModel } from '../interfaces/IViewModel'
+import { IViewModel } from '../interfaces/view-models/IViewModel'
 
 const busyQueueSubject = new BehaviorSubject<symbol[]>([])
 

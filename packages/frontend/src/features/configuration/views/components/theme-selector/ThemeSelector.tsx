@@ -2,7 +2,7 @@ import { Dropdown, DropdownProps, makeStyles, Option, SelectionEvents } from '@f
 import { FC, memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { IConfiguration } from '#/cross-cutting/interfaces/IConfigurationRepository'
+import { IConfiguration } from '#/cross-cutting/interfaces/repositories/IConfigurationRepository'
 
 interface ThemeSelectorData {
   selectedTheme: IConfiguration['theme']

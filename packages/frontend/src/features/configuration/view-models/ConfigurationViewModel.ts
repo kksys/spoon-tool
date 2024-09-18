@@ -2,9 +2,9 @@ import { inject, injectable } from 'inversify'
 import { firstValueFrom, map, Observable } from 'rxjs'
 
 import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
-import type { IConfiguration, IConfigurationRepository } from '#/cross-cutting/interfaces/IConfigurationRepository'
-import { EventType } from '#/cross-cutting/interfaces/IEvent'
-import type { IEventAggregator } from '#/cross-cutting/interfaces/IEventAggregator'
+import { EventType } from '#/cross-cutting/interfaces/event-aggregator/IEvent'
+import type { IEventAggregator } from '#/cross-cutting/interfaces/event-aggregator/IEventAggregator'
+import type { IConfiguration, IConfigurationRepository } from '#/cross-cutting/interfaces/repositories/IConfigurationRepository'
 import { ViewModelBase } from '#/cross-cutting/view-models/ViewModelBase'
 
 import { configurationTypes } from '../di/configurationTypes'

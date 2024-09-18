@@ -1,5 +1,5 @@
 import { CommandBase } from '#/cross-cutting/commands/CommandBase'
-import { ICommand } from '#/cross-cutting/interfaces/ICommand'
+import { ICommand } from '#/cross-cutting/interfaces/commands/ICommand'
 import { IFetchUserDetailReceiver } from '#/search-user/interfaces/receivers/IFetchUserDetailReceiver'
 
 import { apiClient } from '../api/ApiClient'

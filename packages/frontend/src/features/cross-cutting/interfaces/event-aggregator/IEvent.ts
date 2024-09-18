@@ -1,4 +1,4 @@
-import { IConfiguration } from './IConfigurationRepository'
+import { IConfiguration } from '../repositories/IConfigurationRepository'
 
 export interface IConfigurationChangedEvent {
   event: 'configurationChanged'

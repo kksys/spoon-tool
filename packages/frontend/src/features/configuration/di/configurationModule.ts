@@ -1,8 +1,8 @@
 import { ContainerModule } from 'inversify'
 
 import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
-import { IConfigurationRepository } from '#/cross-cutting/interfaces/IConfigurationRepository'
-import { ILoggerService } from '#/cross-cutting/interfaces/ILoggerService'
+import { IConfigurationRepository } from '#/cross-cutting/interfaces/repositories/IConfigurationRepository'
+import { ILoggerService } from '#/cross-cutting/interfaces/services/ILoggerService'
 
 import { IConfigurationViewModel } from '../interfaces/IConfigurationViewModel'
 import { ConfigurationRepository } from '../repository/ConfigurationRepository'

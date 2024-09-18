@@ -5,7 +5,7 @@ import { useObservable } from 'react-use'
 import { diContainer } from '~/inversify.config'
 
 import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
-import { IDrawerViewModel } from '#/cross-cutting/interfaces/IDrawerViewModel'
+import { IDrawerViewModel } from '#/cross-cutting/interfaces/view-models/IDrawerViewModel'
 
 import { DrawerMenu } from '../drawer-menu/DrawerMenu'
 import { Flex } from '../flex/Flex'

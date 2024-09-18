@@ -3,7 +3,7 @@ import { inject, injectable } from 'inversify'
 import { BehaviorSubject, combineLatestWith, map, Observable } from 'rxjs'
 
 import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
-import { IConfiguration, IConfigurationRepository } from '#/cross-cutting/interfaces/IConfigurationRepository'
+import { IConfiguration, IConfigurationRepository } from '#/cross-cutting/interfaces/repositories/IConfigurationRepository'
 
 @injectable()
 export class ConfigurationRepository implements IConfigurationRepository {

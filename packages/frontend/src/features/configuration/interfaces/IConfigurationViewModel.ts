@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs'
 
-import { IConfiguration } from '#/cross-cutting/interfaces/IConfigurationRepository'
-import { IViewModel } from '#/cross-cutting/interfaces/IViewModel'
+import { IConfiguration } from '#/cross-cutting/interfaces/repositories/IConfigurationRepository'
+import { IViewModel } from '#/cross-cutting/interfaces/view-models/IViewModel'
 
 export interface IConfigurationViewModel extends IViewModel {
   unchanged$: Observable<boolean>

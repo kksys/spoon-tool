@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { injectable } from 'inversify'
 
-import { ILoggerService } from '../interfaces/ILoggerService'
+import { ILoggerService } from '../interfaces/services/ILoggerService'
 
 @injectable()
 export class EmptyLoggerService implements ILoggerService {

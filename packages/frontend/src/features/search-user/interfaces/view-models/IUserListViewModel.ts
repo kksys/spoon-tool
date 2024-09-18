@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs'
 
-import { IViewModel } from '#/cross-cutting/interfaces/IViewModel'
+import { IViewModel } from '#/cross-cutting/interfaces/view-models/IViewModel'
 
 import { IUserPaginatorViewModel } from './IUserPaginatorViewModel'
 import { IUserViewModel } from './IUserViewModel'

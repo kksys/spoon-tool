@@ -1,8 +1,8 @@
 import { injectable } from 'inversify'
 import { Observable, Subject } from 'rxjs'
 
-import { EventType } from '../interfaces/IEvent'
-import { IEventAggregator } from '../interfaces/IEventAggregator'
+import { EventType } from '../interfaces/event-aggregator/IEvent'
+import { IEventAggregator } from '../interfaces/event-aggregator/IEventAggregator'
 
 @injectable()
 export class EventAggregator implements IEventAggregator {

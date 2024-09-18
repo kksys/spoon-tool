@@ -78,6 +78,9 @@
   "numberOfFollowing": {
     "format": "{{following}} MY"
   },
+  "error": {
+    "title": "エラー"
+  },
   "joinedDateTime": {
     "format": "ユーザー作成日時: {{datetime}}"
   }

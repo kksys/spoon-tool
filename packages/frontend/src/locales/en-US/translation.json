@@ -78,6 +78,9 @@
   "numberOfFollowing": {
     "format": "{{following}} Following"
   },
+  "error": {
+    "title": "Error"
+  },
   "joinedDateTime": {
     "format": "Joined Date and Time: {{datetime}}"
   }

@@ -11,6 +11,9 @@ export interface IUserListViewModel extends IViewModel {
   readonly keyword$: Observable<string>
   updateKeyword(value: string): void
 
+  readonly errorBag$: Observable<Error>
+  clearErrorBag(): void
+
   readonly userList$: Observable<IUserViewModel[]>
   resetResult(): Promise<void>
   fetchUserList(): Promise<void>

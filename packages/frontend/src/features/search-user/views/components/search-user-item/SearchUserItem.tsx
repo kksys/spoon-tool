@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { diContainer } from '~/inversify.config'
 
 import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
-import { ILoggerService } from '#/cross-cutting/interfaces/ILoggerService'
+import { ILoggerService } from '#/cross-cutting/interfaces/services/ILoggerService'
 import { Flex } from '#/cross-cutting/views/components/flex/Flex'
 import { Stack } from '#/cross-cutting/views/components/stack/Stack'
 import { StackItem } from '#/cross-cutting/views/components/stack-item/StackItem'

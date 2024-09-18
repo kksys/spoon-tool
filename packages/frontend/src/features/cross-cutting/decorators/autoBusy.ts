@@ -1,4 +1,4 @@
-import { IBusyable } from '#/cross-cutting/interfaces/IBusyable'
+import { IBusyable } from '#/cross-cutting/interfaces/view-models/IBusyable'
 
 type TypedAsyncFunction<Target> = Target extends (...args: infer Args) => PromiseLike<infer Return>
   ? ((...args: Args) => Promise<Return>)

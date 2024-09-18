@@ -1,4 +1,4 @@
-import { ICommand } from '#/cross-cutting/interfaces/ICommand'
+import { ICommand } from '#/cross-cutting/interfaces/commands/ICommand'
 
 export class Invoker {
   async execute(command: ICommand): Promise<void> {

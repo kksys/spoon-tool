@@ -1,5 +1,5 @@
-import { ICommand } from '#/cross-cutting/interfaces/ICommand'
-import { IReceiver } from '#/cross-cutting/interfaces/IReceiver'
+import { ICommand } from '#/cross-cutting/interfaces/commands/ICommand'
+import { IReceiver } from '#/cross-cutting/interfaces/receivers/IReceiver'
 
 export abstract class CommandBase<R extends IReceiver> implements ICommand {
   constructor(protected readonly receiver: R) {}

@@ -1,4 +1,4 @@
-import { IViewModel } from '#/cross-cutting/interfaces/IViewModel'
+import { IViewModel } from '#/cross-cutting/interfaces/view-models/IViewModel'
 import { BadgeStyleId, TierName } from '#/search-user/api/EndpointTypes'
 
 export interface IUserViewModelProps {

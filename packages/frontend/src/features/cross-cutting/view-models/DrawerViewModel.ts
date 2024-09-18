@@ -1,7 +1,7 @@
 import { injectable } from 'inversify'
 import { BehaviorSubject, Observable } from 'rxjs'
 
-import { IDrawerViewModel } from '../interfaces/IDrawerViewModel'
+import { IDrawerViewModel } from '../interfaces/view-models/IDrawerViewModel'
 import { ViewModelBase } from './ViewModelBase'
 
 @injectable()

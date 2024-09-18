@@ -13,13 +13,13 @@ import { LicensePage } from '#/about/views/pages/license-page/LicensePage'
 import { RepositoryPage } from '#/about/views/pages/repository-page/RepositoryPage'
 import { ConfigurationPage } from '#/configuration/views/pages/configuration-page/ConfigurationPage'
 import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
-import { IEventAggregator } from '#/cross-cutting/interfaces/IEventAggregator'
+import { IEventAggregator } from '#/cross-cutting/interfaces/event-aggregator/IEventAggregator'
 import { Layout } from '#/cross-cutting/views/components/layout/Layout'
 import { Page } from '#/cross-cutting/views/pages/Page'
 import { SearchUserPage } from '#/search-user/views/pages/search-user-page/SearchUserPage'
 
 import { configurationTypes } from './features/configuration/di/configurationTypes'
-import { IConfiguration, IConfigurationRepository } from './features/cross-cutting/interfaces/IConfigurationRepository'
+import { IConfiguration, IConfigurationRepository } from './features/cross-cutting/interfaces/repositories/IConfigurationRepository'
 import { diContainer } from './inversify.config'
 
 const router = createBrowserRouter(

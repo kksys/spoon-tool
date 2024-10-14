@@ -144,10 +144,10 @@ importers:
         version: 1.0.9
       '@vitejs/plugin-react':
         specifier: ^4.3.1
-        version: 4.3.1(vite@5.4.2(@types/node@20.16.2))
+        version: 4.3.1(vite@5.4.6(@types/node@20.16.2))
       '@vitejs/plugin-react-swc':
         specifier: ^3.7.0
-        version: 3.7.0(@swc/helpers@0.5.12)(vite@5.4.2(@types/node@20.16.2))
+        version: 3.7.0(@swc/helpers@0.5.12)(vite@5.4.6(@types/node@20.16.2))
       dependency-cruiser:
         specifier: ^16.4.1
         version: 16.4.1
@@ -194,11 +194,11 @@ importers:
         specifier: ^8.5.0
         version: 8.5.0(eslint@9.10.0(jiti@1.21.6))(typescript@5.5.4)
       vite:
-        specifier: ^5.4.2
-        version: 5.4.2(@types/node@20.16.2)
+        specifier: ^5.4.6
+        version: 5.4.6(@types/node@20.16.2)
       vite-tsconfig-paths:
         specifier: ^5.0.1
-        version: 5.0.1(typescript@5.5.4)(vite@5.4.2(@types/node@20.16.2))
+        version: 5.0.1(typescript@5.5.4)(vite@5.4.6(@types/node@20.16.2))
 
 packages:
 
@@ -2559,7 +2559,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
+    deprecated: Upgrade to fsevents v2 to mitigate potential security issues
 
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -3490,6 +3490,9 @@ packages:
   picocolors@1.0.1:
     resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
 
+  picocolors@1.1.0:
+    resolution: {integrity: sha512-TQ92mBOW0l3LeMeyLV6mzy/kWr8lkd/hp3mTg7wYK7zJhuBStmGMBG0BdeDZS/dZx1IukaX6Bk11zcln25o1Aw==}
+
   picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
@@ -3520,6 +3523,10 @@ packages:
 
   postcss@8.4.41:
     resolution: {integrity: sha512-TesUflQ0WKZqAvg52PWL6kHgLKP6xB6heTOdoYM0Wt2UHyxNa4K25EZZMgKns3BH1RLVbZCREPpLY0rhnNoHVQ==}
+    engines: {node: ^10 || ^12 || >=14}
+
+  postcss@8.4.47:
+    resolution: {integrity: sha512-56rxCq7G/XfB4EkXq9Egn5GCqugWvDFjafDOThIdMBsI15iqPqR5r15TfSr1YPYeEI19YeaXMCbY6u88Y76GLQ==}
     engines: {node: ^10 || ^12 || >=14}
 
   prelude-ls@1.2.1:
@@ -3936,6 +3943,10 @@ packages:
 
   source-map-js@1.2.0:
     resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==}
+    engines: {node: '>=0.10.0'}
+
+  source-map-js@1.2.1:
+    resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
   source-map-resolve@0.5.3:
@@ -4415,6 +4426,37 @@ packages:
       terser:
         optional: true
 
+  vite@5.4.6:
+    resolution: {integrity: sha512-IeL5f8OO5nylsgzd9tq4qD2QqI0k2CQLGrWD0rCN0EQJZpBK5vJAx0I+GDkMOXxQX/OfFHMuLIx6ddAxGX/k+Q==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': ^18.0.0 || >=20.0.0
+      less: '*'
+      lightningcss: ^1.21.0
+      sass: '*'
+      sass-embedded: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      sass-embedded:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+
   vitest@1.5.0:
     resolution: {integrity: sha512-d8UKgR0m2kjdxDWX6911uwxout6GHS0XaGH1cksSIVVG8kRlE7G7aBw7myKQCvDI5dT4j7ZMa+l706BIORMDLw==}
     engines: {node: ^18.0.0 || >=20.0.0}
@@ -4665,7 +4707,7 @@ snapshots:
       '@babel/helper-validator-identifier': 7.24.7
       chalk: 2.4.2
       js-tokens: 4.0.0
-      picocolors: 1.0.1
+      picocolors: 1.1.0
 
   '@babel/parser@7.24.8':
     dependencies:
@@ -6463,21 +6505,21 @@ snapshots:
       '@typescript-eslint/types': 8.5.0
       eslint-visitor-keys: 3.4.3
 
-  '@vitejs/plugin-react-swc@3.7.0(@swc/helpers@0.5.12)(vite@5.4.2(@types/node@20.16.2))':
+  '@vitejs/plugin-react-swc@3.7.0(@swc/helpers@0.5.12)(vite@5.4.6(@types/node@20.16.2))':
     dependencies:
       '@swc/core': 1.7.0(@swc/helpers@0.5.12)
-      vite: 5.4.2(@types/node@20.16.2)
+      vite: 5.4.6(@types/node@20.16.2)
     transitivePeerDependencies:
       - '@swc/helpers'
 
-  '@vitejs/plugin-react@4.3.1(vite@5.4.2(@types/node@20.16.2))':
+  '@vitejs/plugin-react@4.3.1(vite@5.4.6(@types/node@20.16.2))':
     dependencies:
       '@babel/core': 7.24.9
       '@babel/plugin-transform-react-jsx-self': 7.24.7(@babel/core@7.24.9)
       '@babel/plugin-transform-react-jsx-source': 7.24.7(@babel/core@7.24.9)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.2
-      vite: 5.4.2(@types/node@20.16.2)
+      vite: 5.4.6(@types/node@20.16.2)
     transitivePeerDependencies:
       - supports-color
 
@@ -8615,6 +8657,8 @@ snapshots:
 
   picocolors@1.0.1: {}
 
+  picocolors@1.1.0: {}
+
   picomatch@2.3.1: {}
 
   picomatch@4.0.2: {}
@@ -8638,6 +8682,12 @@ snapshots:
       nanoid: 3.3.7
       picocolors: 1.0.1
       source-map-js: 1.2.0
+
+  postcss@8.4.47:
+    dependencies:
+      nanoid: 3.3.7
+      picocolors: 1.1.0
+      source-map-js: 1.2.1
 
   prelude-ls@1.2.1: {}
 
@@ -9115,6 +9165,8 @@ snapshots:
 
   source-map-js@1.2.0: {}
 
+  source-map-js@1.2.1: {}
+
   source-map-resolve@0.5.3:
     dependencies:
       atob: 2.1.2
@@ -9506,7 +9558,7 @@ snapshots:
     dependencies:
       browserslist: 4.23.2
       escalade: 3.1.2
-      picocolors: 1.0.1
+      picocolors: 1.1.0
 
   uri-js@4.4.1:
     dependencies:
@@ -9589,7 +9641,7 @@ snapshots:
       debug: 4.3.7
       pathe: 1.1.2
       picocolors: 1.0.1
-      vite: 5.4.2(@types/node@20.16.2)
+      vite: 5.4.6(@types/node@20.16.2)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -9607,7 +9659,7 @@ snapshots:
       debug: 4.3.7
       pathe: 1.1.2
       picocolors: 1.0.1
-      vite: 5.4.2(@types/node@22.5.1)
+      vite: 5.4.6(@types/node@22.5.1)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -9619,13 +9671,13 @@ snapshots:
       - supports-color
       - terser
 
-  vite-tsconfig-paths@5.0.1(typescript@5.5.4)(vite@5.4.2(@types/node@20.16.2)):
+  vite-tsconfig-paths@5.0.1(typescript@5.5.4)(vite@5.4.6(@types/node@20.16.2)):
     dependencies:
       debug: 4.3.5
       globrex: 0.1.2
       tsconfck: 3.1.1(typescript@5.5.4)
     optionalDependencies:
-      vite: 5.4.2(@types/node@20.16.2)
+      vite: 5.4.6(@types/node@20.16.2)
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -9643,6 +9695,24 @@ snapshots:
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.41
+      rollup: 4.21.2
+    optionalDependencies:
+      '@types/node': 22.5.1
+      fsevents: 2.3.3
+
+  vite@5.4.6(@types/node@20.16.2):
+    dependencies:
+      esbuild: 0.21.5
+      postcss: 8.4.47
+      rollup: 4.21.2
+    optionalDependencies:
+      '@types/node': 20.16.2
+      fsevents: 2.3.3
+
+  vite@5.4.6(@types/node@22.5.1):
+    dependencies:
+      esbuild: 0.21.5
+      postcss: 8.4.47
       rollup: 4.21.2
     optionalDependencies:
       '@types/node': 22.5.1

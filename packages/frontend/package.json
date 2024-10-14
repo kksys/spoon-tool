@@ -25,7 +25,7 @@
     "@fluentui/react-components": "^9.54.13",
     "@fluentui/react-icons": "^2.0.256",
     "@fluentui/react-nav-preview": "^0.7.4",
-    "i18next": "^23.14.0",
+    "i18next": "^23.16.0",
     "inversify": "^6.0.2",
     "object-typed": "^1.0.0",
     "react": "^18.3.1",

@@ -15,7 +15,7 @@
     "format": "prettier ./**/*.{ts,tsx,cjs,html}",
     "format:fix": "prettier --write ./**/*.{ts,tsx,cjs,html}",
     "fix": "pnpm format:fix && pnpm lint:fix",
-    "test": "echo 'Please add test commands here'",
+    "test": "vitest run",
     "preview": "vite preview",
     "i18next-extract": "i18next 'src/**/*.{tsx,ts}'",
     "live-server": "live-server --port=5173 ./dist/",
@@ -37,7 +37,8 @@
     "react-window": "^1.8.10",
     "react-window-infinite-loader": "^1.0.9",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "vitest": "1.5.0"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^2.8.0",

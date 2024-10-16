@@ -10,7 +10,7 @@ env:
 jobs:
   approve:
     name: Auto Approve
-    if: ${{ github.event.issue.pull_request && github.event.comment.body == '/approve' }} && github.event.pull_request.user.login == env.OWNER
+    if: github.event.issue.pull_request && github.event.comment.body == '/approve' && github.event.issue.user.login == env.OWNER
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
@@ -18,43 +18,37 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Debug
+      - name: Put a reaction to the comment
         run: |
-          echo "pull_request: ${{ github.event.issue.pull_request }}"
-          echo "body: ${{ github.event.comment.body }}"
-          echo "user: ${{ github.event.pull_request.user.login }}"
+          gh api graphql \
+            --silent \
+            --raw-field \
+            query="mutation AddReaction {addReaction(input:{subjectId:\"$NODE_ID\",content:THUMBS_UP}){reaction{content}subject{id}}}"
+        env:
+          GITHUB_TOKEN: ${{ env.GH_TOKEN }}
+          NODE_ID: ${{ github.event.comment.node_id }}
 
-      # - name: Put a reaction to the comment
-      #   run: |
-      #     gh api graphql \
-      #       --silent \
-      #       --raw-field \
-      #       query="mutation AddReaction {addReaction(input:{subjectId:\"$NODE_ID\",content:THUMBS_UP}){reaction{content}subject{id}}}"
-      #   env:
-      #     GITHUB_TOKEN: ${{ env.GH_TOKEN }}
-      #     NODE_ID: ${{ github.event.comment.node_id }}
+      - uses: actions/github-script@v6
+        id: get_issue_number
+        with:
+          script: |
+            if (context.issue.number) {
+              // Return issue number if present
+              return context.issue.number;
+            } else {
+              // Otherwise return issue number from commit
+              return (
+                await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                  commit_sha: context.sha,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                })
+              ).data[0].number;
+            }
+          result-encoding: string
 
-      # - uses: actions/github-script@v6
-      #   id: get_issue_number
-      #   with:
-      #     script: |
-      #       if (context.issue.number) {
-      #         // Return issue number if present
-      #         return context.issue.number;
-      #       } else {
-      #         // Otherwise return issue number from commit
-      #         return (
-      #           await github.rest.repos.listPullRequestsAssociatedWithCommit({
-      #             commit_sha: context.sha,
-      #             owner: context.repo.owner,
-      #             repo: context.repo.repo,
-      #           })
-      #         ).data[0].number;
-      #       }
-      #     result-encoding: string
-
-      # - name: Approve Pull Request
-      #   run: |
-      #     gh pr review $NUMBER --approve
-      #   env:
-      #     NUMBER: ${{ steps.get_issue_number.outputs.result }}
+      - name: Approve Pull Request
+        run: |
+          gh pr review $NUMBER --approve
+        env:
+          NUMBER: ${{ steps.get_issue_number.outputs.result }}

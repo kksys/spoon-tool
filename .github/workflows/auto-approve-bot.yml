@@ -10,7 +10,7 @@ env:
 jobs:
   approve:
     name: Auto Approve
-    if: github.event.issue.pull_request && github.event.comment.body == '/approve' && github.event.issue.user.login == env.OWNER
+    if: ${{ github.event.issue.pull_request && github.event.comment.body == '/approve' }} && github.event.issue.user.login == env.OWNER
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}

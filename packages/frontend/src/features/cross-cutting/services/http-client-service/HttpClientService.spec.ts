@@ -1,5 +1,3 @@
-import 'reflect-metadata'
-
 import { Container, injectable } from 'inversify'
 import { finalize, from, map, Observable, switchMap } from 'rxjs'
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'

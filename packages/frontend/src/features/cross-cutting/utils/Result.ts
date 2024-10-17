@@ -1,62 +1,73 @@
-interface IResultType {
-  payload: unknown
+interface ISuccessResult<T, _E extends Error> {
+  readonly type: 'SuccessResult'
+  readonly value: T
 }
 
-class SuccessResultType<T> implements IResultType {
+interface IErrorResult<_T, E extends Error> {
+  readonly type: 'ErrorResult'
+  readonly error: E
+}
+
+interface IResult<T, _E extends Error> {
+  isSuccess(): this is ISuccessResult<T, _E>
+  isError(): this is IErrorResult<T, _E>
+}
+
+
+abstract class ResultBase<T, E extends Error> {
+  static ok<T, E extends Error = never>(payload: T): Result<T, E> {
+    return new SuccessResult<T, E>(payload)
+  }
+
+  static error<T, E extends Error>(error: E): Result<T, E> {
+    return new ErrorResult<T, E>(error)
+  }
+
+  protected abstract readonly type: 'SuccessResult' | 'ErrorResult'
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  protected constructor() {}
+
+  isSuccess(): this is ISuccessResult<T, E> {
+    return this.type === 'SuccessResult'
+  }
+
+  isError(): this is IErrorResult<T, E> {
+    return this.type === 'ErrorResult'
+  }
+}
+
+class SuccessResult<T, E extends Error> extends ResultBase<T, E> implements IResult<T, E>, ISuccessResult<T, E> {
   constructor(
-    public readonly payload: T
-  ) {}
+    private readonly payload: T,
+  ) {
+    super()
+  }
+
+  readonly type = 'SuccessResult'
+
+  get value(): T {
+    return this.payload
+  }
 }
 
-class FailureResultType implements IResultType {
+class ErrorResult<T, E extends Error> extends ResultBase<T, E> implements IResult<T, E>, IErrorResult<T, E> {
   constructor(
-    public readonly payload: Error
-  ) {}
+    private readonly payload: E,
+  ) {
+    super()
+  }
+
+  readonly type = 'ErrorResult'
+
+  get error(): E {
+    return this.payload
+  }
 }
 
-export interface IResult {
-  get isSuccess(): boolean
-  get isError(): boolean
+export type Result<T, E extends Error = never> = IResult<T, E> & (ISuccessResult<T, E> | IErrorResult<T, E>)
 
-  get success(): unknown
-  get error(): Error
-}
-
-export class Result<T> implements IResult {
-  private constructor(
-    private readonly payload: IResultType,
-  ) {}
-
-  static from<T>(error: Error): Result<T>
-  static from<T>(data: T): Result<T>
-  static from<T>(payload: T | Error): Result<T> {
-    return new Result(payload instanceof Error
-      ? new FailureResultType(payload)
-      : new SuccessResultType(payload)
-    )
-  }
-
-  get isSuccess(): boolean {
-    return this.payload instanceof SuccessResultType
-  }
-
-  get isError(): boolean {
-    return this.payload instanceof FailureResultType
-  }
-
-  get success(): T {
-    if (this.isError) {
-      throw new Error('this result is not a success')
-    }
-
-    return this.payload.payload as T
-  }
-
-  get error(): Error {
-    if (this.isSuccess) {
-      throw new Error('this result is not an error')
-    }
-
-    return this.payload.payload as Error
-  }
+export const Result = {
+  ok: ResultBase['ok'],
+  error: ResultBase['error'],
 }

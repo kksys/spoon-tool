@@ -1,45 +1,34 @@
-import { inject, injectable } from 'inversify'
+import { injectable } from 'inversify'
 import { catchError, from, lastValueFrom, map, Observable, of, switchMap } from 'rxjs'
 import { fromFetch } from 'rxjs/fetch'
 
-import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
-import { IHttpHandler, IHttpInterceptor } from '#/cross-cutting/interfaces/interceptors/IHttpInterceptors'
-import { IHttpClientService } from '#/cross-cutting/interfaces/services/IHttpClientService'
+import { IHttpClient } from '#/cross-cutting/interfaces/http-client/IHttpClient'
+import { IHttpHandler, IHttpInterceptor } from '#/cross-cutting/interfaces/http-client/IHttpInterceptors'
 import { Result } from '#/cross-cutting/utils/Result'
 
 @injectable()
-export class HttpClientService implements IHttpClientService {
+export class HttpClient implements IHttpClient {
   constructor(
-    @inject(crossCuttingTypes.HttpInterceptors) private readonly interceptors: IHttpInterceptor[],
+    private readonly interceptors: IHttpInterceptor[],
   ) {}
 
   private getHttpStream<ResponseBody>(request: Request): Observable<Result<ResponseBody>> {
-    const initHandler = {
-      handle(request: Request) {
-        return fromFetch(request)
-      }
+    const handler = {
+      handle: (req: Request) => fromFetch(req)
     } satisfies IHttpHandler
 
-    const handler = this.interceptors.reduceRight((acc, interceptor) => {
-      const newHandler = {
-        handle(req: Request) {
-          return interceptor.intercept(req, acc)
-        }
-      } satisfies IHttpHandler
-      return newHandler
-    }, initHandler)
+    const handlerChain = this.interceptors.reduceRight((acc, interceptor) => ({
+      handle: (req: Request) => interceptor.intercept(req, acc)
+    } satisfies IHttpHandler), handler)
 
-    return of(undefined)
+    return handlerChain.handle(request)
       .pipe(
-        switchMap(() => handler.handle(request)),
-        switchMap(response => {
-          if (response.ok) {
-            return from(response.json())
+        switchMap(response =>
+          response.ok
+            ? from(response.json())
               .pipe(map(body => Result.from<ResponseBody>(body)))
-          }
-
-          return of(Result.from<ResponseBody>(new Error(response.statusText)))
-        }),
+            : of(Result.from<ResponseBody>(new Error(response.statusText)))
+        ),
         catchError(error => of(Result.from<ResponseBody>(error))),
       )
   }

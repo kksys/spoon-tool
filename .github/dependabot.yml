@@ -10,6 +10,6 @@ updates:
     schedule:
       interval: weekly
       day: sunday
-      time: 02:00
+      time: "02:00"
       timezone: Asia/Tokyo
     open-pull-requests-limit: 10

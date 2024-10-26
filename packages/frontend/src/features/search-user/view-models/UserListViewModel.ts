@@ -3,6 +3,7 @@ import { BehaviorSubject, firstValueFrom, last, Observable } from 'rxjs'
 
 import { Invoker } from '#/cross-cutting/commands/Invoker'
 import { autoBusyAsync } from '#/cross-cutting/decorators/autoBusy'
+import { Result } from '#/cross-cutting/utils/Result'
 import { ViewModelBase } from '#/cross-cutting/view-models/ViewModelBase'
 import { EndpointTypes } from '#/search-user/api/EndpointTypes'
 import { FetchUserDetailCommand } from '#/search-user/commands/FetchUserDetailCommand'
@@ -13,14 +14,21 @@ import { IUserListViewModel } from '#/search-user/interfaces/view-models/IUserLi
 import type { IUserPaginatorViewModel } from '#/search-user/interfaces/view-models/IUserPaginatorViewModel'
 import { IUserViewModel, IUserViewModelProps } from '#/search-user/interfaces/view-models/IUserViewModel'
 
+import type { IApiClient } from '../interfaces/api/IApiClient'
+
 @injectable()
 export class UserListViewModel extends ViewModelBase implements IUserListViewModel, ISearchUserReceiver {
   private _keywordSubject = new BehaviorSubject('')
   private _usersSubject = new BehaviorSubject<IUserViewModel[]>([])
   private _invoker = new Invoker()
 
-  @inject(searchUserTypes.UserPaginatorViewModel) public readonly paginator!: IUserPaginatorViewModel
-  @inject(searchUserTypes.UserViewModelFactory)   private readonly userFactory!: interfaces.SimpleFactory<IUserViewModel, [IUserViewModelProps]>
+  constructor(
+    @inject(searchUserTypes.ApiClient)              private readonly apiClient: IApiClient,
+    @inject(searchUserTypes.UserPaginatorViewModel) public readonly paginator: IUserPaginatorViewModel,
+    @inject(searchUserTypes.UserViewModelFactory)   private readonly userFactory: interfaces.SimpleFactory<IUserViewModel, [IUserViewModelProps]>
+  ) {
+    super()
+  }
 
   readonly keyword$: Observable<string> = this._keywordSubject.asObservable()
 
@@ -44,11 +52,15 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
 
   @autoBusyAsync()
   async fetchUserList(): Promise<void> {
-    const searchUserCommand = new SearchUserCommand(this, {
-      keyword: this._keywordSubject.value,
-      cursor: undefined,
-      page_size: this.paginator.itemsPerPage,
-    } as const)
+    const searchUserCommand = new SearchUserCommand(
+      this,
+      this.apiClient,
+      {
+        keyword: this._keywordSubject.value,
+        cursor: undefined,
+        page_size: this.paginator.itemsPerPage,
+      } as const
+    )
 
     await this._invoker.execute(searchUserCommand)
   }
@@ -58,11 +70,15 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
     const cursors = await firstValueFrom(this.paginator.cursors$.pipe(last()))
     const url = new URL(cursors.previous)
 
-    const searchUserCommand = new SearchUserCommand(this, {
-      keyword: url.searchParams.get('keyword') || '',
-      page_size: undefined,
-      cursor: url.searchParams.get('cursor') || '',
-    } as const)
+    const searchUserCommand = new SearchUserCommand(
+      this,
+      this.apiClient,
+      {
+        keyword: url.searchParams.get('keyword') || '',
+        page_size: undefined,
+        cursor: url.searchParams.get('cursor') || '',
+      } as const
+    )
 
     await this._invoker.execute(searchUserCommand)
   }
@@ -72,20 +88,28 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
     const cursors = await firstValueFrom(this.paginator.cursors$)
     const url = new URL(cursors.next)
 
-    const searchUserCommand = new SearchUserCommand(this, {
-      keyword: url.searchParams.get('keyword') || '',
-      page_size: undefined,
-      cursor: url.searchParams.get('cursor') || '',
-    } as const)
+    const searchUserCommand = new SearchUserCommand(
+      this,
+      this.apiClient,
+      {
+        keyword: url.searchParams.get('keyword') || '',
+        page_size: undefined,
+        cursor: url.searchParams.get('cursor') || '',
+      } as const
+    )
 
     await this._invoker.execute(searchUserCommand)
   }
 
   @autoBusyAsync()
   async fetchUserDetail(userId: number): Promise<void> {
-    const fetchUserDetailCommand = new FetchUserDetailCommand(this, {
-      user_id: userId
-    })
+    const fetchUserDetailCommand = new FetchUserDetailCommand(
+      this,
+      this.apiClient,
+      {
+        user_id: userId
+      }
+    )
 
     await this._invoker.execute(fetchUserDetailCommand)
   }
@@ -102,7 +126,12 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
   }
 
   @autoBusyAsync()
-  async receivedSearchUserResult({ next, previous, results }: EndpointTypes['spoonApi']['fetchUsers']['response']): Promise<void> {
+  async receivedSearchUserResult(result: Result<EndpointTypes['spoonApi']['fetchUsers']['response']>): Promise<void> {
+    if (result.isError()) {
+      return
+    }
+
+    const { next, previous, results } = result.value
     const currentUsers = this._usersSubject.getValue()
     const targetIndex = currentUsers.length
 
@@ -175,14 +204,19 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
   }
 
   @autoBusyAsync()
-  async receivedFetchUserDetailResult({ results }: EndpointTypes['spoonApi']['getProfile']['response']): Promise<void> {
+  async receivedFetchUserDetailResult(result: Result<EndpointTypes['spoonApi']['getProfile']['response']>): Promise<void> {
+    if (result.isError()) {
+      return
+    }
+
+    const { results } = result.value
     const currentUsers = this._usersSubject.getValue()
     const targetUser = currentUsers.find(user => user.properties.id === results[0].id)
-    const result = results[0]
+    const user = results[0]
 
-    if (result) {
+    if (user) {
       targetUser?.setDetail({
-        joinedDate: new Date(result.date_joined),
+        joinedDate: new Date(user.date_joined),
       })
     }
 

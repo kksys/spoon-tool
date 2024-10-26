@@ -65,7 +65,7 @@ class ErrorResult<T, E extends Error> extends ResultBase<T, E> implements IResul
   }
 }
 
-export type Result<T, E extends Error = never> = IResult<T, E> & (ISuccessResult<T, E> | IErrorResult<T, E>)
+export type Result<T, E extends Error = Error> = IResult<T, E> & (ISuccessResult<T, E> | IErrorResult<T, E>)
 
 export const Result = {
   ok: ResultBase['ok'],

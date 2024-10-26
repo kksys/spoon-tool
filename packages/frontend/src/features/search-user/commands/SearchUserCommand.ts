@@ -2,7 +2,7 @@ import { CommandBase } from '#/cross-cutting/commands/CommandBase'
 import { ICommand } from '#/cross-cutting/interfaces/commands/ICommand'
 import { ISearchUserReceiver } from '#/search-user/interfaces/receivers/ISearchUserReceiver'
 
-import { apiClient } from '../api/ApiClient'
+import { IApiClient } from '../interfaces/api/IApiClient'
 
 export interface ISearchUserCommandParamsWithCursor {
   keyword: string
@@ -21,6 +21,7 @@ export type SearchUserCommandParams = ISearchUserCommandParamsWithKeyword | ISea
 export class SearchUserCommand extends CommandBase<ISearchUserReceiver> implements ICommand {
   constructor(
     protected readonly receiver: ISearchUserReceiver,
+    private readonly apiClient: IApiClient,
     private readonly params: SearchUserCommandParams,
   ) {
     super(receiver)
@@ -38,7 +39,7 @@ export class SearchUserCommand extends CommandBase<ISearchUserReceiver> implemen
         page_size: this.params.page_size,
         cursor: undefined,
       }
-    const result = await apiClient.spoonApi.fetchUsers(params)
+    const result = await this.apiClient.spoonApi.fetchUsers(params)
 
     await this.receiver.receivedSearchUserResult(result)
   }

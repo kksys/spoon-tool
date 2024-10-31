@@ -5,7 +5,7 @@ import { Invoker } from '#/cross-cutting/commands/Invoker'
 import { autoBusyAsync } from '#/cross-cutting/decorators/autoBusy'
 import { Result } from '#/cross-cutting/utils/Result'
 import { ViewModelBase } from '#/cross-cutting/view-models/ViewModelBase'
-import { EndpointTypes } from '#/search-user/api/EndpointTypes'
+import { EndpointTypes, UserEntry } from '#/search-user/api/EndpointTypes'
 import { FetchUserDetailCommand } from '#/search-user/commands/FetchUserDetailCommand'
 import { SearchUserCommand } from '#/search-user/commands/SearchUserCommand'
 import { searchUserTypes } from '#/search-user/di/searchUserTypes'
@@ -125,6 +125,36 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
       .find(user => user.properties.id === userId)
   }
 
+  private mapUserToUserViewModelProps(user: UserEntry): IUserViewModelProps {
+    const convertHttpToHttps = (url: string) =>
+      (url.startsWith('http:') && window.location.protocol === 'https:')
+        // http resource is referenced by https resource
+        // but it is not secure, so it will be fallback to https automatically
+        ? url.replace(/^http:/gi, 'https:')
+        : url
+
+    const property: IUserViewModelProps = {
+      id: user.id,
+      tag: user.tag,
+      profileIcon: convertHttpToHttps(user.profile_url),
+      nickname: user.nickname,
+      numberOfFollowers: user.follower_count,
+      numberOfFollowing: user.following_count,
+      badges: [],
+    }
+
+    if (user.tier_name) {
+      property.badges.push(user.tier_name)
+    }
+
+    const badge_style_ids = user.badge_style_ids.filter(id => id === 'voice' || id === 'firework_ring')
+    if (badge_style_ids.length > 0) {
+      property.badges.push(...badge_style_ids)
+    }
+
+    return property
+  }
+
   @autoBusyAsync()
   async receivedSearchUserResult(result: Result<EndpointTypes['spoonApi']['fetchUsers']['response']>): Promise<void> {
     if (result.isError()) {
@@ -135,69 +165,21 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
     const currentUsers = this._usersSubject.getValue()
     const targetIndex = currentUsers.length
 
-    const convertHttpToHttps = (url: string) =>
-      (url.startsWith('http:') && window.location.protocol === 'https:')
-        // http resource is referenced by https resource
-        // but it is not secure, so it will be fallback to https automatically
-        ? url.replace(/^http:/gi, 'https:')
-        : url
-
-    const indexies = results.filter(user1 => currentUsers.some(user2 => user2.properties.id === user1.id))
+    // update existing user
+    const ids = results.filter(user1 => currentUsers.some(user2 => user2.properties.id === user1.id))
       .map(user => user.id)
-      .map(id => currentUsers.findIndex(user => user.properties.id === id))
 
-    for (const index of indexies) {
-      const userEntity = currentUsers[index]
-      const sourceUser = results.find(user => user.id === index)
+    results.filter(entry => entry.id in ids)
+      .forEach((sourceUser) => {
+        const userEntity = currentUsers.find(user => user.properties.id === sourceUser.id)
+        userEntity?.setProperties(this.mapUserToUserViewModelProps(sourceUser))
+      })
 
-      if (!sourceUser) {
-        continue
-      }
-
-      const property: IUserViewModelProps = {
-        id: sourceUser.id,
-        tag: sourceUser.tag,
-        profileIcon: convertHttpToHttps(sourceUser.profile_url),
-        nickname: sourceUser.nickname,
-        numberOfFollowers: sourceUser.follower_count,
-        numberOfFollowing: sourceUser.following_count,
-        badges: [],
-      }
-
-      if (sourceUser.tier_name) {
-        property.badges.push(sourceUser.tier_name)
-      }
-
-      const badge_style_ids = sourceUser.badge_style_ids.filter(id => id === 'voice' || id === 'firework_ring')
-      if (badge_style_ids.length > 0) {
-        property.badges.push(...badge_style_ids)
-      }
-
-      userEntity.setProperties(property)
-    }
-
-    currentUsers.splice(targetIndex, 0, ...results.map((userEntity) => {
-      const property: IUserViewModelProps = {
-        id: userEntity.id,
-        tag: userEntity.tag,
-        profileIcon: convertHttpToHttps(userEntity.profile_url),
-        nickname: userEntity.nickname,
-        numberOfFollowers: userEntity.follower_count,
-        numberOfFollowing: userEntity.following_count,
-        badges: [],
-      }
-
-      if (userEntity.tier_name) {
-        property.badges.push(userEntity.tier_name)
-      }
-
-      const badge_style_ids = userEntity.badge_style_ids.filter(id => id === 'voice' || id === 'firework_ring')
-      if (badge_style_ids.length > 0) {
-        property.badges.push(...badge_style_ids)
-      }
-
-      return this.userFactory(property)
-    }))
+    // create new user
+    currentUsers.splice(targetIndex, 0, ...results.filter(entry => !(entry.id in ids))
+      .map((userEntity) => {
+        return this.userFactory(this.mapUserToUserViewModelProps(userEntity))
+      }))
 
     this.paginator.updateCursors({ previous, next })
     this._usersSubject.next(currentUsers)

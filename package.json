@@ -13,13 +13,9 @@
   },
   "license": "MIT",
   "engines": {
-    "pnpm": "9.8.0",
+    "pnpm": "9.12.3",
     "npm": "please_use_pnpm_instead",
     "node": "20.18.0"
   },
-  "packageManager": "pnpm@9.8.0",
-  "devDependencies": {
-    "eslint": "^9.13.0",
-    "jiti": "^2.3.3"
-  }
+  "packageManager": "pnpm@9.12.3"
 }

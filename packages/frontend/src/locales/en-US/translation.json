@@ -72,6 +72,11 @@
   "top": {
     "title": "Top"
   },
+  "search-user": {
+    "search-box": {
+      "placeholder": "Target user name"
+    }
+  },
   "numberOfFollowers": {
     "format": "{{followers}} Followers"
   },

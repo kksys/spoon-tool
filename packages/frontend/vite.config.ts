@@ -1,6 +1,19 @@
 import react from '@vitejs/plugin-react-swc'
-import { defineConfig } from 'vite'
+import { defineConfig, Plugin } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
+
+function htmlShrinkPlugin(): Plugin {
+  return {
+    name: 'html-transform',
+    transformIndexHtml(html) {
+      return html
+        .replace(/<!-- .+ -->/g, '')
+        .split('\n')
+        .map((line) => line.trim())
+        .join('')
+    },
+  }
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,6 +22,7 @@ export default defineConfig({
     react({
       tsDecorators: true,
     }),
+    htmlShrinkPlugin(),
   ],
   esbuild: {
     target: 'es2020',

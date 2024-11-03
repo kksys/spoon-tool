@@ -3,7 +3,7 @@ import { initReactI18next } from 'react-i18next'
 
 import { configurationTypes } from './features/configuration/di/configurationTypes'
 import { IConfigurationRepository } from './features/cross-cutting/interfaces/repositories/IConfigurationRepository'
-import { languages, resources } from './i18n.resources'
+import { defaultNS, languages, resources } from './i18n.resources'
 import { diContainer } from './inversify.config'
 
 async function main() {
@@ -12,6 +12,7 @@ async function main() {
   await i18next
     .use(initReactI18next)
     .init({
+      defaultNS,
       resources,
       lng: configurationRepository.getCalculatedLanguage(),
       fallbackLng: languages,

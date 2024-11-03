@@ -87,7 +87,7 @@ export const SearchUserHeader: FC = memo(() => {
             align="start"
             className={ styles.pageTitle }
           >
-            { t('top.title') }
+            { t('title.top', { ns: 'common' }) }
           </Title3>
         </Flex>
 
@@ -105,7 +105,7 @@ export const SearchUserHeader: FC = memo(() => {
           <SearchBox
             type="text"
             className={ styles.searchBox }
-            placeholder={ t('search-user.search-box.placeholder') }
+            placeholder={ t('search-user.search-box.placeholder', { ns: 'search-user' }) }
             disabled={ isBusy }
             value={ keyword }
             onChange={ handleKeywordChange }
@@ -119,7 +119,7 @@ export const SearchUserHeader: FC = memo(() => {
             onClick={ handleSearchButton }
             icon={ isBusy ? <Spinner size="tiny" /> : undefined }
           >
-            {isBusy ? t('common.loading') : t('common.search')}
+            {isBusy ? t('common.loading', { ns: 'common' }) : t('common.search', { ns: 'common' })}
           </Button>
           <Button
             className={ styles.clearButton }

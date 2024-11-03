@@ -1,0 +1,20 @@
+{
+  "app": {
+    "name": "App Name",
+    "version": "Version",
+    "dev-mode": "Developer Mode",
+    "author": "Author"
+  },
+  "license": {
+    "repository": "Repository:",
+    "publisher": "Publisher:",
+    "license-type": "License:"
+  },
+  "repository": {
+    "description": {
+      "maintainancedByGithub": "This application is maintenanced by GitHub respository. ",
+      "pleaseDownloadFromGithub": "You can download this sourcecode from below link. ",
+      "link": "Link: "
+    }
+  }
+}

@@ -42,16 +42,16 @@ export const ResetWarningDialog: FC<IResetWarningDialogProps> = memo(({ open, on
     >
       <DialogBody>
         <DialogTitle>
-          { t('reset-configuration.warning-dialog.title') }
+          { t('reset-configuration.warning-dialog.title', { ns: 'configuration' }) }
         </DialogTitle>
         <DialogContent>
           <p>
-            { t('reset-configuration.warning-dialog.body') }
+            { t('reset-configuration.warning-dialog.body', { ns: 'configuration' }) }
           </p>
           <Checkbox
             checked={ checked }
             onChange={ handleChange }
-            label={ t('reset-configuration.warning-dialog.checkbox') }
+            label={ t('reset-configuration.warning-dialog.checkbox', { ns: 'configuration' }) }
           />
         </DialogContent>
         <DialogActions>
@@ -60,7 +60,7 @@ export const ResetWarningDialog: FC<IResetWarningDialogProps> = memo(({ open, on
               appearance="secondary"
               aria-label="cancel"
             >
-              { t('common.cancel') }
+              { t('common.cancel', { ns: 'common' }) }
             </Button>
           </DialogTrigger>
           <DialogTrigger action="close">
@@ -73,7 +73,7 @@ export const ResetWarningDialog: FC<IResetWarningDialogProps> = memo(({ open, on
               disabled={ !checked }
               onClick={ handleClickYes }
             >
-              { t('common.continue') }
+              { t('common.continue', { ns: 'common' }) }
             </Button>
           </DialogTrigger>
         </DialogActions>

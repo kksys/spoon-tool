@@ -1,13 +1,11 @@
 {
-  "app": {
-    "title": "Spoon Tool",
-    "name": "名称",
-    "version": "バージョン",
-    "dev-mode": "開発者モード",
-    "author": "作者"
-  },
-  "about": {
-    "title": "アプリ情報"
+  "title": {
+    "app": "Spoon Tool",
+    "about": "アプリ情報",
+    "license": "ライセンス",
+    "repository": "リポジトリ",
+    "configuration": "設定",
+    "top": "トップ"
   },
   "common": {
     "enabled": "有効",
@@ -19,39 +17,7 @@
     "search": "検索",
     "clear": "クリア"
   },
-  "license": {
-    "repository": "リポジトリ:",
-    "publisher": "発行元:",
-    "license-type": "ライセンス:",
-    "title": "ライセンス"
-  },
   "configuration": {
-    "title": "設定",
     "resetting": "設定をリセットしています..."
-  },
-  "repository": {
-    "title": "リポジトリ",
-    "description": {
-      "maintainancedByGithub": "このアプリケーションはGitHubリポジトリで管理されています。",
-      "pleaseDownloadFromGithub": "以下のリンクからソースコードをダウンロードできます。",
-      "link": "リンク: "
-    }
-  },
-  "top": {
-    "title": "トップ"
-  },
-  "search-user": {
-    "search-box": {
-      "placeholder": "ユーザー名"
-    }
-  },
-  "numberOfFollowers": {
-    "format": "{{followers}} FANs"
-  },
-  "numberOfFollowing": {
-    "format": "{{following}} MY"
-  },
-  "joinedDateTime": {
-    "format": "ユーザー作成日時: {{datetime}}"
   }
 }

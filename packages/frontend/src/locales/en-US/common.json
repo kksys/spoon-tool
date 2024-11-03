@@ -1,13 +1,11 @@
 {
-  "app": {
-    "title": "Spoon Tool",
-    "name": "App Name",
-    "version": "Version",
-    "dev-mode": "Developer Mode",
-    "author": "Author"
-  },
-  "about": {
-    "title": "About"
+  "title": {
+    "app": "Spoon Tool",
+    "about": "About",
+    "license": "License",
+    "repository": "Repository",
+    "configuration": "Configuration",
+    "top": "Top"
   },
   "common": {
     "enabled": "Enabled",
@@ -19,39 +17,7 @@
     "search": "Search",
     "clear": "Clear"
   },
-  "license": {
-    "repository": "Repository:",
-    "publisher": "Publisher:",
-    "license-type": "License:",
-    "title": "License"
-  },
   "configuration": {
-    "title": "Configuration",
     "resetting": "Resetting Configurations..."
-  },
-  "repository": {
-    "title": "Repository",
-    "description": {
-      "maintainancedByGithub": "This application is maintenanced by GitHub respository. ",
-      "pleaseDownloadFromGithub": "You can download this sourcecode from below link. ",
-      "link": "Link: "
-    }
-  },
-  "top": {
-    "title": "Top"
-  },
-  "search-user": {
-    "search-box": {
-      "placeholder": "Target user name"
-    }
-  },
-  "numberOfFollowers": {
-    "format": "{{followers}} Followers"
-  },
-  "numberOfFollowing": {
-    "format": "{{following}} Following"
-  },
-  "joinedDateTime": {
-    "format": "Joined Date and Time: {{datetime}}"
   }
 }

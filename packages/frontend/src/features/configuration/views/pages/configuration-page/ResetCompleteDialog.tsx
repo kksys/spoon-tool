@@ -22,11 +22,11 @@ export const ResetCompleteDialog: FC<IResetCompleteDialogProps> = memo(({ open, 
     >
       <DialogBody>
         <DialogTitle>
-          { t('reset-configuration.complete-dialog.title') }
+          { t('reset-configuration.complete-dialog.title', { ns: 'configuration' }) }
         </DialogTitle>
         <DialogContent>
           <p>
-            { t('reset-configuration.complete-dialog.body') }
+            { t('reset-configuration.complete-dialog.body', { ns: 'configuration' }) }
           </p>
         </DialogContent>
         <DialogActions>
@@ -36,7 +36,7 @@ export const ResetCompleteDialog: FC<IResetCompleteDialogProps> = memo(({ open, 
               aria-label="close"
               onClick={ handleClickClose }
             >
-              { t('common.close') }
+              { t('common.close', { ns: 'common' }) }
             </Button>
           </DialogTrigger>
         </DialogActions>

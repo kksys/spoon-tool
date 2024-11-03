@@ -1,0 +1,16 @@
+{
+  "search-user": {
+    "search-box": {
+      "placeholder": "ユーザー名"
+    }
+  },
+  "numberOfFollowers": {
+    "format": "{{followers}} FANs"
+  },
+  "numberOfFollowing": {
+    "format": "{{following}} MY"
+  },
+  "joinedDateTime": {
+    "format": "ユーザー作成日時: {{datetime}}"
+  }
+}

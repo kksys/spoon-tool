@@ -61,14 +61,12 @@ const LicenseView: FC<ILicenseViewProps> = memo(({ license }) => {
     <div key={ `${license.name}@${license.version}` }>
       <div className={ styles.licenseTitle }>
         <Subtitle1>
-          {license.name}
-          @
-          {license.version}
+          { `${license.name}@${license.version}` }
         </Subtitle1>
 
         <Flex className={ styles.licenseTitleRow }>
           <span className={ styles.licenseTitleRowHeader }>
-            {t('license.repository')}
+            { t('license.repository', { ns: 'about' }) }
           </span>
           <span className={ styles.licenseTitleRowValue }>
             <Link
@@ -84,20 +82,20 @@ const LicenseView: FC<ILicenseViewProps> = memo(({ license }) => {
         {license.publisher && (
           <Flex className={ styles.licenseTitleRow }>
             <span className={ styles.licenseTitleRowHeader }>
-              {t('license.publisher')}
+              { t('license.publisher', { ns: 'about' }) }
             </span>
             <span className={ styles.licenseTitleRowValue }>
-              {license.publisher}
+              { license.publisher }
             </span>
           </Flex>
         )}
 
         <Flex className={ styles.licenseTitleRow }>
           <span className={ styles.licenseTitleRowHeader }>
-            {t('license.license-type')}
+            { t('license.license-type', { ns: 'about' }) }
           </span>
           <span className={ styles.licenseTitleRowValue }>
-            {license.licenses}
+            { license.licenses }
           </span>
         </Flex>
       </div>
@@ -122,7 +120,7 @@ export const LicensePage: FC = memo(() => {
           align="start"
           className={ styles.pageTitle }
         >
-          {t('license.title')}
+          { t('title.license', { ns: 'common' }) }
         </Title3>
       </StPageHeader>
 
@@ -131,7 +129,7 @@ export const LicensePage: FC = memo(() => {
           <Fragment key={ index }>
             <LicenseView license={ license } />
 
-            {index < Licenses.length - 1 && <Divider />}
+            { index < Licenses.length - 1 && <Divider /> }
           </Fragment>
         ))}
       </div>

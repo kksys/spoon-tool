@@ -72,6 +72,11 @@
   "top": {
     "title": "トップ"
   },
+  "search-user": {
+    "search-box": {
+      "placeholder": "ユーザー名"
+    }
+  },
   "numberOfFollowers": {
     "format": "{{followers}} FANs"
   },

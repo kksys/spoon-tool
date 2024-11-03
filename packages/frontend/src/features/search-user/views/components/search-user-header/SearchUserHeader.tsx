@@ -105,6 +105,7 @@ export const SearchUserHeader: FC = memo(() => {
           <SearchBox
             type="text"
             className={ styles.searchBox }
+            placeholder={ t('search-user.search-box.placeholder') }
             disabled={ isBusy }
             value={ keyword }
             onChange={ handleKeywordChange }

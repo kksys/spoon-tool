@@ -1,16 +1,31 @@
 import react from '@vitejs/plugin-react-swc'
+import sanitizeHtml from 'sanitize-html'
 import { defineConfig, Plugin } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 function htmlShrinkPlugin(): Plugin {
+  const removeNewLinesAndSpaces = (html: string): string =>
+    html.split('\n')
+      .map((line) => line.trim())
+      .join('')
+
   return {
     name: 'html-transform',
     transformIndexHtml(html) {
-      return html
-        .replace(/<!-- .+ -->/g, '')
-        .split('\n')
-        .map((line) => line.trim())
-        .join('')
+      let result: string = html
+
+      // remove all comments
+      result = sanitizeHtml(html, {
+        allowedTags: false, // Remove all tags
+        allowedAttributes: false, // Remove all attributes
+        allowVulnerableTags: true, // Allow script tags
+        exclusiveFilter: (frame) => frame.tag === '!--' // Remove comments
+      })
+
+      // remove all newlines and spaces
+      result = removeNewLinesAndSpaces(result)
+
+      return result
     },
   }
 }

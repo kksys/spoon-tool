@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 
 export const ThemeSelector: FC<IThemeSelectorProps> = memo(({ id, themes, theme, onChange }) => {
   const styles = useStyles()
-  const { t } = useTranslation('translation')
+  const { t } = useTranslation()
 
   const onChangeLanguage = useCallback<NonNullable<DropdownProps['onOptionSelect']>>((event, data) => {
     const isLanguage = (value: string | undefined): value is IConfiguration['theme'] => {
@@ -47,7 +47,7 @@ export const ThemeSelector: FC<IThemeSelectorProps> = memo(({ id, themes, theme,
     <Dropdown
       id={ id }
       className={ styles.combobox }
-      value={ t(`theme.values.${theme}`) }
+      value={ t(`theme.values.${theme}`, { ns: 'configuration' }) }
       selectedOptions={ [theme] }
       onOptionSelect={ onChangeLanguage }
     >
@@ -63,11 +63,11 @@ export const ThemeSelector: FC<IThemeSelectorProps> = memo(({ id, themes, theme,
               /**
                * hint for i18n-extract
                *
-               * t('theme.values.light')
-               * t('theme.values.dark')
-               * t('theme.values.system')
+               * t('theme.values.light', { ns: 'configuration' })
+               * t('theme.values.dark', { ns: 'configuration' })
+               * t('theme.values.system', { ns: 'configuration' })
                */
-                t(message)
+                t(message, { ns: 'configuration' })
               }
             </Option>
           )

@@ -32,7 +32,7 @@ export const StSpinnerScreen: FC = memo(() => {
         <div className={ styles.surface }>
           <Spinner
             labelPosition="below"
-            label={ t('configuration.resetting') }
+            label={ t('configuration.resetting', { ns: 'common' }) }
           />
         </div>
       </div>

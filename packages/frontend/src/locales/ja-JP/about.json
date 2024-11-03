@@ -1,0 +1,20 @@
+{
+  "app": {
+    "name": "名称",
+    "version": "バージョン",
+    "dev-mode": "開発者モード",
+    "author": "作者"
+  },
+  "license": {
+    "repository": "リポジトリ:",
+    "publisher": "発行元:",
+    "license-type": "ライセンス:"
+  },
+  "repository": {
+    "description": {
+      "maintainancedByGithub": "このアプリケーションはGitHubリポジトリで管理されています。",
+      "pleaseDownloadFromGithub": "以下のリンクからソースコードをダウンロードできます。",
+      "link": "リンク: "
+    }
+  }
+}

@@ -182,7 +182,7 @@ function useUpdatingLanguageOnOutOfReactWorld() {
 
   useEffect(() => {
     const handleLanguageChanged = async (language: typeof i18n.language) => {
-      document.title = t('app.title')
+      document.title = t('title.app', { ns: 'common' })
       const html = document.querySelector('html')
       html?.setAttribute('lang', language)
       html?.setAttribute('translate', 'no')

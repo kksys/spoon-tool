@@ -95,7 +95,7 @@ export const ConfigurationPage: FC = memo(() => {
           align="start"
           className={ styles.pageTitle }
         >
-          { t('configuration.title') }
+          { t('title.configuration', { ns: 'common' }) }
         </Title3>
       </StPageHeader>
 
@@ -104,10 +104,10 @@ export const ConfigurationPage: FC = memo(() => {
           label={ (
             <InfoLabel
               infoButton={ <Info16Regular /> }
-              info={ t('lang-selector.info') }
+              info={ t('lang-selector.info', { ns: 'configuration' }) }
               htmlFor={ langId }
             >
-              { t('lang-selector.title') }
+              { t('lang-selector.title', { ns: 'configuration' }) }
             </InfoLabel>
           ) }
           validationState="none"
@@ -123,10 +123,10 @@ export const ConfigurationPage: FC = memo(() => {
           label={ (
             <InfoLabel
               infoButton={ <Info16Regular /> }
-              info={ t('theme.info') }
+              info={ t('theme.info', { ns: 'configuration' }) }
               htmlFor={ langId }
             >
-              { t('theme.title') }
+              { t('theme.title', { ns: 'configuration' }) }
             </InfoLabel>
           ) }
           validationState="none"
@@ -142,9 +142,9 @@ export const ConfigurationPage: FC = memo(() => {
           label={ (
             <InfoLabel
               infoButton={ <Info16Regular /> }
-              info={ t('reset-configuration.info') }
+              info={ t('reset-configuration.info', { ns: 'configuration' }) }
             >
-              { t('reset-configuration.title') }
+              { t('reset-configuration.title', { ns: 'configuration' }) }
             </InfoLabel>
           ) }
           validationState="none"
@@ -157,7 +157,7 @@ export const ConfigurationPage: FC = memo(() => {
             } }
             disabled={ disableReset }
           >
-            { t('reset-configuration.label') }
+            { t('reset-configuration.label', { ns: 'configuration' }) }
           </Button>
         </StField>
 
@@ -171,7 +171,7 @@ export const ConfigurationPage: FC = memo(() => {
             disabled={ unchanged }
             style={ device === 'mobile' ? ({ width: '100%' }) : undefined }
           >
-            { t('common.save') }
+            { t('common.save', { ns: 'common' }) }
           </Button>
           <Button
             appearance="secondary"
@@ -179,7 +179,7 @@ export const ConfigurationPage: FC = memo(() => {
             disabled={ unchanged }
             style={ device === 'mobile' ? ({ width: '100%' }) : undefined }
           >
-            { t('common.cancel') }
+            { t('common.cancel', { ns: 'common' }) }
           </Button>
         </Flex>
       </div>

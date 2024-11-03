@@ -10,7 +10,7 @@
     "dev": "pnpm prebuild && vite",
     "build": "pnpm prebuild && tsc -b && vite build",
     "circular": "depcruise src",
-    "lint": "tsc --noEmit && eslint . --flag unstable_ts_config",
+    "lint": "tsc -b --noEmit && eslint . --flag unstable_ts_config",
     "lint:fix": "eslint --fix . --flag unstable_ts_config",
     "format": "prettier ./**/*.{ts,tsx,cjs,html}",
     "format:fix": "prettier --write ./**/*.{ts,tsx,cjs,html}",

@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 
 export const LangSelector: FC<ILangSelectorProps> = memo(({ id, languages, language, onChange }) => {
   const styles = useStyles()
-  const { t } = useTranslation('translation')
+  const { t } = useTranslation()
 
   const onChangeLanguage = useCallback<NonNullable<DropdownProps['onOptionSelect']>>((event, data) => {
     const isLanguage = (value: string | undefined): value is IConfiguration['language'] => {
@@ -47,7 +47,7 @@ export const LangSelector: FC<ILangSelectorProps> = memo(({ id, languages, langu
     <Dropdown
       id={ id }
       className={ styles.combobox }
-      value={ t(`lang-selector.values.${language}`) }
+      value={ t(`lang-selector.values.${language}`, { ns: 'configuration' }) }
       selectedOptions={ [language] }
       onOptionSelect={ onChangeLanguage }
     >
@@ -63,11 +63,11 @@ export const LangSelector: FC<ILangSelectorProps> = memo(({ id, languages, langu
               /**
                * hint for i18n-extract
                *
-               * t('lang-selector.values.en-US')
-               * t('lang-selector.values.ja-JP')
-               * t('lang-selector.values.system')
+               * t('lang-selector.values.en-US', { ns: 'configuration' })
+               * t('lang-selector.values.ja-JP', { ns: 'configuration' })
+               * t('lang-selector.values.system', { ns: 'configuration' })
                */
-                t(message)
+                t(message, { ns: 'configuration' })
               }
             </Option>
           )

@@ -110,13 +110,13 @@ export const UserDetailDialog: FC<IUserDetailDialogProps> = memo(({ open, onOpen
                 </Text>
                 <br />
                 <Text>
-                  { t('numberOfFollowers.format', { followers: user.properties.numberOfFollowers.toLocaleString() }) }
+                  { t('numberOfFollowers.format', { ns: 'search-user', followers: user.properties.numberOfFollowers.toLocaleString() }) }
                 </Text>
                 <Text>
-                  { t('numberOfFollowing.format', { following: user.properties.numberOfFollowing.toLocaleString() }) }
+                  { t('numberOfFollowing.format', { ns: 'search-user', following: user.properties.numberOfFollowing.toLocaleString() }) }
                 </Text>
                 <Text>
-                  { t('joinedDateTime.format', { datetime: user.detail?.joinedDate?.toLocaleString(i18n.language) }) }
+                  { t('joinedDateTime.format', { ns: 'search-user', datetime: user.detail?.joinedDate?.toLocaleString(i18n.language) }) }
                 </Text>
               </Stack>
             </StackItem>
@@ -129,7 +129,7 @@ export const UserDetailDialog: FC<IUserDetailDialogProps> = memo(({ open, onOpen
               aria-label="close"
               onClick={ handleClickClose }
             >
-              { t('common.close') }
+              { t('common.close', { ns: 'common' }) }
             </Button>
           </DialogTrigger>
         </DialogActions>

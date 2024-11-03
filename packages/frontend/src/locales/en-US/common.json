@@ -1,0 +1,23 @@
+{
+  "title": {
+    "app": "Spoon Tool",
+    "about": "About",
+    "license": "License",
+    "repository": "Repository",
+    "configuration": "Configuration",
+    "top": "Top"
+  },
+  "common": {
+    "enabled": "Enabled",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "continue": "Continue",
+    "loading": "Loading...",
+    "search": "Search",
+    "clear": "Clear"
+  },
+  "configuration": {
+    "resetting": "Resetting Configurations..."
+  }
+}

@@ -32,17 +32,17 @@ export const RepositoryPage: FC = memo(() => {
           align="start"
           className={ styles.pageTitle }
         >
-          { t('repository.title') }
+          { t('title.repository', { ns: 'common' }) }
         </Title3>
       </StPageHeader>
 
       <div className={ styles.field }>
         <div>
-          { t('repository.description.maintainancedByGithub') }
-          { t('repository.description.pleaseDownloadFromGithub') }
+          { t('repository.description.maintainancedByGithub', { ns: 'about' }) }
+          { t('repository.description.pleaseDownloadFromGithub', { ns: 'about' }) }
           <br/>
           <br/>
-          { t('repository.description.link') }
+          { t('repository.description.link', { ns: 'about' }) }
           <Link
             href={ repositoryUrl }
             target="_blank"

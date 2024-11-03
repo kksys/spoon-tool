@@ -16,7 +16,7 @@ function getDrawerMode(): 'inline' | 'overlay' {
 export const DrawerMenu: FC<IDrawerMenuProps> = memo(({ open, onOpenChanged }) => {
   const navigate = useNavigate()
   const location = useLocation()
-  const { t } = useTranslation('translation')
+  const { t } = useTranslation()
   const [ drawerMode, setDrawerMode ] = useState<'inline' | 'overlay'>(getDrawerMode())
   const [ navItemSelect, setNavItemSelect ] = useState<'top' | 'configuration' | 'repository' | 'license' | 'about'>(() => {
     const currentRoute = location.pathname
@@ -78,35 +78,35 @@ export const DrawerMenu: FC<IDrawerMenuProps> = memo(({ open, onOpenChanged }) =
           value="top"
           onClick={ () => navigate('/') }
         >
-          { t('top.title') }
+          { t('title.top', { ns: 'common' }) }
         </NavItem>
         <NavItem
           icon={ <DocumentChevronDouble20Filled /> }
           value="configuration"
           onClick={ () => navigate('/configuration') }
         >
-          { t('configuration.title') }
+          { t('title.configuration', { ns: 'common' }) }
         </NavItem>
         <NavItem
           icon={ <DocumentChevronDouble20Filled /> }
           value="repository"
           onClick={ () => navigate('/repository') }
         >
-          { t('repository.title') }
+          { t('title.repository', { ns: 'common' }) }
         </NavItem>
         <NavItem
           icon={ <DocumentBulletList20Filled /> }
           value="license"
           onClick={ () => navigate('/license') }
         >
-          { t('license.title') }
+          { t('title.license', { ns: 'common' }) }
         </NavItem>
         <NavItem
           icon={ <Info20Filled /> }
           value="about"
           onClick={ () => navigate('/about') }
         >
-          { t('about.title') }
+          { t('title.about', { ns: 'common' }) }
         </NavItem>
       </NavDrawerBody>
     </NavDrawer>

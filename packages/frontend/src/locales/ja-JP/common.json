@@ -1,0 +1,23 @@
+{
+  "title": {
+    "app": "Spoon Tool",
+    "about": "アプリ情報",
+    "license": "ライセンス",
+    "repository": "リポジトリ",
+    "configuration": "設定",
+    "top": "トップ"
+  },
+  "common": {
+    "enabled": "有効",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "close": "閉じる",
+    "continue": "続行する",
+    "loading": "読込中...",
+    "search": "検索",
+    "clear": "クリア"
+  },
+  "configuration": {
+    "resetting": "設定をリセットしています..."
+  }
+}

@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 export const Header: FC<IHeaderProps> = memo(({ isDrawerOpen, onDrawerVisibilityChanged }) => {
   const styles = useStyles()
   const navigate = useNavigate()
-  const { t } = useTranslation('translation')
+  const { t } = useTranslation()
 
   const onDrawerChanged = useCallback(() => {
     onDrawerVisibilityChanged(!isDrawerOpen)
@@ -47,7 +47,7 @@ export const Header: FC<IHeaderProps> = memo(({ isDrawerOpen, onDrawerVisibility
             align="start"
             onClick={ () => navigate('/') }
           >
-            { t('app.title') }
+            { t('title.app', { ns: 'common' }) }
           </Title2>
         </Flex>
 

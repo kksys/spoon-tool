@@ -18,6 +18,7 @@ const SearchUserItemSize = {
   padding: 12
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const getSearchUserItemHeight = () => {
   return SearchUserItemSize.height + SearchUserItemSize.padding * 2
 }
@@ -219,12 +220,12 @@ const SearchUserItemNormal: FC<Omit<ISearchUserItemNormalProps, 'loading'>> = me
       ) }
       renderNumberOfFollowers={ (
         <span>
-          { t('numberOfFollowers.format', { followers: user.properties.numberOfFollowers.toLocaleString() }) }
+          { t('numberOfFollowers.format', { ns: 'search-user', followers: user.properties.numberOfFollowers.toLocaleString() }) }
         </span>
       ) }
       renderNumberOfFollowing={ (
         <span>
-          { t('numberOfFollowing.format', { following: user.properties.numberOfFollowing.toLocaleString() }) }
+          { t('numberOfFollowing.format', { ns: 'search-user', following: user.properties.numberOfFollowing.toLocaleString() }) }
         </span>
       ) }
       onClick={ onClick }

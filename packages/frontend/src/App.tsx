@@ -4,7 +4,7 @@ import { FluentProvider, Theme, webDarkTheme, webLightTheme } from '@fluentui/re
 import { ObjectTyped } from 'object-typed'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { createRoutesFromElements, Route, RouterProvider } from 'react-router'
+import { createRoutesFromElements, Outlet, Route, RouterProvider } from 'react-router'
 import { createBrowserRouter } from 'react-router-dom'
 import { filter } from 'rxjs'
 
@@ -24,58 +24,43 @@ import { diContainer } from './inversify.config'
 
 const router = createBrowserRouter(
   createRoutesFromElements((
-    <>
+    <Route
+      path=""
+      element={ (
+        <Layout>
+          <Outlet />
+        </Layout>
+      ) }
+    >
       <Route
         path="/"
-        element={ (
-          <Layout>
-            <SearchUserPage />
-          </Layout>
-        ) }
+        element={ <SearchUserPage /> }
       />
       <Route
         path="/configuration"
-        element={ (
-          <Layout>
-            <ConfigurationPage />
-          </Layout>
-        ) }
+        element={ <ConfigurationPage /> }
       />
       <Route
         path="/repository"
-        element={ (
-          <Layout>
-            <RepositoryPage />
-          </Layout>
-        ) }
+        element={ <RepositoryPage /> }
       />
       <Route
         path="/license"
-        element={ (
-          <Layout>
-            <LicensePage />
-          </Layout>
-        ) }
+        element={ <LicensePage /> }
       />
       <Route
         path="/about"
-        element={ (
-          <Layout>
-            <AboutPage />
-          </Layout>
-        ) }
+        element={ <AboutPage /> }
       />
       <Route
-        path="*"
+        path="/*"
         element={ (
-          <Layout>
-            <Page>
-              NotFound
-            </Page>
-          </Layout>
+          <Page>
+            NotFound
+          </Page>
         ) }
       />
-    </>
+    </Route>
   ))
 )
 

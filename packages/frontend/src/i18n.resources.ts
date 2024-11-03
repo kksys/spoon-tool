@@ -1,20 +1,11 @@
 import { InitOptions, TFunction } from 'i18next'
 import { ObjectTyped } from 'object-typed'
 
-import enCommon from './locales/en-US/translation.json'
-import jaCommon from './locales/ja-JP/translation.json'
+import messages from './locales'
 
-export const resources = {
-  'en-US': {
-    translation: enCommon
-  },
-  'ja-JP': {
-    translation: jaCommon
-  },
-} as const
-
+export const resources = messages
 export const languages = ObjectTyped.keys(resources)
-export const defaultNS = 'translation' satisfies keyof typeof resources[typeof languages[number]]
+export const defaultNS = 'common' satisfies keyof typeof resources[typeof languages[number]]
 
 declare module 'i18next' {
   type DefaultNS = typeof defaultNS

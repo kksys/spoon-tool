@@ -124,7 +124,7 @@ export const ConfigurationPage: FC = memo(() => {
             <InfoLabel
               infoButton={ <Info16Regular /> }
               info={ t('theme.info', { ns: 'configuration' }) }
-              htmlFor={ langId }
+              htmlFor={ themeId }
             >
               { t('theme.title', { ns: 'configuration' }) }
             </InfoLabel>

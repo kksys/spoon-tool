@@ -1,8 +1,11 @@
+import { makeStyles } from '@fluentui/react-components'
 import { AppGeneric20Regular, DocumentBulletList20Filled, DocumentChevronDouble20Filled, Info20Filled } from '@fluentui/react-icons'
-import { NavDrawer, NavDrawerBody, NavItem,NavProps } from '@fluentui/react-nav-preview'
+import { NavDrawer, NavDrawerBody, NavDrawerHeader, NavItem,NavProps } from '@fluentui/react-nav-preview'
 import { FC, memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'
+
+import { Flex } from '../flex/Flex'
 
 interface IDrawerMenuProps {
   open: boolean
@@ -13,10 +16,18 @@ function getDrawerMode(): 'inline' | 'overlay' {
   return window.innerWidth >= 1024 ? 'inline' : 'overlay'
 }
 
+const useStyle = makeStyles({
+  spacerForHeader: {
+    height: '68px'
+  }
+})
+
 export const DrawerMenu: FC<IDrawerMenuProps> = memo(({ open, onOpenChanged }) => {
   const navigate = useNavigate()
   const location = useLocation()
   const { t } = useTranslation()
+  const styles = useStyle()
+
   const [ drawerMode, setDrawerMode ] = useState<'inline' | 'overlay'>(getDrawerMode())
   const [ navItemSelect, setNavItemSelect ] = useState<'top' | 'configuration' | 'repository' | 'license' | 'about'>(() => {
     const currentRoute = location.pathname
@@ -72,6 +83,15 @@ export const DrawerMenu: FC<IDrawerMenuProps> = memo(({ open, onOpenChanged }) =
       selectedValue={ navItemSelect }
       onNavItemSelect={ onNavItemSelect }
     >
+      { drawerMode === 'overlay' && (
+        <Flex
+          direction='row'
+          className={ styles.spacerForHeader }
+        >
+        </Flex>
+      ) }
+      <NavDrawerHeader>
+      </NavDrawerHeader>
       <NavDrawerBody>
         <NavItem
           icon={ <AppGeneric20Regular /> }

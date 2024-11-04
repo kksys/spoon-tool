@@ -1,16 +1,19 @@
 import { injectable } from 'inversify'
-import { catchError, lastValueFrom, of, switchMap } from 'rxjs'
+import { omit } from 'lodash-es'
+import { catchError, lastValueFrom, of, retry, switchMap, throwError } from 'rxjs'
 import { fromFetch } from 'rxjs/fetch'
 
-import { IHttpClient } from '#/cross-cutting/interfaces/http-client/IHttpClient'
+import { IHttpClient, RequestConfig } from '#/cross-cutting/interfaces/http-client/IHttpClient'
 import { IHttpHandler, IHttpInterceptor } from '#/cross-cutting/interfaces/http-client/IHttpInterceptors'
 import { Result } from '#/cross-cutting/utils/Result'
 
+import { isApiError } from '../errors/ApiErrorBase'
 import { CancelError } from '../errors/connection-failure/CancelError'
 import { ConnectionRefusedError } from '../errors/connection-failure/ConnectionRefusedError'
 import { UnknownConnectionError } from '../errors/connection-failure/UnknownConnectionError'
 import { ErrorMapper } from '../errors/http-error/ErrorMapper'
 import { ApiError } from '../interfaces/errors/IApiError'
+import { IntRange } from '../interfaces/utils/IntRange'
 
 @injectable()
 export class HttpClient implements IHttpClient {
@@ -18,7 +21,7 @@ export class HttpClient implements IHttpClient {
     private readonly interceptors: IHttpInterceptor[],
   ) {}
 
-  private getHttpStream(request: Request): Promise<Result<Response, ApiError>> {
+  private getHttpStream(request: Request, retryCount: IntRange<0, 5> = 5): Promise<Result<Response, ApiError>> {
     const handler = {
       handle: (req: Request) => fromFetch(req)
     } satisfies IHttpHandler
@@ -29,15 +32,17 @@ export class HttpClient implements IHttpClient {
 
     const stream$ = handlerChain.handle(request)
       .pipe(
-        switchMap(response => of(
-          response.ok
-            ? Result.ok<Response>(response)
-            : Result.error<Response, ApiError>(ErrorMapper.mapToApiError(response))
-        )),
+        switchMap(response => response.ok
+          ? of(Result.ok<Response>(response))
+          : throwError(() => ErrorMapper.mapToApiError(response))
+        ),
+        retry(retryCount),
         catchError(error => {
           let result: ApiError
 
-          if (error instanceof TypeError && error.message === 'Failed to fetch') {
+          if (isApiError(error)) {
+            result = error
+          } else if (error instanceof TypeError && error.message === 'Failed to fetch') {
             result = new ConnectionRefusedError(error)
           } else if (error instanceof DOMException && error.name === 'AbortError') {
             result = new CancelError(error)
@@ -52,63 +57,68 @@ export class HttpClient implements IHttpClient {
     return lastValueFrom(stream$)
   }
 
-  async get<ResponseBody>(url: string, _config?: unknown): Promise<Result<ResponseBody, ApiError>> {
+  async get<ResponseBody>(url: string, config?: RequestConfig): Promise<Result<ResponseBody, ApiError>> {
     const request = new Request(url, {
+      ...omit(config, ['retry']),
       method: 'GET',
     })
 
-    const result = await this.getHttpStream(request)
+    const result = await this.getHttpStream(request, config?.retry)
 
     return result.isSuccess()
       ? Result.ok<ResponseBody>(await result.value.json())
       : Result.error<ResponseBody, ApiError>(result.error)
   }
 
-  async post<RequestBody, ResponseBody>(url: string, data: RequestBody, _config?: unknown): Promise<Result<ResponseBody, ApiError>> {
+  async post<RequestBody, ResponseBody>(url: string, data: RequestBody, config?: RequestConfig): Promise<Result<ResponseBody, ApiError>> {
     const request = new Request(url, {
+      ...omit(config, ['retry']),
       method: 'POST',
       body: JSON.stringify(data),
     })
 
-    const result = await this.getHttpStream(request)
+    const result = await this.getHttpStream(request, config?.retry)
 
     return result.isSuccess()
       ? Result.ok<ResponseBody>(await result.value.json())
       : Result.error<ResponseBody, ApiError>(result.error)
   }
 
-  async put<RequestBody, ResponseBody>(url: string, data: RequestBody, _config?: unknown): Promise<Result<ResponseBody, ApiError>> {
+  async put<RequestBody, ResponseBody>(url: string, data: RequestBody, config?: RequestConfig): Promise<Result<ResponseBody, ApiError>> {
     const request = new Request(url, {
+      ...omit(config, ['retry']),
       method: 'PUT',
       body: JSON.stringify(data),
     })
 
-    const result = await this.getHttpStream(request)
+    const result = await this.getHttpStream(request, config?.retry)
 
     return result.isSuccess()
       ? Result.ok<ResponseBody>(await result.value.json())
       : Result.error<ResponseBody, ApiError>(result.error)
   }
 
-  async delete<ResponseBody>(url: string, _config?: unknown): Promise<Result<ResponseBody, ApiError>> {
+  async delete<ResponseBody>(url: string, config?: RequestConfig): Promise<Result<ResponseBody, ApiError>> {
     const request = new Request(url, {
+      ...omit(config, ['retry']),
       method: 'DELETE',
     })
 
-    const result = await this.getHttpStream(request)
+    const result = await this.getHttpStream(request, config?.retry)
 
     return result.isSuccess()
       ? Result.ok<ResponseBody>(await result.value.json())
       : Result.error<ResponseBody, ApiError>(result.error)
   }
 
-  async patch<RequestBody, ResponseBody>(url: string, data: RequestBody, _config?: unknown): Promise<Result<ResponseBody, ApiError>> {
+  async patch<RequestBody, ResponseBody>(url: string, data: RequestBody, config?: RequestConfig): Promise<Result<ResponseBody, ApiError>> {
     const request = new Request(url, {
+      ...omit(config, ['retry']),
       method: 'PATCH',
       body: JSON.stringify(data),
     })
 
-    const result = await this.getHttpStream(request)
+    const result = await this.getHttpStream(request, config?.retry)
 
     return result.isSuccess()
       ? Result.ok<ResponseBody>(await result.value.json())

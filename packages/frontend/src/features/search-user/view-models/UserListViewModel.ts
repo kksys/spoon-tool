@@ -3,6 +3,7 @@ import { BehaviorSubject, firstValueFrom, last, Observable } from 'rxjs'
 
 import { Invoker } from '#/cross-cutting/commands/Invoker'
 import { autoBusyAsync } from '#/cross-cutting/decorators/autoBusy'
+import { ApiError } from '#/cross-cutting/interfaces/errors/IApiError'
 import { Result } from '#/cross-cutting/utils/Result'
 import { ViewModelBase } from '#/cross-cutting/view-models/ViewModelBase'
 import { EndpointTypes, UserEntry } from '#/search-user/api/EndpointTypes'
@@ -156,7 +157,7 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
   }
 
   @autoBusyAsync()
-  async receivedSearchUserResult(result: Result<EndpointTypes['spoonApi']['fetchUsers']['response']>): Promise<void> {
+  async receivedSearchUserResult(result: Result<EndpointTypes['spoonApi']['fetchUsers']['response'], ApiError>): Promise<void> {
     if (result.isError()) {
       return
     }
@@ -186,7 +187,7 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
   }
 
   @autoBusyAsync()
-  async receivedFetchUserDetailResult(result: Result<EndpointTypes['spoonApi']['getProfile']['response']>): Promise<void> {
+  async receivedFetchUserDetailResult(result: Result<EndpointTypes['spoonApi']['getProfile']['response'], ApiError>): Promise<void> {
     if (result.isError()) {
       return
     }

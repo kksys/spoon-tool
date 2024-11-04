@@ -25,6 +25,7 @@
     "@fluentui/react-components": "^9.55.1",
     "@fluentui/react-icons": "^2.0.264",
     "@fluentui/react-nav-preview": "^0.9.1",
+    "http-status-codes": "^2.3.0",
     "i18next": "^23.16.4",
     "inversify": "^6.0.3",
     "object-typed": "^1.0.0",

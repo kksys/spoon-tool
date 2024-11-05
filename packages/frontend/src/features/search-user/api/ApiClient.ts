@@ -1,7 +1,15 @@
+import { injectable } from 'inversify'
+
+import type { IHttpClient } from '#/cross-cutting/interfaces/http-client/IHttpClient'
+
+import { IApiClient } from '../interfaces/api/IApiClient'
 import { SpoonApi } from './SpoonApi'
 
-export class ApiClient {
-  readonly spoonApi = new SpoonApi()
-}
+@injectable()
+export class ApiClient implements IApiClient{
+  constructor(
+    private readonly httpClient: IHttpClient
+  ) {}
 
-export const apiClient = new ApiClient()
+  readonly spoonApi = new SpoonApi(this.httpClient)
+}

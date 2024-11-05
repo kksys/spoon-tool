@@ -3,24 +3,33 @@ import { BehaviorSubject, firstValueFrom, last, Observable } from 'rxjs'
 
 import { Invoker } from '#/cross-cutting/commands/Invoker'
 import { autoBusyAsync } from '#/cross-cutting/decorators/autoBusy'
+import { ApiError } from '#/cross-cutting/interfaces/errors/IApiError'
+import { Result } from '#/cross-cutting/utils/Result'
 import { ViewModelBase } from '#/cross-cutting/view-models/ViewModelBase'
-import { EndpointTypes } from '#/search-user/api/EndpointTypes'
+import { EndpointTypes, UserEntry } from '#/search-user/api/EndpointTypes'
 import { FetchUserDetailCommand } from '#/search-user/commands/FetchUserDetailCommand'
 import { SearchUserCommand } from '#/search-user/commands/SearchUserCommand'
 import { searchUserTypes } from '#/search-user/di/searchUserTypes'
+import type { IApiClient } from '#/search-user/interfaces/api/IApiClient'
+import { IFetchUserDetailReceiver } from '#/search-user/interfaces/receivers/IFetchUserDetailReceiver'
 import { ISearchUserReceiver } from '#/search-user/interfaces/receivers/ISearchUserReceiver'
 import { IUserListViewModel } from '#/search-user/interfaces/view-models/IUserListViewModel'
 import type { IUserPaginatorViewModel } from '#/search-user/interfaces/view-models/IUserPaginatorViewModel'
 import { IUserViewModel, IUserViewModelProps } from '#/search-user/interfaces/view-models/IUserViewModel'
 
 @injectable()
-export class UserListViewModel extends ViewModelBase implements IUserListViewModel, ISearchUserReceiver {
+export class UserListViewModel extends ViewModelBase implements IUserListViewModel, ISearchUserReceiver, IFetchUserDetailReceiver {
   private _keywordSubject = new BehaviorSubject('')
   private _usersSubject = new BehaviorSubject<IUserViewModel[]>([])
   private _invoker = new Invoker()
 
-  @inject(searchUserTypes.UserPaginatorViewModel) public readonly paginator!: IUserPaginatorViewModel
-  @inject(searchUserTypes.UserViewModelFactory)   private readonly userFactory!: interfaces.SimpleFactory<IUserViewModel, [IUserViewModelProps]>
+  constructor(
+    @inject(searchUserTypes.ApiClient)              private readonly apiClient: IApiClient,
+    @inject(searchUserTypes.UserPaginatorViewModel) public readonly paginator: IUserPaginatorViewModel,
+    @inject(searchUserTypes.UserViewModelFactory)   private readonly userFactory: interfaces.SimpleFactory<IUserViewModel, [IUserViewModelProps]>
+  ) {
+    super()
+  }
 
   readonly keyword$: Observable<string> = this._keywordSubject.asObservable()
 
@@ -44,11 +53,15 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
 
   @autoBusyAsync()
   async fetchUserList(): Promise<void> {
-    const searchUserCommand = new SearchUserCommand(this, {
-      keyword: this._keywordSubject.value,
-      cursor: undefined,
-      page_size: this.paginator.itemsPerPage,
-    } as const)
+    const searchUserCommand = new SearchUserCommand(
+      this,
+      this.apiClient,
+      {
+        keyword: this._keywordSubject.value,
+        cursor: undefined,
+        page_size: this.paginator.itemsPerPage,
+      } as const
+    )
 
     await this._invoker.execute(searchUserCommand)
   }
@@ -58,11 +71,15 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
     const cursors = await firstValueFrom(this.paginator.cursors$.pipe(last()))
     const url = new URL(cursors.previous)
 
-    const searchUserCommand = new SearchUserCommand(this, {
-      keyword: url.searchParams.get('keyword') || '',
-      page_size: undefined,
-      cursor: url.searchParams.get('cursor') || '',
-    } as const)
+    const searchUserCommand = new SearchUserCommand(
+      this,
+      this.apiClient,
+      {
+        keyword: url.searchParams.get('keyword') || '',
+        page_size: undefined,
+        cursor: url.searchParams.get('cursor') || '',
+      } as const
+    )
 
     await this._invoker.execute(searchUserCommand)
   }
@@ -72,20 +89,28 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
     const cursors = await firstValueFrom(this.paginator.cursors$)
     const url = new URL(cursors.next)
 
-    const searchUserCommand = new SearchUserCommand(this, {
-      keyword: url.searchParams.get('keyword') || '',
-      page_size: undefined,
-      cursor: url.searchParams.get('cursor') || '',
-    } as const)
+    const searchUserCommand = new SearchUserCommand(
+      this,
+      this.apiClient,
+      {
+        keyword: url.searchParams.get('keyword') || '',
+        page_size: undefined,
+        cursor: url.searchParams.get('cursor') || '',
+      } as const
+    )
 
     await this._invoker.execute(searchUserCommand)
   }
 
   @autoBusyAsync()
   async fetchUserDetail(userId: number): Promise<void> {
-    const fetchUserDetailCommand = new FetchUserDetailCommand(this, {
-      user_id: userId
-    })
+    const fetchUserDetailCommand = new FetchUserDetailCommand(
+      this,
+      this.apiClient,
+      {
+        user_id: userId
+      }
+    )
 
     await this._invoker.execute(fetchUserDetailCommand)
   }
@@ -101,11 +126,7 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
       .find(user => user.properties.id === userId)
   }
 
-  @autoBusyAsync()
-  async receivedSearchUserResult({ next, previous, results }: EndpointTypes['spoonApi']['fetchUsers']['response']): Promise<void> {
-    const currentUsers = this._usersSubject.getValue()
-    const targetIndex = currentUsers.length
-
+  private mapUserToUserViewModelProps(user: UserEntry): IUserViewModelProps {
     const convertHttpToHttps = (url: string) =>
       (url.startsWith('http:') && window.location.protocol === 'https:')
         // http resource is referenced by https resource
@@ -113,76 +134,72 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
         ? url.replace(/^http:/gi, 'https:')
         : url
 
-    const indexies = results.filter(user1 => currentUsers.some(user2 => user2.properties.id === user1.id))
-      .map(user => user.id)
-      .map(id => currentUsers.findIndex(user => user.properties.id === id))
-
-    for (const index of indexies) {
-      const userEntity = currentUsers[index]
-      const sourceUser = results.find(user => user.id === index)
-
-      if (!sourceUser) {
-        continue
-      }
-
-      const property: IUserViewModelProps = {
-        id: sourceUser.id,
-        tag: sourceUser.tag,
-        profileIcon: convertHttpToHttps(sourceUser.profile_url),
-        nickname: sourceUser.nickname,
-        numberOfFollowers: sourceUser.follower_count,
-        numberOfFollowing: sourceUser.following_count,
-        badges: [],
-      }
-
-      if (sourceUser.tier_name) {
-        property.badges.push(sourceUser.tier_name)
-      }
-
-      const badge_style_ids = sourceUser.badge_style_ids.filter(id => id === 'voice' || id === 'firework_ring')
-      if (badge_style_ids.length > 0) {
-        property.badges.push(...badge_style_ids)
-      }
-
-      userEntity.setProperties(property)
+    const property: IUserViewModelProps = {
+      id: user.id,
+      tag: user.tag,
+      profileIcon: convertHttpToHttps(user.profile_url),
+      nickname: user.nickname,
+      numberOfFollowers: user.follower_count,
+      numberOfFollowing: user.following_count,
+      badges: [],
     }
 
-    currentUsers.splice(targetIndex, 0, ...results.map((userEntity) => {
-      const property: IUserViewModelProps = {
-        id: userEntity.id,
-        tag: userEntity.tag,
-        profileIcon: convertHttpToHttps(userEntity.profile_url),
-        nickname: userEntity.nickname,
-        numberOfFollowers: userEntity.follower_count,
-        numberOfFollowing: userEntity.following_count,
-        badges: [],
-      }
+    if (user.tier_name) {
+      property.badges.push(user.tier_name)
+    }
 
-      if (userEntity.tier_name) {
-        property.badges.push(userEntity.tier_name)
-      }
+    const badge_style_ids = user.badge_style_ids.filter(id => id === 'voice' || id === 'firework_ring')
+    if (badge_style_ids.length > 0) {
+      property.badges.push(...badge_style_ids)
+    }
 
-      const badge_style_ids = userEntity.badge_style_ids.filter(id => id === 'voice' || id === 'firework_ring')
-      if (badge_style_ids.length > 0) {
-        property.badges.push(...badge_style_ids)
-      }
+    return property
+  }
 
-      return this.userFactory(property)
-    }))
+  @autoBusyAsync()
+  async receivedSearchUserResult(result: Result<EndpointTypes['spoonApi']['fetchUsers']['response'], ApiError>): Promise<void> {
+    if (result.isError()) {
+      return
+    }
+
+    const { next, previous, results } = result.value
+    const currentUsers = this._usersSubject.getValue()
+    const targetIndex = currentUsers.length
+
+    // update existing user
+    const ids = results.filter(user1 => currentUsers.some(user2 => user2.properties.id === user1.id))
+      .map(user => user.id)
+
+    results.filter(entry => entry.id in ids)
+      .forEach((sourceUser) => {
+        const userEntity = currentUsers.find(user => user.properties.id === sourceUser.id)
+        userEntity?.setProperties(this.mapUserToUserViewModelProps(sourceUser))
+      })
+
+    // create new user
+    currentUsers.splice(targetIndex, 0, ...results.filter(entry => !(entry.id in ids))
+      .map((userEntity) => {
+        return this.userFactory(this.mapUserToUserViewModelProps(userEntity))
+      }))
 
     this.paginator.updateCursors({ previous, next })
     this._usersSubject.next(currentUsers)
   }
 
   @autoBusyAsync()
-  async receivedFetchUserDetailResult({ results }: EndpointTypes['spoonApi']['getProfile']['response']): Promise<void> {
+  async receivedFetchUserDetailResult(result: Result<EndpointTypes['spoonApi']['getProfile']['response'], ApiError>): Promise<void> {
+    if (result.isError()) {
+      return
+    }
+
+    const { results } = result.value
     const currentUsers = this._usersSubject.getValue()
     const targetUser = currentUsers.find(user => user.properties.id === results[0].id)
-    const result = results[0]
+    const user = results[0]
 
-    if (result) {
+    if (user) {
       targetUser?.setDetail({
-        joinedDate: new Date(result.date_joined),
+        joinedDate: new Date(user.date_joined),
       })
     }
 

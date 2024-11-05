@@ -10,15 +10,15 @@ import { EndpointTypes, UserEntry } from '#/search-user/api/EndpointTypes'
 import { FetchUserDetailCommand } from '#/search-user/commands/FetchUserDetailCommand'
 import { SearchUserCommand } from '#/search-user/commands/SearchUserCommand'
 import { searchUserTypes } from '#/search-user/di/searchUserTypes'
+import type { IApiClient } from '#/search-user/interfaces/api/IApiClient'
+import { IFetchUserDetailReceiver } from '#/search-user/interfaces/receivers/IFetchUserDetailReceiver'
 import { ISearchUserReceiver } from '#/search-user/interfaces/receivers/ISearchUserReceiver'
 import { IUserListViewModel } from '#/search-user/interfaces/view-models/IUserListViewModel'
 import type { IUserPaginatorViewModel } from '#/search-user/interfaces/view-models/IUserPaginatorViewModel'
 import { IUserViewModel, IUserViewModelProps } from '#/search-user/interfaces/view-models/IUserViewModel'
 
-import type { IApiClient } from '../interfaces/api/IApiClient'
-
 @injectable()
-export class UserListViewModel extends ViewModelBase implements IUserListViewModel, ISearchUserReceiver {
+export class UserListViewModel extends ViewModelBase implements IUserListViewModel, ISearchUserReceiver, IFetchUserDetailReceiver {
   private _keywordSubject = new BehaviorSubject('')
   private _usersSubject = new BehaviorSubject<IUserViewModel[]>([])
   private _invoker = new Invoker()

@@ -114,8 +114,8 @@ importers:
         specifier: ^23.16.4
         version: 23.16.4
       inversify:
-        specifier: ^6.0.3
-        version: 6.0.3
+        specifier: ^6.1.0
+        version: 6.1.0(reflect-metadata@0.2.2)
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -1405,6 +1405,20 @@ packages:
   '@humanwhocodes/retry@0.3.1':
     resolution: {integrity: sha512-JBxkERygn7Bv/GbN5Rv8Ul6LVknS+5Bp6RgDC/O8gEBU/yeH5Ui5C/OlWrTb6qct7LjjfT6Re2NxB0ln0yYybA==}
     engines: {node: '>=18.18'}
+
+  '@inversifyjs/common@1.3.0':
+    resolution: {integrity: sha512-daMglETpZvziDRcvW2PD8yQvRgzYqofINCEBEeKB7iU3ov1i48FaIpNfaAP+txbmpMsGzeuDSffL2bsf7Y9YwA==}
+    os: [darwin, linux]
+
+  '@inversifyjs/core@1.3.0':
+    resolution: {integrity: sha512-tqEXkieeFePlKZWzcl9uPm37lhe7N03QSw/JC7J/BZKQ7JltnAlkSOdgZfht8Bp1TyeWtJfssa8XjIKuXNMZHA==}
+    os: [darwin, linux]
+
+  '@inversifyjs/reflect-metadata-utils@0.2.0':
+    resolution: {integrity: sha512-fJ5vBELXrumGWMsRoj7zg80QKWzCEoBIgTbbt2s44vujh+oG2NAQYGY/nCcecfwj2ij0eMuKKJZAvigt/stxYA==}
+    os: [darwin, linux]
+    peerDependencies:
+      reflect-metadata: 0.2.2
 
   '@jridgewell/gen-mapping@0.3.5':
     resolution: {integrity: sha512-IzL8ZoEDIBRWEzlCcRhOaCupYyN5gdIK+Q6fbFdPDg6HqX6jpkItn7DFIpW9LQzXG6Df9sA7+OKnq0qlz/GaQg==}
@@ -2836,8 +2850,8 @@ packages:
     resolution: {integrity: sha512-6xwYfHbajpoF0xLW+iwLkhwgvLoZDfjYfoFNu8ftMoXINzwuymNLd9u/KmwtdT2GbR+/Cz66otEGEVVUHX9QLQ==}
     engines: {node: '>=10.13.0'}
 
-  inversify@6.0.3:
-    resolution: {integrity: sha512-s/svzcRQ/scaGUUyaVtFSL1dvOaRgyvE7VvpGcJwXmFz7CCzfSfxC/Uyl7iSHDEmBabJ2gbDES72DaygtMmwvg==}
+  inversify@6.1.0:
+    resolution: {integrity: sha512-x7gKeJTfLKpx/6jRVxOA2miT91G1snx3haEUKsZcQSX+wQRJPbURNosrx8hHGf5TXSRQ+aE074U/gc7+IZUqzQ==}
 
   is-accessor-descriptor@1.0.1:
     resolution: {integrity: sha512-YBUanLI8Yoihw923YeFUS5fs0fF2f5TSFTNiYAAzhhDscDa3lEqYuz1pDOEP5KvX94I9ey3vsqjJcLVFVU+3QA==}
@@ -6119,6 +6133,19 @@ snapshots:
 
   '@humanwhocodes/retry@0.3.1': {}
 
+  '@inversifyjs/common@1.3.0': {}
+
+  '@inversifyjs/core@1.3.0(reflect-metadata@0.2.2)':
+    dependencies:
+      '@inversifyjs/common': 1.3.0
+      '@inversifyjs/reflect-metadata-utils': 0.2.0(reflect-metadata@0.2.2)
+    transitivePeerDependencies:
+      - reflect-metadata
+
+  '@inversifyjs/reflect-metadata-utils@0.2.0(reflect-metadata@0.2.2)':
+    dependencies:
+      reflect-metadata: 0.2.2
+
   '@jridgewell/gen-mapping@0.3.5':
     dependencies:
       '@jridgewell/set-array': 1.2.1
@@ -7895,7 +7922,12 @@ snapshots:
 
   interpret@3.1.1: {}
 
-  inversify@6.0.3: {}
+  inversify@6.1.0(reflect-metadata@0.2.2):
+    dependencies:
+      '@inversifyjs/common': 1.3.0
+      '@inversifyjs/core': 1.3.0(reflect-metadata@0.2.2)
+    transitivePeerDependencies:
+      - reflect-metadata
 
   is-accessor-descriptor@1.0.1:
     dependencies:

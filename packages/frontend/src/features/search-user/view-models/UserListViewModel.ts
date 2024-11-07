@@ -158,7 +158,7 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
 
   @autoBusyAsync()
   async receivedSearchUserResult(result: Result<EndpointTypes['spoonApi']['fetchUsers']['response'], ApiError>): Promise<void> {
-    if (result.isError()) {
+    if (result.isError) {
       return
     }
 
@@ -188,7 +188,7 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
 
   @autoBusyAsync()
   async receivedFetchUserDetailResult(result: Result<EndpointTypes['spoonApi']['getProfile']['response'], ApiError>): Promise<void> {
-    if (result.isError()) {
+    if (result.isError) {
       return
     }
 

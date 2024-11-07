@@ -65,7 +65,7 @@ export class HttpClient implements IHttpClient {
 
     const result = await this.getHttpStream(request, config?.retry)
 
-    return result.isSuccess()
+    return result.isSuccess
       ? Result.ok<ResponseBody>(await result.value.json())
       : Result.error<ResponseBody, ApiError>(result.error)
   }
@@ -79,7 +79,7 @@ export class HttpClient implements IHttpClient {
 
     const result = await this.getHttpStream(request, config?.retry)
 
-    return result.isSuccess()
+    return result.isSuccess
       ? Result.ok<ResponseBody>(await result.value.json())
       : Result.error<ResponseBody, ApiError>(result.error)
   }
@@ -93,7 +93,7 @@ export class HttpClient implements IHttpClient {
 
     const result = await this.getHttpStream(request, config?.retry)
 
-    return result.isSuccess()
+    return result.isSuccess
       ? Result.ok<ResponseBody>(await result.value.json())
       : Result.error<ResponseBody, ApiError>(result.error)
   }
@@ -106,7 +106,7 @@ export class HttpClient implements IHttpClient {
 
     const result = await this.getHttpStream(request, config?.retry)
 
-    return result.isSuccess()
+    return result.isSuccess
       ? Result.ok<ResponseBody>(await result.value.json())
       : Result.error<ResponseBody, ApiError>(result.error)
   }
@@ -120,7 +120,7 @@ export class HttpClient implements IHttpClient {
 
     const result = await this.getHttpStream(request, config?.retry)
 
-    return result.isSuccess()
+    return result.isSuccess
       ? Result.ok<ResponseBody>(await result.value.json())
       : Result.error<ResponseBody, ApiError>(result.error)
   }

@@ -76,7 +76,7 @@ describe('HttpClient', () => {
 
       expect(fetchSpy)
         .toHaveBeenCalledTimes(1)
-      assert(result.isSuccess(), 'result should be success')
+      assert(result.isSuccess, 'result should be success')
       expect(result.value)
         .toEqual({
           'userId': 1,
@@ -95,7 +95,7 @@ describe('HttpClient', () => {
 
       expect(fetchSpy)
         .toHaveBeenCalledTimes(1)
-      assert(result.isSuccess(), 'result should be success')
+      assert(result.isSuccess, 'result should be success')
       expect(result.value)
         .toEqual({
           'userId': 1,
@@ -159,7 +159,7 @@ describe('HttpClient', () => {
 
       expect(fetchSpy)
         .toHaveBeenCalledTimes(3)
-      assert(result.isSuccess(), 'result should be success')
+      assert(result.isSuccess, 'result should be success')
       expect(result.value)
         .toEqual({
           'userId': 1,
@@ -176,7 +176,7 @@ describe('HttpClient', () => {
 
       expect(fetchSpy)
         .toHaveBeenCalledTimes(6)
-      assert(result.isError(), 'result should be error')
+      assert(result.isError, 'result should be error')
       expect(result.error.name)
         .toBe('NotFoundError')
     })

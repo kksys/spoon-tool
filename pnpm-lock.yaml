@@ -111,8 +111,8 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0
       i18next:
-        specifier: ^23.16.4
-        version: 23.16.4
+        specifier: ^23.16.5
+        version: 23.16.5
       inversify:
         specifier: ^6.1.1
         version: 6.1.1(reflect-metadata@0.2.2)
@@ -130,7 +130,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       react-i18next:
         specifier: ^15.1.1
-        version: 15.1.1(i18next@23.16.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 15.1.1(i18next@23.16.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router:
         specifier: ^6.28.0
         version: 6.28.0(react@18.3.1)
@@ -2796,8 +2796,8 @@ packages:
     engines: {node: '>=18.0.0 || >=20.0.0 || >=22.0.0', npm: '>=6', yarn: '>=1'}
     hasBin: true
 
-  i18next@23.16.4:
-    resolution: {integrity: sha512-9NIYBVy9cs4wIqzurf7nLXPyf3R78xYbxExVqHLK9od3038rjpyOEzW+XB130kZ1N4PZ9inTtJ471CRJ4Ituyg==}
+  i18next@23.16.5:
+    resolution: {integrity: sha512-KTlhE3EP9x6pPTAW7dy0WKIhoCpfOGhRQlO+jttQLgzVaoOjWwBWramu7Pp0i+8wDNduuzXfe3kkVbzrKyrbTA==}
 
   iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
@@ -7864,7 +7864,7 @@ snapshots:
       esbuild: 0.23.0
       fs-extra: 11.2.0
       gulp-sort: 2.0.0
-      i18next: 23.16.4
+      i18next: 23.16.5
       js-yaml: 4.1.0
       lilconfig: 3.1.2
       rsvp: 4.8.5
@@ -7875,7 +7875,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  i18next@23.16.4:
+  i18next@23.16.5:
     dependencies:
       '@babel/runtime': 7.25.6
 
@@ -8652,11 +8652,11 @@ snapshots:
       react: 18.3.1
       scheduler: 0.23.2
 
-  react-i18next@15.1.1(i18next@23.16.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-i18next@15.1.1(i18next@23.16.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.25.6
       html-parse-stringify: 3.0.1
-      i18next: 23.16.4
+      i18next: 23.16.5
       react: 18.3.1
     optionalDependencies:
       react-dom: 18.3.1(react@18.3.1)

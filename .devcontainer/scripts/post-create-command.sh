@@ -8,6 +8,7 @@ echo "pnpm version: ${PNPM_VERSION}"
 echo "home: $HOME"
 
 # install and activate specified node version
+source $NVM_DIR/nvm.sh
 nvm install ${NODE_VERSION}
 nvm use ${NODE_VERSION}
 

@@ -117,7 +117,7 @@ module.exports = {
       from: {},
       to: {
         moreThanOneDependencyType: true,
-        // as it's pretty common to have a type import be a type only import 
+        // as it's pretty common to have a type import be a type only import
         // _and_ (e.g.) a devDependency - don't consider type-only dependency
         // types for this rule
         dependencyTypesNot: ["type-only"]
@@ -125,7 +125,7 @@ module.exports = {
     },
 
     /* rules you might want to tweak for your specific situation: */
-    
+
     {
       name: 'not-to-spec',
       comment:
@@ -220,15 +220,15 @@ module.exports = {
        module systems it knows of. It's the default because it's the safe option
        It might come at a performance penalty, though.
        moduleSystems: ['amd', 'cjs', 'es6', 'tsd']
-      
+
        As in practice only commonjs ('cjs') and ecmascript modules ('es6')
        are widely used, you can limit the moduleSystems to those.
      */
-    
+
     // moduleSystems: ['cjs', 'es6'],
 
     /* prefix for links in html and svg output (e.g. 'https://github.com/you/yourrepo/blob/main/'
-       to open it on your online repo or `vscode://file/${process.cwd()}/` to 
+       to open it on your online repo or `vscode://file/${process.cwd()}/` to
        open it in visual studio code),
      */
     // prefix: `vscode://file/${process.cwd()}/`,
@@ -237,8 +237,8 @@ module.exports = {
        true: also detect dependencies that only exist before typescript-to-javascript compilation
        "specify": for each dependency identify whether it only exists before compilation or also after
      */
-    // tsPreCompilationDeps: false,
-    
+    tsPreCompilationDeps: true,
+
     /* list of extensions to scan that aren't javascript or compile-to-javascript.
        Empty by default. Only put extensions in here that you want to take into
        account that are _not_ parsable.
@@ -273,7 +273,7 @@ module.exports = {
        to './webpack.conf.js'.
 
        The (optional) `env` and `arguments` attributes contain the parameters
-       to be passed if your webpack config is a function and takes them (see 
+       to be passed if your webpack config is a function and takes them (see
         webpack documentation for details)
      */
     // webpackConfig: {
@@ -295,7 +295,7 @@ module.exports = {
        a hack.
     */
     // exoticRequireStrings: [],
-    
+
     /* options to pass on to enhanced-resolve, the package dependency-cruiser
        uses to resolve module references to disk. The values below should be
        suitable for most situations
@@ -304,7 +304,7 @@ module.exports = {
        there will override the ones specified here.
      */
     enhancedResolveOptions: {
-      /* What to consider as an 'exports' field in package.jsons */ 
+      /* What to consider as an 'exports' field in package.jsons */
       exportsFields: ["exports"],
       /* List of conditions to check for in the exports field.
          Only works when the 'exportsFields' array is non-empty.
@@ -319,7 +319,7 @@ module.exports = {
        */
       // extensions: [".js", ".jsx", ".ts", ".tsx", ".d.ts"],
       /* What to consider a 'main' field in package.json */
-      
+
       // if you migrate to ESM (or are in an ESM environment already) you will want to
       // have "module" in the list of mainFields, like so:
       // mainFields: ["module", "main", "types", "typings"],
@@ -328,8 +328,8 @@ module.exports = {
          A list of alias fields in package.jsons
          See [this specification](https://github.com/defunctzombie/package-browser-field-spec) and
          the webpack [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealiasfields)
-         documentation 
-         
+         documentation
+
          Defaults to an empty array (= don't use alias fields).
        */
       // aliasFields: ["browser"],

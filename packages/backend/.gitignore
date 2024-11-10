@@ -170,3 +170,6 @@ dist
 
 .dev.vars
 .wrangler/
+
+# auto-generated file
+/dependency-graph.png

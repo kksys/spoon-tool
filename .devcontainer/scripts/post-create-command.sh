@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo apt update && sudo apt install -y graphviz
+
 NODE_VERSION=$(cat package.json | jq -r .engines.node)
 PNPM_VERSION=$(cat package.json | jq -r .engines.pnpm)
 

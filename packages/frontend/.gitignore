@@ -29,3 +29,6 @@ dist-ssr
 # auto-generated file on assets
 /src/assets/autogen/*
 !/src/assets/autogen/.gitkeep
+
+# auto-generated file
+/dependency-graph.png

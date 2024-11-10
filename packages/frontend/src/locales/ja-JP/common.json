@@ -18,7 +18,8 @@
     "clear": "クリア",
     "error": {
       "title": "エラー"
-    }
+    },
+    "wait": "お待ちください..."
   },
   "configuration": {
     "resetting": "設定をリセットしています..."

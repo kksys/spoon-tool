@@ -7,8 +7,12 @@ import { UserPaginatorViewModel } from '#/search-user/view-models/UserPaginatorV
 import { UserViewModel } from '#/search-user/view-models/UserViewModel'
 
 import { ApiClient } from '../api/ApiClient'
+import { UserRepository } from '../infrastructures/repositories/UserRepository'
 import { IApiClient } from '../interfaces/api/IApiClient'
+import { IUserRepository } from '../interfaces/repository/IUserRepository'
+import { IUserDetailViewModel } from '../interfaces/view-models/IUserDetailViewModel'
 import { IUserListViewModel } from '../interfaces/view-models/IUserListViewModel'
+import { UserDetailViewModel } from '../view-models/UserDetailViewModel'
 import { UserListViewModel } from '../view-models/UserListViewModel'
 import { searchUserTypes } from './searchUserTypes'
 
@@ -41,5 +45,13 @@ export const searchUserModule = new ContainerModule((bind) => {
 
   bind<IUserListViewModel>(searchUserTypes.UserListViewModel)
     .to(UserListViewModel)
+    .inSingletonScope()
+
+  bind<IUserDetailViewModel>(searchUserTypes.UserDetailViewModel)
+    .to(UserDetailViewModel)
+    .inSingletonScope()
+
+  bind<IUserRepository>(searchUserTypes.UserRepository)
+    .to(UserRepository)
     .inSingletonScope()
 })

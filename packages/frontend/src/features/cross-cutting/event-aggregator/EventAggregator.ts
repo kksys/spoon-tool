@@ -1,16 +1,24 @@
 import { injectable } from 'inversify'
-import { Observable, Subject } from 'rxjs'
+import { filter, map, Subject } from 'rxjs'
 
-import { EventType } from '../interfaces/event-aggregator/IEvent'
-import { IEventAggregator } from '../interfaces/event-aggregator/IEventAggregator'
+import { IEventAggregator, IEventPubSub } from '../interfaces/event-aggregator/IEventAggregator'
 
 @injectable()
 export class EventAggregator implements IEventAggregator {
-  private subject = new Subject<EventType>()
+  private subject = new Subject<{ event: string }>()
 
-  subscriber$: Observable<EventType> = this.subject.asObservable()
+  getEvent<EventType extends string, Event extends { event: EventType }>(...eventType: EventType[]): IEventPubSub<EventType, Event> {
+    const subject = this.subject
 
-  publish(event: EventType): void {
-    this.subject.next(event)
+    return {
+      subscribe$: subject.asObservable()
+        .pipe(
+          filter(event => eventType.includes(event.event as EventType)),
+          map(event => event as Event)
+        ),
+      publish(event: Event): void {
+        subject.next(event)
+      }
+    }
   }
 }

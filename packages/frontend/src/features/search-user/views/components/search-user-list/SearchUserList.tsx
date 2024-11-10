@@ -11,12 +11,12 @@ import {
 import { FixedSizeList } from 'react-window'
 import InfiniteLoader from 'react-window-infinite-loader'
 
-import { IUserViewModel } from '#/search-user/interfaces/view-models/IUserViewModel'
+import { User } from '#/search-user/interfaces/models/User'
 
 import { getSearchUserItemHeight, SearchUserItem } from '../search-user-item/SearchUserItem'
 
 interface ISearchUserListProps {
-  userList: IUserViewModel[]
+  userList: User[]
   hasNextPage: boolean
   isBusy: boolean
   loadNextItems: (startIndex: number, stopIndex: number) => Promise<void> | void
@@ -86,7 +86,7 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
             <SearchUserItem
               key={ index }
               user={ user }
-              onClick={ () => onSelectUser(user.properties.id) }
+              onClick={ () => onSelectUser(user.id) }
             />
           )
           : (

@@ -195,10 +195,9 @@ export const ConfigurationPage: FC = memo(() => {
         onClickClose={ handleCompletedToResetButton }
       />
 
-      { isBusy
-        ? <StSpinnerScreen />
-        : undefined
-      }
+      { isBusy && (
+        <StSpinnerScreen label={ t('configuration.resetting', { ns: 'common' }) } />
+      ) }
     </Page>
   )
 })

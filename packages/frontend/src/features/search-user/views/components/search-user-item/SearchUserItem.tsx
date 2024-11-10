@@ -9,7 +9,7 @@ import { ILoggerService } from '#/cross-cutting/interfaces/services/ILoggerServi
 import { Flex } from '#/cross-cutting/views/components/flex/Flex'
 import { Stack } from '#/cross-cutting/views/components/stack/Stack'
 import { StackItem } from '#/cross-cutting/views/components/stack-item/StackItem'
-import { IUserViewModel } from '#/search-user/interfaces/view-models/IUserViewModel'
+import { User } from '#/search-user/interfaces/models/User'
 
 import { SearchUserBadge, SearchUserBadgeType } from '../search-user-badge/SearchUserBadge'
 
@@ -133,33 +133,33 @@ SearchUserItemLoading.displayName = 'SearchUserItemLoading'
 
 interface ISearchUserItemNormalProps {
   loading?: false
-  user: IUserViewModel
+  user: User
   onClick: MouseEventHandler<never>
 }
 
-const AvatarForSearchUserItemNormal: FC<{ user: IUserViewModel }> = memo(({ user }) => {
+const AvatarForSearchUserItemNormal: FC<{ user: User }> = memo(({ user }) => {
   const loggerService = diContainer.get<ILoggerService>(crossCuttingTypes.LoggerService)
 
-  const [icon, setIcon] = useState<string | undefined>(user.properties.profileIcon)
+  const [icon, setIcon] = useState<string | undefined>(user.profile.profileIcon)
 
   const handleAvatarChange = useCallback<NonNullable<AvatarProps['onLoadedData']>>((...args) => {
-    loggerService.log(`${user.properties.id}-icon`, 'handleAvatarChange', ...args)
-  }, [loggerService, user.properties.id])
+    loggerService.log(`${user.id}-icon`, 'handleAvatarChange', ...args)
+  }, [loggerService, user.id])
 
   const handleAvatarLoad = useCallback<NonNullable<AvatarProps['onLoad']>>((...args) => {
-    loggerService.log(`${user.properties.id}-icon`, 'handleAvatarLoad', ...args)
-  }, [loggerService, user.properties.id])
+    loggerService.log(`${user.id}-icon`, 'handleAvatarLoad', ...args)
+  }, [loggerService, user.id])
 
   const handleAvatarError = useCallback<NonNullable<AvatarProps['onError']>>((...args) => {
-    loggerService.log(`${user.properties.id}-icon`, 'handleAvatarError', ...args)
+    loggerService.log(`${user.id}-icon`, 'handleAvatarError', ...args)
     setIcon(undefined)
-  }, [loggerService, user.properties.id])
+  }, [loggerService, user.id])
 
   return (
     <div style={ { position: 'relative' } }>
       <div>
         <Avatar
-          key={ `${user.properties.id}-icon` }
+          key={ `${user.id}-icon` }
           image={ { src: icon } }
           onLoadedData={ handleAvatarChange }
           onLoad={ handleAvatarLoad }
@@ -178,30 +178,30 @@ const SearchUserItemNormal: FC<Omit<ISearchUserItemNormalProps, 'loading'>> = me
 
   return (
     <SearchUserItemBase
-      key={ `${user.properties.id}` }
+      key={ `${user.id}` }
       renderIcon={ (
         <AvatarForSearchUserItemNormal user={ user } />
       ) }
-      renderBadge={ user.properties.badges.length > 0
+      renderBadge={ user.status.badges.length > 0
         ? (
           <div style={ { display: 'flex', flexWrap: 'wrap', gap: '4px', justifyContent: 'flex-start', alignContent: 'center' } }>
-            { user.properties.badges.includes('Original') && (
+            { user.status.badges.includes('Original') && (
               <SearchUserBadge type={ SearchUserBadgeType.Original } />
             )}
 
-            { user.properties.badges.includes('Red_Choice') && (
+            { user.status.badges.includes('Red_Choice') && (
               <SearchUserBadge type={ SearchUserBadgeType.Red_Choice } />
             )}
 
-            { user.properties.badges.includes('Orange_Choice') && (
+            { user.status.badges.includes('Orange_Choice') && (
               <SearchUserBadge type={ SearchUserBadgeType.Orange_Choice } />
             )}
 
-            { user.properties.badges.includes('Yellow_Choice') && (
+            { user.status.badges.includes('Yellow_Choice') && (
               <SearchUserBadge type={ SearchUserBadgeType.Yellow_Choice } />
             )}
 
-            { user.properties.badges.includes('voice') && (
+            { user.status.badges.includes('voice') && (
               <SearchUserBadge type={ SearchUserBadgeType.Voice } />
             )}
           </div>
@@ -210,22 +210,22 @@ const SearchUserItemNormal: FC<Omit<ISearchUserItemNormalProps, 'loading'>> = me
       }
       renderNickName={ (
         <span>
-          {user.properties.nickname}
+          {user.profile.nickname}
         </span>
       ) }
       renderTag={ (
         <span>
-          {`@${user.properties.tag}`}
+          {`@${user.profile.tag}`}
         </span>
       ) }
       renderNumberOfFollowers={ (
         <span>
-          { t('numberOfFollowers.format', { ns: 'search-user', followers: user.properties.numberOfFollowers.toLocaleString() }) }
+          { t('numberOfFollowers.format', { ns: 'search-user', followers: user.statistics.numberOfFollowers.toLocaleString() }) }
         </span>
       ) }
       renderNumberOfFollowing={ (
         <span>
-          { t('numberOfFollowing.format', { ns: 'search-user', following: user.properties.numberOfFollowing.toLocaleString() }) }
+          { t('numberOfFollowing.format', { ns: 'search-user', following: user.statistics.numberOfFollowing.toLocaleString() }) }
         </span>
       ) }
       onClick={ onClick }

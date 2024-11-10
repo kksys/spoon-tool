@@ -13,8 +13,10 @@ import { GenericHttpError } from '#/cross-cutting/errors/http-error/GenericHttpE
 import { InternalServerError } from '#/cross-cutting/errors/http-error/InternalServerError'
 import { NotFoundError } from '#/cross-cutting/errors/http-error/NotFoundError'
 import { UnauthorizedError } from '#/cross-cutting/errors/http-error/UnauthorizedError'
+import { StSpinnerScreen } from '#/cross-cutting/views/components/st-spinner-screen/StSpinnerScreen'
 import { Page } from '#/cross-cutting/views/pages/Page'
 import { searchUserTypes } from '#/search-user/di/searchUserTypes'
+import { IUserDetailViewModel } from '#/search-user/interfaces/view-models/IUserDetailViewModel'
 import { IUserListViewModel } from '#/search-user/interfaces/view-models/IUserListViewModel'
 import { SearchUserHeader } from '#/search-user/views/components/search-user-header/SearchUserHeader'
 import { SearchUserList } from '#/search-user/views/components/search-user-list/SearchUserList'
@@ -123,11 +125,15 @@ ToastSwitcher.displayName = 'ToastSwitcher'
 
 export const SearchUserPage: FC = memo(() => {
   const viewModel = diContainer.get<IUserListViewModel>(searchUserTypes.UserListViewModel)
+  const userDetailViewModel = diContainer.get<IUserDetailViewModel>(searchUserTypes.UserDetailViewModel)
+
+  const { t } = useTranslation()
 
   const toasterId = useId('toaster')
   const { dispatchToast } = useToastController(toasterId)
 
   const isBusy = useObservable(viewModel.isLocalBusy$, false)
+  const isUserDetailBusy = useObservable(userDetailViewModel.isLocalBusy$, false)
   const userList = useObservable(viewModel.userList$, [])
   const hasNextPage = useObservable(viewModel.paginator.hasNextPage$, false)
 
@@ -161,22 +167,26 @@ export const SearchUserPage: FC = memo(() => {
               await viewModel.fetchNextUserList()
             } }
             onSelectUser={ async (userId: number): Promise<void> => {
-              viewModel.setActiveUser(userId)
-              await viewModel.fetchUserDetail(userId)
+              userDetailViewModel.setActiveUser(userId)
+              await userDetailViewModel.fetchUserDetail(userId)
               setOpenUserDetailDialog(true)
             } }
           />
         </div>
       </Page>
 
-      {viewModel.activeUser && (
+      { isUserDetailBusy && (
+        <StSpinnerScreen label={ t('common.wait', { ns: 'common' }) } />
+      ) }
+
+      { userDetailViewModel.activeUser && (
         <UserDetailDialog
-          user={ viewModel.activeUser }
+          user={ userDetailViewModel.activeUser }
           open={ openUserDetailDialog }
           onOpenChange={ (_event, data) => setOpenUserDetailDialog(data.open) }
           onClickClose={ () => setOpenUserDetailDialog(false) }
         />
-      )}
+      ) }
 
       <Toaster toasterId={ toasterId } />
     </>

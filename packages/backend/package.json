@@ -8,6 +8,7 @@
     "dev": "wrangler dev",
     "start": "wrangler dev",
     "circular": "depcruise src",
+    "circular:map": "depcruise --include-only \"^src\" --output-type ddot src | dot -T png > dependency-graph.png",
     "lint": "tsc --noEmit && eslint . --flag unstable_ts_config",
     "lint:fix": "eslint --fix . --flag unstable_ts_config",
     "test": "vitest run",

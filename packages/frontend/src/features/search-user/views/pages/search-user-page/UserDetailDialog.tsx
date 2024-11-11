@@ -10,12 +10,12 @@ import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
 import { IStDialogProps, StDialog } from '#/cross-cutting/views/components/st-dialog/StDialog'
 import { Stack } from '#/cross-cutting/views/components/stack/Stack'
 import { StackItem } from '#/cross-cutting/views/components/stack-item/StackItem'
-import { IUserViewModel } from '#/search-user/interfaces/view-models/IUserViewModel'
+import { User } from '#/search-user/interfaces/models/User'
 
 import { SearchUserBadge, SearchUserBadgeType } from '../../components/search-user-badge/SearchUserBadge'
 
 interface IUserDetailDialogProps extends Pick<IStDialogProps, 'open' | 'onOpenChange'> {
-  user: IUserViewModel
+  user: User
   onClickClose: () => void | Promise<void>
 }
 
@@ -25,7 +25,7 @@ export const UserDetailDialog: FC<IUserDetailDialogProps> = memo(({ open, onOpen
   const i18n = diContainer.get<i18n>(crossCuttingTypes.I18n)
 
   const [icon, setIcon] = useState<string | undefined>(() => {
-    let profileIcon = user.properties.profileIcon
+    let profileIcon = user.profile.profileIcon
 
     if (profileIcon.startsWith('http:') && window.location.protocol === 'https:') {
       // http resource is referenced by https resource
@@ -37,7 +37,7 @@ export const UserDetailDialog: FC<IUserDetailDialogProps> = memo(({ open, onOpen
   })
 
   useEffect(() => {
-    let profileIcon = user.properties.profileIcon
+    let profileIcon = user.profile.profileIcon
 
     if (profileIcon.startsWith('http:') && window.location.protocol === 'https:') {
       // http resource is referenced by https resource
@@ -46,7 +46,7 @@ export const UserDetailDialog: FC<IUserDetailDialogProps> = memo(({ open, onOpen
     }
 
     setIcon(profileIcon)
-  }, [user.properties.profileIcon])
+  }, [user.profile.profileIcon])
 
   const handleAvatarError = useCallback<NonNullable<AvatarProps['onError']>>(() => {
     setIcon(undefined)
@@ -78,23 +78,23 @@ export const UserDetailDialog: FC<IUserDetailDialogProps> = memo(({ open, onOpen
                   />
                 </div>
                 <div style={ { position: 'absolute', inset: 0, display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'flex-end', alignContent: 'end' } }>
-                  { user.properties.badges.includes('Original') && (
+                  { user.status.badges.includes('Original') && (
                     <SearchUserBadge type={ SearchUserBadgeType.Original } />
                   )}
 
-                  { user.properties.badges.includes('Red_Choice') && (
+                  { user.status.badges.includes('Red_Choice') && (
                     <SearchUserBadge type={ SearchUserBadgeType.Red_Choice } />
                   )}
 
-                  { user.properties.badges.includes('Orange_Choice') && (
+                  { user.status.badges.includes('Orange_Choice') && (
                     <SearchUserBadge type={ SearchUserBadgeType.Orange_Choice } />
                   )}
 
-                  { user.properties.badges.includes('Yellow_Choice') && (
+                  { user.status.badges.includes('Yellow_Choice') && (
                     <SearchUserBadge type={ SearchUserBadgeType.Yellow_Choice } />
                   )}
 
-                  { user.properties.badges.includes('voice') && (
+                  { user.status.badges.includes('voice') && (
                     <SearchUserBadge type={ SearchUserBadgeType.Voice } />
                   )}
                 </div>
@@ -103,20 +103,20 @@ export const UserDetailDialog: FC<IUserDetailDialogProps> = memo(({ open, onOpen
             <StackItem grow>
               <Stack>
                 <Text>
-                  { user.properties.nickname }
+                  { user.profile.nickname }
                 </Text>
                 <Text>
-                  { `@${user.properties.tag}` }
+                  { `@${user.profile.tag}` }
                 </Text>
                 <br />
                 <Text>
-                  { t('numberOfFollowers.format', { ns: 'search-user', followers: user.properties.numberOfFollowers.toLocaleString() }) }
+                  { t('numberOfFollowers.format', { ns: 'search-user', followers: user.statistics.numberOfFollowers.toLocaleString() }) }
                 </Text>
                 <Text>
-                  { t('numberOfFollowing.format', { ns: 'search-user', following: user.properties.numberOfFollowing.toLocaleString() }) }
+                  { t('numberOfFollowing.format', { ns: 'search-user', following: user.statistics.numberOfFollowing.toLocaleString() }) }
                 </Text>
                 <Text>
-                  { t('joinedDateTime.format', { ns: 'search-user', datetime: user.detail?.joinedDate?.toLocaleString(i18n.language) }) }
+                  { t('joinedDateTime.format', { ns: 'search-user', datetime: user.profile.joinedDate?.toLocaleString(i18n.language) }) }
                 </Text>
               </Stack>
             </StackItem>

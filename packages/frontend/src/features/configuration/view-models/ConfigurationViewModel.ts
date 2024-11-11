@@ -22,7 +22,9 @@ export class ConfigurationViewModel extends ViewModelBase implements IConfigurat
   unchanged$: Observable<boolean> = this.repository.hasChange$.pipe(map(v => !v))
 
   private notifyEvent(event: EventType): void {
-    this.eventAggregator.publish(event)
+    this.eventAggregator
+      .getEvent<'configurationChanged' | 'configurationResetted', EventType>('configurationChanged', 'configurationResetted')
+      .publish(event)
   }
 
   async save(): Promise<void> {

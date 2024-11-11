@@ -1,6 +1,5 @@
 import { makeStyles, Portal, Spinner, tokens } from '@fluentui/react-components'
 import { FC, memo } from 'react'
-import { useTranslation } from 'react-i18next'
 
 const useStyles = makeStyles({
   backdrop: {
@@ -21,8 +20,11 @@ const useStyles = makeStyles({
   }
 })
 
-export const StSpinnerScreen: FC = memo(() => {
-  const { t } = useTranslation()
+interface StSpinnerScreenProps {
+  label: string
+}
+
+export const StSpinnerScreen: FC<StSpinnerScreenProps> = memo(({ label }) => {
   const styles = useStyles()
 
   return (
@@ -32,7 +34,7 @@ export const StSpinnerScreen: FC = memo(() => {
         <div className={ styles.surface }>
           <Spinner
             labelPosition="below"
-            label={ t('configuration.resetting', { ns: 'common' }) }
+            label={ label }
           />
         </div>
       </div>

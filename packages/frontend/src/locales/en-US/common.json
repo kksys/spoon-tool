@@ -15,7 +15,11 @@
     "continue": "Continue",
     "loading": "Loading...",
     "search": "Search",
-    "clear": "Clear"
+    "clear": "Clear",
+    "error": {
+      "title": "Error"
+    },
+    "wait": "Please wait..."
   },
   "configuration": {
     "resetting": "Resetting Configurations..."

@@ -13,6 +13,7 @@ import { LicensePage } from '#/about/views/pages/license-page/LicensePage'
 import { RepositoryPage } from '#/about/views/pages/repository-page/RepositoryPage'
 import { ConfigurationPage } from '#/configuration/views/pages/configuration-page/ConfigurationPage'
 import { crossCuttingTypes } from '#/cross-cutting/di/crossCuttingTypes'
+import { EventType } from '#/cross-cutting/interfaces/event-aggregator/IEvent'
 import { IEventAggregator } from '#/cross-cutting/interfaces/event-aggregator/IEventAggregator'
 import { Layout } from '#/cross-cutting/views/components/layout/Layout'
 import { Page } from '#/cross-cutting/views/pages/Page'
@@ -96,7 +97,9 @@ function useApplyingLanguage() {
   const configurationRepository = diContainer.get<IConfigurationRepository>(configurationTypes.ConfigurationRepository)
 
   useEffect(() => {
-    const subscription = eventAggregator.subscriber$
+    const subscription = eventAggregator
+      .getEvent<'configurationChanged' | 'configurationResetted', EventType>('configurationChanged', 'configurationResetted')
+      .subscribe$
       .pipe(
         filter(event => {
           switch (event.event) {
@@ -131,7 +134,9 @@ function useApplyingTheme() {
   const [theme, setTheme] = useTheme(configurationRepository.getCalculatedTheme())
 
   useEffect(() => {
-    const subscription = eventAggregator.subscriber$
+    const subscription = eventAggregator
+      .getEvent<'configurationChanged' | 'configurationResetted', EventType>('configurationChanged', 'configurationResetted')
+      .subscribe$
       .pipe(
         filter(event => {
           switch (event.event) {

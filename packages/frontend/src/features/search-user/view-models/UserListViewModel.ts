@@ -60,7 +60,8 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
 
   @autoBusyAsync()
   async resetResult(): Promise<void> {
-    this.userRepository.clear()
+    await this.userRepository.clear()
+    await this.userRepository.save()
     this.paginator.updateCursors({ previous: '', next: '' })
   }
 

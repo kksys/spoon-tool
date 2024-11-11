@@ -2,7 +2,7 @@ import { Toast, ToastBody, Toaster, ToastTitle, useId, useToastController } from
 import { FC, memo, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useObservable } from 'react-use'
-import { distinctUntilChanged } from 'rxjs'
+import { distinctUntilChanged, merge } from 'rxjs'
 
 import { diContainer } from '~/inversify.config'
 
@@ -138,7 +138,10 @@ export const SearchUserPage: FC = memo(() => {
   const hasNextPage = useObservable(viewModel.paginator.hasNextPage$, false)
 
   useEffect(() => {
-    const subscription = viewModel.errorBag$
+    const subscription = merge(
+      viewModel.errorBag$,
+      userDetailViewModel.errorBag$
+    )
       .pipe(distinctUntilChanged())
       .subscribe(error => {
         dispatchToast(

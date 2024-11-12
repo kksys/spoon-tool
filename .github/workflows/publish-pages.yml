@@ -39,7 +39,7 @@ jobs:
         run: |
           node_version=$(cat package.json | jq -r .engines.node)
           echo "NODE_VERSION=${node_version}" >> $GITHUB_ENV
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 

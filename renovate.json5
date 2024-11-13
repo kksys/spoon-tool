@@ -1,0 +1,31 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    "group:allNonMajor",
+    "config:best-practices",
+    ":disableRateLimiting",
+  ],
+  enabledManagers: ["dockerfile", "github-actions", "custom.regex", "npm"],
+  vulnerabilityAlerts: {
+    labels: ["security"],
+  },
+  assigneesSampleSize: 2,
+  reviewersSampleSize: 1,
+  timezone: "Asia/Tokyo",
+  schedule: ["before 2am on Sunday"],
+  customManagers: [
+    {
+      customType: "regex",
+      fileMatch: ["^pnpm-workspace.yaml$"],
+      matchStringsStrategy: "combination",
+      matchStrings: ["\\s{2}(?<depName>[^:]+):\\s(?<currentValue>[^\n]+)\n"],
+      autoReplaceStringTemplate: "  {{{depName}}}: {{{newValue}}}\n",
+      datasourceTemplate: "npm",
+    },
+  ],
+  packageRules: [
+    {
+      matchManagers: ["npm", "custom.regex"],
+    },
+  ],
+}

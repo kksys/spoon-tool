@@ -1,11 +1,13 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  extends: [
-    "group:allNonMajor",
-    "config:best-practices",
-    ":disableRateLimiting",
+  extends: ["config:best-practices", ":disableRateLimiting"],
+  enabledManagers: [
+    "dockerfile",
+    "devcontainer",
+    "github-actions",
+    "custom.regex",
+    "npm",
   ],
-  enabledManagers: ["dockerfile", "github-actions", "custom.regex", "npm"],
   vulnerabilityAlerts: {
     labels: ["security"],
   },

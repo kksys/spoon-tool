@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+function exec_renovate() {
+  export LOG_LEVEL=debug
+  export RENOVATE_CONFIG_FILE=./renovate.json5
+  export CODESPACES=false
+
+  pushd $(pwd) >/dev/null
+
+  cd ../..
+  rm "${RENOVATE_TESTER_PWD}/renovate-output.log"
+  renovate --dry-run --platform=local | tee "${RENOVATE_TESTER_PWD}/renovate-output.log"
+
+  popd >/dev/null
+}
+
+RENOVATE_TESTER_PWD=$(pwd)
+
+exec_renovate
+cat ./renovate-output.log | grep -v "abortOnError" | grep Error >/dev/null && exit 1 || exit 0

@@ -1,0 +1,12 @@
+{
+  "name": "renovate-tester",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "./exec-renovate"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "renovate": "^39.18.0"
+  }
+}

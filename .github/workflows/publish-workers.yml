@@ -28,13 +28,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Set node version
         run: |
           node_version=$(cat package.json | jq -r .engines.node)
           echo "NODE_VERSION=${node_version}" >> $GITHUB_ENV
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
         with:
           node-version: ${{ env.NODE_VERSION }}
 
@@ -43,12 +43,12 @@ jobs:
         run: |
           pnpm_version=$(cat package.json | jq -r .engines.pnpm)
           echo "PNPM_VERSION=${pnpm_version}" >> $GITHUB_ENV
-      - uses: pnpm/action-setup@v4.0.0
+      - uses: pnpm/action-setup@fe02b34f77f8bc703788d5817da081398fad5dd2 # v4.0.0
         with:
           version: ${{ env.PNPM_VERSION }}
 
       - name: Cache node modules
-        uses: actions/cache@v4
+        uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4
         env:
           cache-name: cache-node-modules
         with:
@@ -63,13 +63,13 @@ jobs:
 
       - name: Deploy
         id: cloudflare_workers_deploy
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@05f17c4a695b4d94b57b59997562c6a4624c64e4 # v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN_FOR_BACKEND }}
           workingDirectory: ${{ env.BACKEND_DIRECTORY }}
 
       - name: Add publish URL as commit status
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
         with:
           script: |
             const sha = context.payload.pull_request?.head.sha ?? context.sha;

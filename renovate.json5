@@ -45,8 +45,8 @@
   packageRules: [
     {
       matchManagers: [
+        "custom.regex",
         "npm",
-        "custom.regex"
       ],
     },
   ],

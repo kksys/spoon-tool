@@ -7,7 +7,6 @@
     ":disableRateLimiting"
   ],
   enabledManagers: [
-    "dockerfile",
     "devcontainer",
     "github-actions",
     "custom.regex",
@@ -18,6 +17,11 @@
       "security"
     ],
   },
+  hostRules: [
+    {
+      abortOnError: true,
+    }
+  ],
   assigneesSampleSize: 2,
   reviewersSampleSize: 1,
   timezone: "Asia/Tokyo",

@@ -45,7 +45,8 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Install Dependencies
-        run: pnpm i
+        run: |
+          pnpm i --frozen-lockfile
 
       - name: Lint Check
         run: |
@@ -88,7 +89,8 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Install Dependencies
-        run: pnpm i
+        run: |
+          pnpm i --frozen-lockfile
 
       - name: Build
         run: pnpm -C ${{ env.FRONTEND_DIRECTORY }} build
@@ -128,7 +130,8 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
       - name: Install Dependencies
-        run: pnpm i
+        run: |
+          pnpm i --frozen-lockfile
 
       - name: Run Unit Test
         run: pnpm -C ${{ env.FRONTEND_DIRECTORY }} test

@@ -36,9 +36,9 @@
       ],
       matchStringsStrategy: "any",
       matchStrings: [
-        "  (?<quote1>\"?)(?<depName>[^:\n\"]+)(?<quote2>\"?): (?<currentValue>[^\n]+)"
+        "  (?<quote>\"?)(?<depName>[^:\n\"]+)\"?: (?<currentValue>[^\n]+)"
       ],
-      autoReplaceStringTemplate: "  {{{quote1}}}{{{depName}}}{{{quote2}}}: {{{newValue}}}",
+      autoReplaceStringTemplate: "  {{{quote}}}{{{depName}}}{{{quote}}}: {{{newValue}}}",
       datasourceTemplate: "npm",
     },
   ],

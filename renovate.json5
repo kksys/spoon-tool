@@ -1,7 +1,9 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
-    "config:best-practices",
+    "config:recommended",
+    "docker:pinDigests",
+    "helpers:pinGitHubActionDigests",
     ":disableRateLimiting"
   ],
   enabledManagers: [
@@ -28,7 +30,7 @@
       fileMatch: [
         "^pnpm-workspace.yaml$"
       ],
-      matchStringsStrategy: "combination",
+      matchStringsStrategy: "recursive",
       matchStrings: [
         "\\s{2}(?<depName>[^:]+):\\s(?<currentValue>[^\n]+)\n"
       ],

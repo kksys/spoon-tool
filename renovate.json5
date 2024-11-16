@@ -34,7 +34,7 @@
       fileMatch: [
         "^pnpm-workspace.yaml$"
       ],
-      matchStringsStrategy: "recursive",
+      matchStringsStrategy: "any",
       matchStrings: [
         "  (?<quotedDepName>\"?(?<depName>[^:\n\"]+)\"?): (?<currentValue>[^\n]+)"
       ],

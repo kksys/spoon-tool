@@ -42,4 +42,12 @@
       datasourceTemplate: "npm",
     },
   ],
+  packageRules: [
+    {
+      matchManagers: [
+        "custom.regex",
+        "npm",
+      ],
+    },
+  ],
 }

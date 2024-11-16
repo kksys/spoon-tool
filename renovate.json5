@@ -36,7 +36,7 @@
       ],
       matchStringsStrategy: "recursive",
       matchStrings: [
-        "\\s{2}(?<quotedDepName>\\\"?(?<depName>[^:\\\"]+)\\\"?):\\s(?<currentValue>[^\n]+)\n"
+        "^\\s{2}(?<quotedDepName>\\\"?(?<depName>[^:\\\"]+)\\\"?):\\s(?<currentValue>[^\n]+)\n$"
       ],
       autoReplaceStringTemplate: "  {{{quotedDepName}}}: {{{newValue}}}\n",
       datasourceTemplate: "npm",

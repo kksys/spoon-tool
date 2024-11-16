@@ -48,22 +48,18 @@ jobs:
 
       - name: Install Dependencies
         continue-on-error: true
-        id: install_dependencies
         run: |
           pnpm i --frozen-lockfile
 
       - name: Update pnpm-lock.yaml
-        if: ${{ steps.install_dependencies.outcome == 'failure' }}
         run: |
           pnpm i --fix-lockfile
 
       - name: Showing current status
-        if: ${{ steps.install_dependencies.outcome == 'failure' }}
         run: |
           git status
 
       - name: Stage changes
-        if: ${{ steps.install_dependencies.outcome == 'failure' }}
         run: |
           git add -N . # 新規ファイルを含める
           if ! git diff --exit-code --quiet
@@ -76,6 +72,5 @@ jobs:
           fi
 
       - name: Pushing new commit
-        if: ${{ steps.install_dependencies.outcome == 'failure' }}
         run: |
           git push origin

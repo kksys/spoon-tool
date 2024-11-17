@@ -31,6 +31,9 @@
   schedule: [
     "before 2am on Sunday"
   ],
+  labels: [
+    "renovate"
+  ],
   customManagers: [
     {
       customType: "regex",
@@ -53,6 +56,15 @@
         "@types/node",
       ],
       groupName: "Node.js",
+    },
+    // add labels into the PR which is including the change of `pnpm-workspace.yaml`
+    {
+      matchFileNames: [
+        "pnpm-workspace.yaml"
+      ],
+      labels: [
+        "outdated-lockfile"
+      ]
     }
   ],
   updateLockFiles: true,

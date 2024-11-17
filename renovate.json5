@@ -59,9 +59,4 @@
   postUpdateOptions: [
     "pnpmDedupe"
   ],
-  npm: {
-    lockFileMaintenance: {
-      "enabled": true,
-    }
-  }
 }

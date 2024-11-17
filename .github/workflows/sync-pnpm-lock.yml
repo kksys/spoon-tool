@@ -16,6 +16,14 @@ env:
   RENOVATE_TESTER_DIRECTORY: tools/renovate-tester
 
 jobs:
+  echo:
+    steps:
+      - name: Echo
+        run: |
+          echo ${{ github.head_ref }}
+          echo ${{ github.event.pull_request.labels.*.name }}
+          echo ${{ github.event.pull_request.user.login }}
+
   sync:
     if: >-
       startsWith(github.head_ref, 'renovate/') &&

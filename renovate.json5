@@ -43,11 +43,20 @@
     },
   ],
   packageRules: [
+    // remove quotes from depName if it is "@types/node"
     {
-      matchManagers: [
-        "custom.regex",
-        "npm",
+      matchDepNames: [
+        "\"@types/node\"",
       ],
+      overrideDepName: "@types/node"
+    },
+    // squash to one commit the change of node and @types/node because they are dependent each other
+    {
+      matchPackageNames: [
+        "node",
+        "@types/node",
+      ],
+      groupName: "node",
     },
   ],
 }

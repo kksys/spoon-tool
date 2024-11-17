@@ -114,7 +114,7 @@ importers:
         specifier: ^23.16.5
         version: 23.16.5
       inversify:
-        specifier: ^6.1.1
+        specifier: ^6.1.4
         version: 6.1.4(reflect-metadata@0.2.2)
       lodash-es:
         specifier: ^4.17.21

@@ -55,5 +55,8 @@
       groupName: "Node.js",
     }
   ],
-  updateLockFiles: true
+  updateLockFiles: true,
+  postUpdateOptions: [
+    "pnpmDedupe"
+  ],
 }

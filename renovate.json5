@@ -53,11 +53,6 @@
         "@types/node",
       ],
       groupName: "Node.js",
-    },
-    {
-      matchFileNames: [
-        "pnpm-workspace.yaml",
-      ]
     }
   ],
   updateLockFiles: true

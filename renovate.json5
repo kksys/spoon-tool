@@ -8,6 +8,7 @@
   ],
   rebaseWhen: "behind-base-branch",
   automerge: true,
+  rangeStrategy: "bump",
   enabledManagers: [
     "devcontainer",
     "github-actions",
@@ -53,11 +54,11 @@
       ],
       groupName: "Node.js",
     },
+    {
+      matchFileNames: [
+        "pnpm-workspace.yaml",
+      ]
+    }
   ],
-  lockFileMaintenance: {
-    enabled: true,
-    enabledManagers: [
-      "npm",
-    ],
-  }
+  updateLockFiles: true
 }

@@ -52,4 +52,11 @@
       groupName: "Node.js",
     },
   ],
+  lockFileMaintenance: {
+    enabled: true,
+    enabledManagers: [
+      "npm",
+    ],
+  },
+  automerge: true
 }

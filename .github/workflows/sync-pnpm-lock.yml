@@ -2,8 +2,6 @@ name: Sync pnpm-lock.yaml
 
 on:
   pull_request:
-    branches:
-      - "renovate/**"
     paths:
       - "pnpm-workspace.yaml"
     types:

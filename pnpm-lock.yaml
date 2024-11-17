@@ -50,7 +50,7 @@ importers:
   packages/backend:
     dependencies:
       hono:
-        specifier: ^4.6.9
+        specifier: ^4.6.10
         version: 4.6.10
     devDependencies:
       '@cloudflare/vitest-pool-workers':

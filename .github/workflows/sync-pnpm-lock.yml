@@ -1,17 +1,27 @@
 name: Sync pnpm-lock.yaml
 
 on:
-  push:
+  pull_request:
     branches:
       - "renovate/**"
     paths:
       - "pnpm-workspace.yaml"
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - labeled
 
 env:
   RENOVATE_TESTER_DIRECTORY: tools/renovate-tester
 
 jobs:
-  test:
+  sync:
+    if: |
+      startsWith(github.head_ref, 'renovate/') &&
+      contains(github.event.pull_request.labels.*.name, 'renovate') &&
+      contains(github.event.pull_request.labels.*.name, 'outdated-lockfile') &&
+      github.event.pull_request.user.login == 'renovate[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -60,6 +70,7 @@ jobs:
           git status
 
       - name: Stage changes
+        continue-on-error: true
         run: |
           git add -N . # 新規ファイルを含める
           if ! git diff --exit-code --quiet
@@ -72,5 +83,6 @@ jobs:
           fi
 
       - name: Pushing new commit
+        continue-on-error: true
         run: |
           git push origin

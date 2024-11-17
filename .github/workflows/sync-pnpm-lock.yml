@@ -17,7 +17,7 @@ env:
 
 jobs:
   sync:
-    if: |
+    if: >-
       startsWith(github.head_ref, 'renovate/') &&
       contains(github.event.pull_request.labels.*.name, 'renovate') &&
       contains(github.event.pull_request.labels.*.name, 'outdated-lockfile') &&

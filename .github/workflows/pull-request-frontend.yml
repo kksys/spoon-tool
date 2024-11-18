@@ -59,6 +59,7 @@ jobs:
       - name: Install Dependencies
         run: |
           pnpm i --frozen-lockfile
+          pnpm -C ${{ env.FRONTEND_DIRECTORY }} exec playwright install --with-deps
 
       - name: Run Unit Test
         run: pnpm -C ${{ env.FRONTEND_DIRECTORY }} test

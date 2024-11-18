@@ -15,7 +15,8 @@
         "bierner.markdown-preview-github-styles",
         "bierner.github-markdown-preview",
         "yahyabatulu.vscode-markdown-alert",
-        "BlueGlassBlock.better-json5"
+        "BlueGlassBlock.better-json5",
+        "ms-playwright.playwright"
       ]
     }
   },

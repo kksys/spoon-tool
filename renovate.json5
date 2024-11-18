@@ -62,7 +62,7 @@
       matchFileNames: [
         "pnpm-workspace.yaml"
       ],
-      labels: [
+      addLabels: [
         "outdated-lockfile"
       ]
     }

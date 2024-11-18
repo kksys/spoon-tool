@@ -18,6 +18,7 @@
     "src/i18n.resources.ts",
     "src/locales",
     "test/vitest.setup.ts",
+    "test/e2e/**/*.ts",
     "types/eslint-plugin-react.d.ts",
     "types/eslint-plugin-react-hooks.d.ts",
     "types/eslint-plugin-react-refresh.d.ts",
@@ -25,5 +26,6 @@
     "i18next-parser.config.ts",
     "vite.config.ts",
     "vitest.config.ts",
+    "playwright.config.ts",
   ]
 }

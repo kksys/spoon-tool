@@ -8,7 +8,8 @@ export default mergeConfig(
     test: {
       setupFiles: [
         './test/vitest.setup.ts',
-      ]
+      ],
+      dir: './test/unit',
     }
   })
 )

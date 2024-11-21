@@ -32,32 +32,30 @@ jobs:
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
         with:
           payload: |
-            {
-              "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
-              "text": ":loading: Generating new devcontainer image...",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": ":loading: Generating new devcontainer image..."
-                  }
-                },
-                {
-                  "type": "context",
-                  "elements": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.get_head_commit_message.outputs.message }}>"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "Author: <https://github.com/${{ github.event.sender.login }}|@${{ github.event.sender.login }}>"
-                    }
-                  ]
+            "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
+            "text": ":loading: Generating new devcontainer image...",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": ":loading: Generating new devcontainer image..."
                 }
-              ]
-            }
+              },
+              {
+                "type": "context",
+                "elements": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.get_head_commit_message.outputs.message }}>"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "Author: <https://github.com/${{ github.event.sender.login }}|@${{ github.event.sender.login }}>"
+                  }
+                ]
+              }
+            ]
       - uses: docker/metadata-action@v5
         id: meta
         with:
@@ -106,61 +104,57 @@ jobs:
         with:
           update-ts: ${{ steps.pre_slack.outputs.ts }}
           payload: |
-            {
-              "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
-              "text": ":white_check_mark: Generated new devcontainer image...",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": ":white_check_mark: Generated new devcontainer image..."
-                  }
-                },
-                {
-                  "type": "context",
-                  "elements": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.get_head_commit_message.outputs.message }}>"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "Author: <https://github.com/${{ github.event.sender.login }}|@${{ github.event.sender.login }}>"
-                    }
-                  ]
+            "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
+            "text": ":white_check_mark: Generated new devcontainer image...",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": ":white_check_mark: Generated new devcontainer image..."
                 }
-              ]
-            }
+              },
+              {
+                "type": "context",
+                "elements": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.get_head_commit_message.outputs.message }}>"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "Author: <https://github.com/${{ github.event.sender.login }}|@${{ github.event.sender.login }}>"
+                  }
+                ]
+              }
+            ]
       - name: Post notification to slack with Failure
         if: failure()
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
         with:
           update-ts: ${{ steps.pre_slack.outputs.ts }}
           payload: |
-            {
-              "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
-              "text": ":x: Error generating new devcontainer image...",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": ":x: Error generating new devcontainer image...\r\nPlease refer to action log."
-                  }
-                },
-                {
-                  "type": "context",
-                  "elements": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.get_head_commit_message.outputs.message }}>"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "Author: <https://github.com/${{ github.event.sender.login }}|@${{ github.event.sender.login }}>"
-                    }
-                  ]
+            "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
+            "text": ":x: Error generating new devcontainer image...",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": ":x: Error generating new devcontainer image...\r\nPlease refer to action log."
                 }
-              ]
-            }
+              },
+              {
+                "type": "context",
+                "elements": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.get_head_commit_message.outputs.message }}>"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "Author: <https://github.com/${{ github.event.sender.login }}|@${{ github.event.sender.login }}>"
+                  }
+                ]
+              }
+            ]

@@ -146,7 +146,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ":x: Error to generate new devcontainer image...\r\nPlease refer to action log."
+                    "text": ":x: Error generating new devcontainer image...\r\nPlease refer to action log."
                   }
                 },
                 {

@@ -100,7 +100,7 @@ jobs:
           name: ${{ github.repository }}/devcontainer
           token: ${{ env.GHCR_PASSWORD }}
           untagged-keep-latest: 3
-      - name: Post nodification to slack with Succeed
+      - name: Post notification to slack with Succeed
         if: success()
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
         with:

@@ -2,7 +2,7 @@
 
 const { execSync } = require('child_process')
 
-BACKEND_PORT=8787
+BACKEND_PORT = 8787
 
 function sleep(second) {
   return new Promise((resolve) => {

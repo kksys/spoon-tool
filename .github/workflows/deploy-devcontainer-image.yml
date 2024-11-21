@@ -16,7 +16,7 @@ env:
   GHCR_PASSWORD: ${{ secrets.GHCR_CONTAINER_REGISTRY_PASSWORD }}
 
 jobs:
-  build-and-push-aquarium-dev-image:
+  build-and-deploy-image:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -82,7 +82,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build devcontainer image
-        uses: devcontainers/ci@v1
+        uses: devcontainers/ci@v0.3
         with:
           subFolder: packages/devcontainer
           imageName: ${{ env.REGISTRY }}/${{ github.repository }}

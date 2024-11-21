@@ -31,9 +31,9 @@ jobs:
         id: pre_slack
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
         with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
           payload: |
             {
+              "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
               "text": ":loading: Generating new devcontainer image...",
               "blocks": [
                 {
@@ -104,10 +104,10 @@ jobs:
         if: success()
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
         with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
           update-ts: ${{ steps.pre_slack.outputs.ts }}
           payload: |
             {
+              "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
               "text": ":white_check_mark: Generated new devcontainer image...",
               "blocks": [
                 {
@@ -136,10 +136,10 @@ jobs:
         if: failure()
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
         with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
           update-ts: ${{ steps.pre_slack.outputs.ts }}
           payload: |
             {
+              "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
               "text": ":x: Error generating new devcontainer image...",
               "blocks": [
                 {

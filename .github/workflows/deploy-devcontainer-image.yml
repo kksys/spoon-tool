@@ -140,7 +140,7 @@ jobs:
           update-ts: ${{ steps.pre_slack.outputs.ts }}
           payload: |
             {
-              "text": ":x: Error to generate new devcontainer image...",
+              "text": ":x: Error generating new devcontainer image...",
               "blocks": [
                 {
                   "type": "section",

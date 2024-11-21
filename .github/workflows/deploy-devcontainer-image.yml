@@ -1,0 +1,166 @@
+name: Deploy devcontainer image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/deploy-devcontainer-image.yml'
+      - 'packages/devcontainer/**'
+  workflow_dispatch:
+    inputs:
+
+env:
+  REGISTRY: ghcr.io
+  SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  GHCR_PASSWORD: ${{ secrets.GHCR_CONTAINER_REGISTRY_PASSWORD }}
+
+jobs:
+  build-and-push-aquarium-dev-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - name: Get message of head commit
+        id: get_head_commit_message
+        run: echo "message=$(git log --format=%B -n 1 HEAD | head -n 1)" >> $GITHUB_OUTPUT
+      - name: Pre notification to Slack
+        id: pre_slack
+        uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          payload: |
+            {
+              "text": ":loading: Generating new devcontainer image...",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ":loading: Generating new devcontainer image..."
+                  }
+                },
+                {
+                  "type": "context",
+                  "elements": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.get_head_commit_message.outputs.message }}>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "Author: <https://github.com/${{ github.event.sender.login }}|@${{ github.event.sender.login }}>"
+                    }
+                  ]
+                }
+              ]
+            }
+      - uses: docker/metadata-action@v5
+        id: meta
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}
+          tags: |
+            type=ref,event=branch
+            type=sha
+      - id: format
+        # https://github.com/devcontainers/ci/issues/235
+        run: |
+          prefix="${{ env.REGISTRY }}/${{ github.repository }}:"
+
+          tags=$(echo "${{ steps.meta.outputs.tags }}" | sed -e "s#${prefix}##g")
+          tags=$(echo "${tags}" | tr "\n" ",")
+          tags=$(echo "${tags}" | sed "s/,*$//")
+
+          echo "tags=${tags}" >> $GITHUB_OUTPUT
+      - name: Log in to the Container registry
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build devcontainer image
+        uses: devcontainers/ci@v1
+        with:
+          subFolder: packages/devcontainer
+          imageName: ${{ env.REGISTRY }}/${{ github.repository }}
+          imageTag: ${{ steps.format.outputs.tags }}
+          platform: linux/amd64,linux/arm64
+          push: always
+          cacheFrom: |
+            ${{ env.REGISTRY }}/${{ github.repository }}
+            ${{ env.REGISTRY }}/${{ github.repository }}:main
+      - name: Delete images except latest
+        continue-on-error: true
+        uses: kksys/ghcr-delete-image@58870e0c36836b2ce045f292e9e99ca0d9fd2e33 # v0.0.4
+        with:
+          user: ${{ github.actor }}
+          name: ${{ github.repository }}/devcontainer
+          token: ${{ env.GHCR_PASSWORD }}
+          untagged-keep-latest: 3
+      - name: Post nodification to slack with Succeed
+        if: success()
+        uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          update-ts: ${{ steps.pre_slack.outputs.ts }}
+          payload: |
+            {
+              "text": ":white_check_mark: Generated new devcontainer image...",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ":white_check_mark: Generated new devcontainer image..."
+                  }
+                },
+                {
+                  "type": "context",
+                  "elements": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.get_head_commit_message.outputs.message }}>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "Author: <https://github.com/${{ github.event.sender.login }}|@${{ github.event.sender.login }}>"
+                    }
+                  ]
+                }
+              ]
+            }
+      - name: Post nodification to slack with Failure
+        if: failure()
+        uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          update-ts: ${{ steps.pre_slack.outputs.ts }}
+          payload: |
+            {
+              "text": ":x: Error to generate new devcontainer image...",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ":x: Error to generate new devcontainer image...\r\nPlease refer to action log."
+                  }
+                },
+                {
+                  "type": "context",
+                  "elements": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.get_head_commit_message.outputs.message }}>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "Author: <https://github.com/${{ github.event.sender.login }}|@${{ github.event.sender.login }}>"
+                    }
+                  ]
+                }
+              ]
+            }

@@ -31,10 +31,12 @@ jobs:
         id: pre_slack
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
         with:
-          payload: |
-            "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
-            "text": ":loading: Generating new devcontainer image...",
-            "blocks": [
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload-templated: true
+          payload:
+            channel: "${{ secrets.SLACK_CHANNEL_ID }}"
+            text: ":loading: Generating new devcontainer image..."
+            blocks: [
               {
                 "type": "section",
                 "text": {
@@ -102,11 +104,14 @@ jobs:
         if: success()
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
         with:
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          method: chat.update
+          payload-templated: true
           update-ts: ${{ steps.pre_slack.outputs.ts }}
-          payload: |
-            "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
-            "text": ":white_check_mark: Generated new devcontainer image...",
-            "blocks": [
+          payload:
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            text: ":white_check_mark: Generated new devcontainer image..."
+            blocks: [
               {
                 "type": "section",
                 "text": {
@@ -132,11 +137,14 @@ jobs:
         if: failure()
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
         with:
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          method: chat.update
+          payload-templated: true
           update-ts: ${{ steps.pre_slack.outputs.ts }}
-          payload: |
-            "channel": "${{ secrets.SLACK_CHANNEL_ID }}",
-            "text": ":x: Error generating new devcontainer image...",
-            "blocks": [
+          payload:
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            text: ":x: Error generating new devcontainer image..."
+            blocks: [
               {
                 "type": "section",
                 "text": {

@@ -108,7 +108,7 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           method: chat.update
           payload-templated: true
-          update-ts: ${{ steps.pre_slack.outputs.ts }}
+          ts: ${{ steps.pre_slack.outputs.ts }}
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
             text: ":white_check_mark: Generated new devcontainer image..."
@@ -141,7 +141,7 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           method: chat.update
           payload-templated: true
-          update-ts: ${{ steps.pre_slack.outputs.ts }}
+          ts: ${{ steps.pre_slack.outputs.ts }}
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
             text: ":x: Error generating new devcontainer image..."

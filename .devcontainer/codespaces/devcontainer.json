@@ -1,0 +1,37 @@
+{
+  "image": "ghcr.io/kksys/spoon-tool/devcontainer:sha-e43241f",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "mhutchie.git-graph",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "github.vscode-github-actions",
+        "editorconfig.editorconfig",
+        "redhat.vscode-yaml",
+        "humao.rest-client",
+        "vitest.explorer",
+        "GitHub.copilot",
+        "bierner.markdown-preview-github-styles",
+        "bierner.github-markdown-preview",
+        "yahyabatulu.vscode-markdown-alert",
+        "BlueGlassBlock.better-json5"
+      ]
+    }
+  },
+  "portsAttributes": {
+    "5173": {
+      "label": "spoon-tool-client",
+      "onAutoForward": "openBrowser"
+    },
+    "8787": {
+      "label": "spoon-tool-backend",
+      "onAutoForward": "notify"
+    }
+  },
+  "otherPortsAttributes": {
+    "onAutoForward": "ignore"
+  },
+  "postCreateCommand": "bash -i ./.devcontainer/scripts/post-create-command.sh",
+  "postAttachCommand": "bash ./.devcontainer/scripts/post-attach-command.sh"
+}

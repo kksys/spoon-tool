@@ -1,5 +1,5 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:latest",
+  "image": "ghcr.io/kksys/spoon-tool/devcontainer:sha-e43241f",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -29,9 +29,19 @@
       "onAutoForward": "notify"
     }
   },
+  "appPort": [
+    5173,
+    8787
+  ],
   "otherPortsAttributes": {
     "onAutoForward": "ignore"
   },
   "postCreateCommand": "bash -i ./.devcontainer/scripts/post-create-command.sh",
-  "postAttachCommand": "bash ./.devcontainer/scripts/post-attach-command.sh"
+  "postAttachCommand": "bash ./.devcontainer/scripts/post-attach-command.sh",
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/mnt/spoon-tool,type=bind,consistency=cached"
+  ],
+  "workspaceMount": "source=workspace,target=/workspace,type=volume",
+  "workspaceFolder": "/workspace",
+  "onCreateCommand": "sudo chown codespace:root /workspace && rsync --exclude **/node_modules --exclude **/.pnpm-store -av /mnt/spoon-tool/ /workspace"
 }

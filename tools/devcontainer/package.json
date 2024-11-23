@@ -1,0 +1,17 @@
+{
+  "name": "devcontainer",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "build": "run-p build:*",
+    "build:linux/amd64": "devcontainer build --workspace-folder . --image-name ghcr.io/kksys/spoon-tool/devcontainer:main --image-name ghcr.io/kksys/spoon-tool/devcontainer:sha-0e57f5e --platform linux/amd64 --output type=oci,dest=/tmp/output.tar --cache-from ghcr.io/kksys/spoon-tool/devcontainer --cache-from ghcr.io/kksys/spoon-tool/devcontainer:main",
+    "build:linux/arm64": "devcontainer build --workspace-folder . --image-name ghcr.io/kksys/spoon-tool/devcontainer:main --image-name ghcr.io/kksys/spoon-tool/devcontainer:sha-0e57f5e --platform linux/arm64 --output type=oci,dest=/tmp/output.tar --cache-from ghcr.io/kksys/spoon-tool/devcontainer --cache-from ghcr.io/kksys/spoon-tool/devcontainer:main",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@devcontainers/cli": "^0.72.0",
+    "npm-run-all2": "catalog:"
+  }
+}

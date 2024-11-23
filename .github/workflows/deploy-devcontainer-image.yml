@@ -24,9 +24,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
       - name: Get message of head commit
         id: get_head_commit_message
         run: echo "message=$(git log --format=%B -n 1 HEAD | head -n 1)" >> $GITHUB_OUTPUT
+
       - name: Pre notification to Slack
         id: pre_slack
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
@@ -59,6 +61,7 @@ jobs:
                 ]
               }
             ]
+
       - name: Get metadata for image
         uses: docker/metadata-action@369eb591f429131d6889c46b94e711f089e6ca96 # v5
         id: meta
@@ -67,6 +70,7 @@ jobs:
           tags: |
             type=ref,event=branch
             type=sha
+
       - name: Convert metadata to pass devcontainers/ci
         id: format
         # https://github.com/devcontainers/ci/issues/235
@@ -78,16 +82,20 @@ jobs:
           tags=$(echo "${tags}" | sed "s/,*$//")
 
           echo "tags=${tags}" >> $GITHUB_OUTPUT
+
       - name: Setup QEMU
         uses: docker/setup-qemu-action@49b3bc8e6bdd4a60e6116a5414239cba5943d3cf # v3
+
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349 # v3
+
       - name: Log in to the Container registry
         uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build devcontainer image
         uses: devcontainers/ci@a56d055efecd725e8cfe370543b6071b79989cc8 # v0.3
         with:
@@ -99,6 +107,7 @@ jobs:
           cacheFrom: |
             ${{ env.REGISTRY }}/${{ github.repository }}
             ${{ env.REGISTRY }}/${{ github.repository }}:main
+
       - name: Delete images except latest
         continue-on-error: true
         uses: kksys/ghcr-delete-image@58870e0c36836b2ce045f292e9e99ca0d9fd2e33 # v0.0.4
@@ -107,6 +116,7 @@ jobs:
           name: ${{ github.repository }}/devcontainer
           token: ${{ env.GHCR_PASSWORD }}
           untagged-keep-latest: 3
+
       - name: Post notification to slack with Succeed
         if: success()
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
@@ -140,6 +150,7 @@ jobs:
                 ]
               }
             ]
+
       - name: Post notification to slack with Failure
         if: failure()
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0

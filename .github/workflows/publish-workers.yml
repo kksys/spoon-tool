@@ -30,21 +30,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
-      - name: Set node & pnpm version
-        run: |
-          node_version=$(cat package.json | jq -r .engines.node)
-          pnpm_version=$(cat package.json | jq -r .engines.pnpm)
-          echo "NODE_VERSION=${node_version}" >> $GITHUB_ENV
-          echo "PNPM_VERSION=${pnpm_version}" >> $GITHUB_ENV
-
-      - uses: pnpm/action-setup@fe02b34f77f8bc703788d5817da081398fad5dd2 # v4.0.0
-        with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: "pnpm"
+      - name: Setup node & pnpm version
+        uses: ./.github/actions/setup-node-pnpm
 
       - name: Install Dependencies
         run: pnpm i

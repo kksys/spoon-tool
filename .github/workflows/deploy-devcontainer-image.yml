@@ -107,15 +107,6 @@ jobs:
             ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer
             ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:main
 
-      - name: Delete images except latest
-        continue-on-error: true
-        uses: kksys/ghcr-delete-image@58870e0c36836b2ce045f292e9e99ca0d9fd2e33 # v0.0.4
-        with:
-          user: ${{ github.actor }}
-          name: ${{ github.repository }}/devcontainer
-          token: ${{ env.GHCR_PASSWORD }}
-          untagged-keep-latest: 3
-
       - name: Post notification to slack with Succeed
         if: success()
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0

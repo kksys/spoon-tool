@@ -2,20 +2,15 @@ import { Context, Hono } from 'hono'
 import { env } from 'hono/adapter'
 import { cors } from 'hono/cors'
 
-interface Env extends Record<string, string> {
-  BACKEND_HOST: string
-  FRONTEND_HOST: string
-}
-
-const app = new Hono()
+const app = new Hono<{ Bindings: Env }>()
 
 app.use(
   '*',
   async (c, next) => {
-    const { FRONTEND_HOST } = env<Env>(c)
+    const { FRONTEND_HOST } = env(c)
 
     const middleware = cors({
-      origin: `https://${FRONTEND_HOST}`,
+      origin: `${FRONTEND_HOST}`,
       allowHeaders: ['X-Custom-Header', 'Upgrade-Insecure-Requests', 'Content-Type'],
       allowMethods: ['GET', 'OPTIONS'],
       exposeHeaders: ['Content-Length', 'X-Kuma-Revision'],
@@ -27,13 +22,13 @@ app.use(
   }
 )
 
-const isRequestFromFrontend = (c: Context) => {
-  const { BACKEND_HOST, FRONTEND_HOST } = env<Env>(c)
+const isRequestFromFrontend = (c: Context<{ Bindings: Env }, never>) => {
+  const { BACKEND_HOST, FRONTEND_HOST } = env(c)
   return (
     !!c.req.header('host')
       ?.match(new RegExp(`^${BACKEND_HOST}$`)) &&
     !!c.req.header('origin')
-      ?.match(new RegExp(`^https://${FRONTEND_HOST}`))
+      ?.match(new RegExp(`^${FRONTEND_HOST}`))
   )
 }
 

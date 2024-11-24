@@ -29,10 +29,6 @@
       "onAutoForward": "notify"
     }
   },
-  "appPort": [
-    5173,
-    8787
-  ],
   "otherPortsAttributes": {
     "onAutoForward": "ignore"
   },

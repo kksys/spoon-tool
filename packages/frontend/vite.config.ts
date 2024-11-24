@@ -45,6 +45,9 @@ export default defineConfig({
   build: {
     target: 'es2020',
   },
+  server: {
+    host: true,
+  },
   // TODO: fix it later, below is just workaround to avoid below error
   // `Parameter decorators only work when experimental decorators are enabled`
   // ref: https://github.com/vitejs/vite/issues/13736#issuecomment-1633592860

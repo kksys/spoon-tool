@@ -17,7 +17,7 @@ export class SpoonApi implements ISpoonApi {
     const query = ApiUtil.convertToURLSearchParams(params)
 
     const result = await this.httpClient.get<EndpointTypes['spoonApi']['fetchUsers']['response']>(
-      `https://${import.meta.env.VITE_BACKEND_HOST}/search/user/?${query}`, {
+      `${import.meta.env.VITE_BACKEND_HOST}/search/user/?${query}`, {
         method: 'GET',
       }
     )
@@ -29,7 +29,7 @@ export class SpoonApi implements ISpoonApi {
     params: EndpointTypes['spoonApi']['getProfile']['parameters'],
   ): Promise<Result<EndpointTypes['spoonApi']['getProfile']['response'], ApiError>> {
     const result = await this.httpClient.get<EndpointTypes['spoonApi']['getProfile']['response']>(
-      `https://${import.meta.env.VITE_BACKEND_HOST}/users/${params.id}`, {
+      `${import.meta.env.VITE_BACKEND_HOST}/users/${params.id}`, {
         method: 'GET',
       }
     )

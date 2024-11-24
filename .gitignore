@@ -1,2 +1,8 @@
+# node
 node_modules
+
+# pnpm
 .pnpm-store
+
+# macOS
+.DS_Store

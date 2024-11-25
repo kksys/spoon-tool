@@ -24,7 +24,7 @@ jobs:
           pnpm i --frozen-lockfile
 
       - name: Lint Check
-        run: pnpm -C ${{ env.BACKEND_DIRECTORY }} exec run-p "circular" "lint"
+        run: pnpm -C ${{ env.BACKEND_DIRECTORY }} exec conc pnpm:circular pnpm:lint
 
   test:
     runs-on: ubuntu-latest

@@ -14,6 +14,8 @@
     "github-actions",
     "custom.regex",
     "npm",
+    "nodenv",
+    "nvm"
   ],
   vulnerabilityAlerts: {
     labels: [
@@ -34,6 +36,13 @@
   labels: [
     "renovate"
   ],
+  devcontainer: {
+    "fileMatch": [
+      "^.devcontainer/devcontainer.json$",
+      "^.devcontainer.json$",
+      "^.devcontainer/(?:codespaces|local)/devcontainer.json$"
+    ]
+  },
   customManagers: [
     {
       customType: "regex",

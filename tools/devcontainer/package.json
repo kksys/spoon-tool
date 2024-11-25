@@ -11,6 +11,6 @@
   },
   "devDependencies": {
     "@devcontainers/cli": "^0.72.0",
-    "npm-run-all2": "catalog:"
+    "concurrently": "catalog:"
   }
 }

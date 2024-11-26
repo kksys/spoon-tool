@@ -54,7 +54,7 @@
     "@types/react-window-infinite-loader": "^1.0.9",
     "@types/sanitize-html": "^2.13.0",
     "@vitejs/plugin-react": "^4.3.4",
-    "@vitejs/plugin-react-swc": "^3.7.1",
+    "@vitejs/plugin-react-swc": "^3.7.2",
     "concurrently": "catalog:",
     "dependency-cruiser": "catalog:",
     "eslint": "catalog:",

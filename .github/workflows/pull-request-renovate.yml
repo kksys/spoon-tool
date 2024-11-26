@@ -5,6 +5,8 @@ on:
     types:
       - opened
       - synchronize
+      - reopened
+      - labeled
 
 env:
   RENOVATE_TESTER_DIRECTORY: tools/renovate-tester

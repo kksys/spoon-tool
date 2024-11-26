@@ -5,6 +5,8 @@ on:
     types:
       - opened
       - synchronize
+      - reopened
+      - labeled
 
 env:
   BACKEND_DIRECTORY: packages/backend

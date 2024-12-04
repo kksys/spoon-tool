@@ -67,7 +67,7 @@
     "jiti": "catalog:",
     "license-checker": "^25.0.1",
     "live-server": "^1.2.2",
-    "prettier": "^3.4.1",
+    "prettier": "^3.4.2",
     "sanitize-html": "^2.13.1",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",

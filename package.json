@@ -15,7 +15,7 @@
   "engines": {
     "pnpm": "9.14.4",
     "npm": "please_use_pnpm_instead",
-    "node": "22.11.0"
+    "node": "22.12.0"
   },
   "packageManager": "pnpm@9.14.4"
 }

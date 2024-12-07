@@ -109,3 +109,7 @@ FRONTEND_HOST = "https://spoon-tool.kk-systems.net"
 # [[vectorize]]
 # binding = "MY_INDEX"
 # index_name = "my-index"
+
+# wrangler.toml (wrangler v3.88.0^)
+[observability.logs]
+enabled = true

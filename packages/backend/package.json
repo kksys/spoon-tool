@@ -20,6 +20,7 @@
     "@stylistic/eslint-plugin": "catalog:",
     "@stylistic/eslint-plugin-js": "catalog:",
     "@types/eslint__js": "catalog:",
+    "@typescript-eslint/utils": "catalog:",
     "concurrently": "catalog:",
     "dependency-cruiser": "catalog:",
     "eslint": "catalog:",

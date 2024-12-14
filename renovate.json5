@@ -53,7 +53,7 @@
       matchStrings: [
         "  (?<depName>[\"]?(?<packageName>[^:\n\"]+)[\"]?): (?<currentValue>[^\n]+)"
       ],
-      autoReplaceStringTemplate: "  {{{depName}}}: {{{newValue}}}",
+      autoReplaceStringTemplate: "  {{{depName}}}: {{{currentVersion}}}",
       datasourceTemplate: "npm",
     },
   ],

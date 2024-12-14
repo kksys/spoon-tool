@@ -259,8 +259,8 @@ importers:
   tools/renovate-tester:
     devDependencies:
       renovate:
-        specifier: ^39.64.0
-        version: 39.64.0(@aws-sdk/client-sso-oidc@3.699.0(@aws-sdk/client-sts@3.699.0))(encoding@0.1.13)(typanion@3.14.0)
+        specifier: ^39.69.0
+        version: 39.69.0(@aws-sdk/client-sso-oidc@3.699.0(@aws-sdk/client-sts@3.699.0))(encoding@0.1.13)(typanion@3.14.0)
 
 packages:
 
@@ -5472,8 +5472,8 @@ packages:
   remove-trailing-separator@1.1.0:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
 
-  renovate@39.64.0:
-    resolution: {integrity: sha512-MICV3WcTQVZhYKGgc0az/GhZutdhmhDGHn7e9tVuConiWnKcgU+FotOBfZYNeWNXsoOU7UMnWWAK8xtq3l8U0g==}
+  renovate@39.69.0:
+    resolution: {integrity: sha512-gdxr/kA0EhDp2+MaEMuhqmU+62nzSa16m11bPbJOPU4A0ImJdneDbCM9zzP11n4dO9Zt+gtTNPaQhClPqCSVNA==}
     engines: {node: ^20.15.1 || ^22.11.0, pnpm: ^9.0.0}
     hasBin: true
 
@@ -13420,7 +13420,7 @@ snapshots:
 
   remove-trailing-separator@1.1.0: {}
 
-  renovate@39.64.0(@aws-sdk/client-sso-oidc@3.699.0(@aws-sdk/client-sts@3.699.0))(encoding@0.1.13)(typanion@3.14.0):
+  renovate@39.69.0(@aws-sdk/client-sso-oidc@3.699.0(@aws-sdk/client-sts@3.699.0))(encoding@0.1.13)(typanion@3.14.0):
     dependencies:
       '@aws-sdk/client-codecommit': 3.699.0
       '@aws-sdk/client-ec2': 3.701.0

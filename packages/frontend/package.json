@@ -19,7 +19,7 @@
     "test": "vitest run",
     "preview": "vite preview",
     "i18next-extract": "i18next 'src/**/*.{tsx,ts}'",
-    "live-server": "live-server --port=5173 ./dist/",
+    "live-server": "serve -p 5173 ./dist/",
     "license": "./build-scripts/enumerate-license"
   },
   "dependencies": {
@@ -66,9 +66,9 @@
     "i18next-parser": "^9.0.2",
     "jiti": "catalog:",
     "license-checker": "^25.0.1",
-    "live-server": "^1.2.2",
     "prettier": "^3.4.2",
     "sanitize-html": "^2.13.1",
+    "serve": "^14.2.4",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
     "vite": "^6.0.3",

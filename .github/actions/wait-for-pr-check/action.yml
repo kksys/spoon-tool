@@ -9,11 +9,19 @@ runs:
     - name: Wait for PR checks
       shell: bash
       run: |
+        function has_pending_checks() {
+          JQ_FILTER='map(select(contains({name: "sync", workflow: "Sync pnpm-lock.yaml"}) | not)) | map(select(.state == "PENDING")) | length > 0'
+
+          gh pr checks "$PR_NUMBER" \
+            --json workflow,state,name \
+            --jq $JQ_FILTER
+        }
+
         if [[ -z "$(which gh)" ]]; then
           printf ":hand: This script requires the GitHub CLI to run. Please install it and try again.\n"
         fi
 
-        while ! gh pr checks "$PR_NUMBER" | grep -q 'pending'; do
+        while [ "a$(has_pending_checks)z" != "afalsez" ]; do
           printf ":stopwatch: PR checks still pending, retrying in 10 seconds...\n"
           sleep 10
         done

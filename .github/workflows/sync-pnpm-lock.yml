@@ -60,6 +60,12 @@ jobs:
             git push
           fi
 
+      - name: Wait for PR checks
+        continue-on-error: true
+        uses: ./.github/actions/wait-for-pr-check
+        with:
+          pr-number: ${{ github.event.pull_request.number }}
+
       - name: Pushing new commit
         continue-on-error: true
         run: |

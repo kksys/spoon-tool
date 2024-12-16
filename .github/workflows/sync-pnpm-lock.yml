@@ -51,25 +51,29 @@ jobs:
           git status
 
       - name: Stage changes
+        id: stage_changes
         continue-on-error: true
         run: |
           git add -N . # 新規ファイルを含める
           if ! git diff --exit-code --quiet
+            echo "lockfile_changed=false" >> $GITHUB_ENV
           then
             git config user.name renovate[bot]
             git config user.email 29139614+renovate[bot]@users.noreply.github.com
             git add .
             git commit -m '⬆️ sync pnpm-lock.yaml due to renovate change'
-            git push
+            echo "lockfile_changed=true" >> $GITHUB_ENV
           fi
 
       - name: Wait for PR checks
+        if: ${{ steps.stage_changes.outputs.lockfile_changed == 'true' }}
         continue-on-error: true
         uses: ./.github/actions/wait-for-pr-check
         with:
           pr-number: ${{ github.event.pull_request.number }}
 
       - name: Pushing new commit
+        if: ${{ steps.stage_changes.outputs.lockfile_changed == 'true' }}
         continue-on-error: true
         run: |
-          git push origin
+          git push

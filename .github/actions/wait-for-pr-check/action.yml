@@ -14,7 +14,7 @@ runs:
 
           gh pr checks "$PR_NUMBER" \
             --json workflow,state,name \
-            --jq $JQ_FILTER
+            --jq "$JQ_FILTER"
         }
 
         if [[ -z "$(which gh)" ]]; then

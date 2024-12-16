@@ -70,6 +70,8 @@ jobs:
         uses: ./.github/actions/wait-for-pr-check
         with:
           pr-number: ${{ github.event.pull_request.number }}
+        env:
+          GH_TOKEN: ${{ secrets.SPOON_TOOL_GH_TOKEN }}
 
       - name: Pushing new commit
         if: ${{ steps.stage_changes.outputs.lockfile_changed == 'true' }}

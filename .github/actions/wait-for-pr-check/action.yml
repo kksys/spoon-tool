@@ -10,7 +10,7 @@ runs:
       shell: bash
       run: |
         function has_pending_checks() {
-          JQ_FILTER='map(select(contains({name: "sync", workflow: "Sync pnpm-lock.yaml"}) | not)) | map(select(.state == "PENDING")) | length > 0'
+          JQ_FILTER='map(select(contains({name: "sync", workflow: "Sync pnpm-lock.yaml"}) | not)) | map(select(.state == "IN_PROGRESS")) | length > 0'
 
           gh pr checks "$PR_NUMBER" \
             --json workflow,state,name \

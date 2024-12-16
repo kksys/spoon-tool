@@ -56,13 +56,13 @@ jobs:
         run: |
           git add -N . # 新規ファイルを含める
           if ! git diff --exit-code --quiet
-            echo "lockfile_changed=false" >> $GITHUB_ENV
+            echo "lockfile_changed=false" >> $GITHUB_OUTPUT
           then
             git config user.name renovate[bot]
             git config user.email 29139614+renovate[bot]@users.noreply.github.com
             git add .
             git commit -m '⬆️ sync pnpm-lock.yaml due to renovate change'
-            echo "lockfile_changed=true" >> $GITHUB_ENV
+            echo "lockfile_changed=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Wait for PR checks

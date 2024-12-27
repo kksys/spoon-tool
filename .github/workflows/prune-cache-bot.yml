@@ -25,33 +25,104 @@ jobs:
         id: retrieve_actions_caches
         with:
           script: |
-            return await github.rest.actions.getActionsCacheList({
+            const { data: result } = await github.rest.actions.getActionsCacheList({
               owner: context.repo.owner,
               repo: context.repo.repo,
             })
+            return JSON.stringify(result)
           result-encoding: string
+
+      - name: Filter the targets to prune actions caches
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        id: filter_target_actions_caches
+        with:
+          script: |
+            const caches = JSON.parse(`${process.env.CACHE_LIST}`)
+
+            const actions_caches = caches.actions_caches
+              .sort((a, b) => new Date(b.last_accessed_at) - new Date(a.last_accessed_at))
+
+            function get_non_latest_ref_cache(caches) {
+              const refs = caches
+                .map(e => ({ ref: e.ref, id: e.id }))
+                .reduce((previous, current) => {
+                  const { ref, id } = current
+                  previous[ref] = previous[ref] ? [...previous[ref], id] : []
+                  return previous
+                }, {})
+
+              return Object.values(refs)
+                .flatMap(e => e)
+            }
+
+            async function get_closed_pr_cache(caches) {
+              const refs = caches
+                .map(e => ({ ref: e.ref, id: e.id }))
+                .reduce((previous, current) => {
+                  const { ref, id } = current
+                  previous[ref] = previous[ref] ? [...previous[ref], id] : [id]
+                  return previous
+                }, {})
+              const target_ids = []
+
+              for (const ref in refs) {
+                const pull_number = ref.match(/refs\/pull\/(\d+)\/merge/)?.[1]
+                const { data } = await github.rest.pulls.get({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number,
+                })
+
+                if (data.state === 'closed') {
+                  console.log(`caches of ${refs[ref]} will be pruned due to the related PR ${pull_number} has been closed`)
+                  target_ids.push(...refs[ref])
+                }
+              }
+
+              return target_ids
+            }
+
+            const target_ids = Object.keys(
+              [
+                ...get_non_latest_ref_cache(actions_caches),
+                ...(await get_closed_pr_cache(actions_caches)),
+              ]
+                .reduce((previous, current) => {
+                  previous[current] = true
+                  return previous
+                }, {})
+            )
+              .map(e => parseInt(e))
+            const filtered_actions_caches = actions_caches
+              .filter(e => target_ids.includes(e.id))
+
+            console.log(JSON.stringify(filtered_actions_caches.map(e => e.id), null, 2))
+
+            return JSON.stringify(filtered_actions_caches)
+          result-encoding: string
+        env:
+          CACHE_LIST: ${{ steps.retrieve_actions_caches.outputs.result }}
 
       - name: Prune actions caches
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
         id: prune_actions_caches
         with:
           script: |
-            const caches = JSON.parse(`${process.env.CACHE_LIST}`)
-            const now = new Date()
-            const actions_caches = caches.actions_caches
-              .sort((a, b) => new Date(b.last_accessed_at) - new Date(a.last_accessed_at))
-              .filter(e => (now - new Date(e.last_accessed_at)) > 1.5 * 24 * 60 * 60 * 1000)
+            const filtered_actions_caches = JSON.parse(`${process.env.TARGETS}`)
 
-            console.log(caches.actions_caches.map(e => e.id))
-            console.log(actions_caches.map(e => e.id))
+            if (filtered_actions_caches.length === 0) {
+              console.log('No actions caches to prune')
+              return
+            }
 
-            // for (const cache in actions_caches) {
-            //   return await github.rest.actions.deleteActionsCacheById({
-            //     owner: context.repo.owner,
-            //     repo: context.repo.repo,
-            //     cache_id: cache.id,
-            //   })
-            // }
+            for (const cache of filtered_actions_caches) {
+              console.log(`id ${cache.id} is deleting...`)
+              await github.rest.actions.deleteActionsCacheById({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                cache_id: cache.id,
+              })
+            }
           result-encoding: string
         env:
-          CACHE_LIST: ${{ steps.retrieve_actions_caches.outputs.result }}
+          TARGETS: ${{ steps.filter_target_actions_caches.outputs.result }}

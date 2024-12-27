@@ -1,0 +1,57 @@
+name: Prune Cache Bot
+
+on:
+  pull_request:
+    types:
+      - closed
+  workflow_dispatch:
+    inputs:
+
+env:
+  REGISTRY: ghcr.io
+  SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+jobs:
+  prune-cache-bot:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Retrieve actions caches
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        id: retrieve_actions_caches
+        with:
+          script: |
+            return await github.rest.actions.getActionsCacheList({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            })
+          result-encoding: string
+
+      - name: Prune actions caches
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        id: prune_actions_caches
+        with:
+          script: |
+            const caches = JSON.parse(`${process.env.CACHE_LIST}`)
+            const now = new Date()
+            const actions_caches = caches.actions_caches
+              .sort((a, b) => new Date(b.last_accessed_at) - new Date(a.last_accessed_at))
+              .filter(e => (now - new Date(e.last_accessed_at)) > 1.5 * 24 * 60 * 60 * 1000)
+
+            console.log(caches.actions_caches.map(e => e.id))
+            console.log(actions_caches.map(e => e.id))
+
+            // for (const cache in actions_caches) {
+            //   return await github.rest.actions.deleteActionsCacheById({
+            //     owner: context.repo.owner,
+            //     repo: context.repo.repo,
+            //     cache_id: cache.id,
+            //   })
+            // }
+          result-encoding: string
+        env:
+          CACHE_LIST: ${{ steps.retrieve_actions_caches.outputs.result }}

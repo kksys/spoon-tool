@@ -1,5 +1,5 @@
 {
-  "image": "ghcr.io/kksys/spoon-tool/devcontainer:sha-e43241f",
+  "image": "ghcr.io/kksys/spoon-tool/devcontainer:main",
   "customizations": {
     "vscode": {
       "extensions": [

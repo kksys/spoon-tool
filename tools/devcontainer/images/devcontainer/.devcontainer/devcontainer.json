@@ -9,7 +9,7 @@
       "userUid": "1000",
       "userGid": "1000"
     },
-    "ghcr.io/devcontainers/features/node:1": {
+    "ghcr.io/kksys/spoon-tool/node:1": {
       "version": "20",
       "additionalVersions": "18"
     },
@@ -42,7 +42,7 @@
   "overrideFeatureInstallOrder": [
     "ghcr.io/devcontainers/features/common-utils",
     "ghcr.io/devcontainers/features/git",
-    "ghcr.io/devcontainers/features/node",
+    "ghcr.io/kksys/spoon-tool/node",
     "./local-features/nvs",
     "ghcr.io/devcontainers/features/python",
     "./local-features/patch-python",

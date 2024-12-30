@@ -2,6 +2,7 @@
 
 DEVCONTAINER_IMAGE_NAME='ghcr.io/kksys/spoon-tool/devcontainer'
 PLATFORM=$1
+WORKSPACE_DIR=./images/devcontainer
 
 if [ -z "${PLATFORM}" ]; then
   PLATFORM='linux/amd64'
@@ -11,7 +12,7 @@ GIT_COMMIT_SHA_SHORT=$(git rev-parse --short HEAD)
 
 devcontainer build \
   --push true \
-  --workspace-folder . \
+  --workspace-folder ${WORKSPACE_DIR} \
   --image-name ${DEVCONTAINER_IMAGE_NAME}:main \
   --image-name ${DEVCONTAINER_IMAGE_NAME}:sha-${GIT_COMMIT_SHA_SHORT} \
   --platform ${PLATFORM} \

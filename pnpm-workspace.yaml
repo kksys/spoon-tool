@@ -7,12 +7,12 @@ catalog:
   "@stylistic/eslint-plugin-js": 2.12.1
   "@types/eslint__js": 8.42.3
   "@types/node": 22.10.2
-  "@typescript-eslint/utils": 8.18.2
+  "@typescript-eslint/utils": 8.19.0
   concurrently: 9.1.1
   dependency-cruiser: 16.8.0
   eslint: 9.17.0
   globals: 15.14.0
   jiti: 2.4.2
   typescript: 5.6.3
-  typescript-eslint: 8.18.2
+  typescript-eslint: 8.19.0
   vitest: 2.1.8

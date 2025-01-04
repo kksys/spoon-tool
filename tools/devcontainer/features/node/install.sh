@@ -9,17 +9,20 @@
 
 export NODE_VERSION="${VERSION:-"lts"}"
 export PNPM_VERSION="${PNPMVERSION:-"latest"}"
-export NVM_VERSION="${NVMVERSION:-"latest"}"
-export NVM_DIR="${NVMINSTALLPATH:-"/usr/local/share/nvm"}"
+export FNM_VERSION="${FNMVERSION:-"latest"}"
+export FNM_DIR="${FNMINSTALLPATH:-"/usr/local/share/fnm"}"
 INSTALL_TOOLS_FOR_NODE_GYP="${NODEGYPDEPENDENCIES:-true}"
 export INSTALL_YARN_USING_APT="${INSTALLYARNUSINGAPT:-true}"  # only concerns Debian-based systems
 
-# Comma-separated list of node versions to be installed (with nvm)
+# Comma-separated list of node versions to be installed (with fnm)
 # alongside NODE_VERSION, but not set as default.
 ADDITIONAL_VERSIONS="${ADDITIONALVERSIONS:-""}"
 
 USERNAME="${USERNAME:-"${_REMOTE_USER:-"automatic"}"}"
 UPDATE_RC="${UPDATE_RC:-"true"}"
+
+FNM_ENV_RC="/etc/profile.d/01-fnm-env.sh"
+FNM_INSTALL_SCRIPT="/tmp/install_fnm.sh"
 
 set -e
 
@@ -110,6 +113,18 @@ updaterc() {
             echo -e "$1" >> "${_zshrc}"
         fi
     fi
+}
+
+install_fnm_env_rc() {
+  echo -e "$1" > "${FNM_ENV_RC}"
+}
+
+install_fnm_script() {
+  echo -e "$1" > "${FNM_INSTALL_SCRIPT}"
+}
+
+remove_fnm_script() {
+  rm "${FNM_INSTALL_SCRIPT}"
 }
 
 pkg_mgr_update() {
@@ -219,13 +234,13 @@ install_yarn() {
         # The preferred way to manage Yarn is by-project and through Corepack, a tool
         # shipped by default with Node.js. Modern releases of Yarn aren't meant to be
         # installed globally, or from npm.
-        if ! bash -c ". '${NVM_DIR}/nvm.sh' && nvm use ${_ver} && type yarn >/dev/null 2>&1"; then
-            if bash -c ". '${NVM_DIR}/nvm.sh' && nvm use ${_ver} && type corepack >/dev/null 2>&1"; then
-                su ${USERNAME} -c "umask 0002 && . '${NVM_DIR}/nvm.sh' && nvm use ${_ver} && corepack enable"
+        if ! bash -c ". '$FNM_ENV_RC' && fnm use ${_ver} && type yarn >/dev/null 2>&1"; then
+            if bash -c ". '$FNM_ENV_RC' && fnm use ${_ver} && type corepack >/dev/null 2>&1"; then
+                su ${USERNAME} -c "umask 0002 && . '$FNM_ENV_RC' && fnm use ${_ver} && corepack enable"
             fi
-            if ! bash -c ". '${NVM_DIR}/nvm.sh' && nvm use ${_ver} && type yarn >/dev/null 2>&1"; then
+            if ! bash -c ". '$FNM_ENV_RC' && fnm use ${_ver} && type yarn >/dev/null 2>&1"; then
                 # Yum/DNF want to install nodejs dependencies, we'll use NPM to install yarn
-                su ${USERNAME} -c "umask 0002 && . '${NVM_DIR}/nvm.sh' && nvm use ${_ver} && npm install --global yarn"
+                su ${USERNAME} -c "umask 0002 && . '$FNM_ENV_RC' && fnm use ${_ver} && npm install --global yarn"
             fi
         else
             echo "Yarn already installed."
@@ -296,61 +311,84 @@ elif [ "${NODE_VERSION}" = "latest" ]; then
     export NODE_VERSION="node"
 fi
 
-find_version_from_git_tags NVM_VERSION "https://github.com/nvm-sh/nvm"
+find_version_from_git_tags FNM_VERSION "https://github.com/Schniz/fnm"
 
 # Install snipppet that we will run as the user
-nvm_install_snippet="$(cat << EOF
+fnm_install_snippet="$(cat << EOF
 set -e
 umask 0002
 # Do not update profile - we'll do this manually
 export PROFILE=/dev/null
-curl -so- "https://raw.githubusercontent.com/nvm-sh/nvm/v${NVM_VERSION}/install.sh" | bash ||  {
-    PREV_NVM_VERSION=$(curl -s https://api.github.com/repos/nvm-sh/nvm/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
-    curl -so- "https://raw.githubusercontent.com/nvm-sh/nvm/\${PREV_NVM_VERSION}/install.sh" | bash
-    NVM_VERSION="\${PREV_NVM_VERSION}"
+function install_fnm() {
+  local VERSION_TAG=\$1
+
+  curl -fsSL "https://raw.githubusercontent.com/Schniz/fnm/\${VERSION_TAG}/.ci/install.sh" | bash -s -- --install-dir "$FNM_DIR" --skip-shell 2>&1
+
+  if [ \$? -ne 0 ]; then
+    echo "Error: Failed to install fnm version \${VERSION_TAG}"
+    exit 1
+  fi
 }
-[ -s "${NVM_DIR}/nvm.sh" ] && source "${NVM_DIR}/nvm.sh"
+install_fnm "$([ "${FNM_VERSION}" != 'latest' ] && echo -n "v${FNM_VERSION}" || echo -n "latest")" || {
+  PREV_FNM_VERSION=$(curl -s https://api.github.com/repos/Schniz/fnm/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+  install_fnm "\${PREV_FNM_VERSION}"
+  FNM_VERSION="\${PREV_FNM_VERSION}"
+}
+[ -s '$FNM_ENV_RC' ] && source '$FNM_ENV_RC'
 if [ "${NODE_VERSION}" != "" ]; then
-    nvm alias default "${NODE_VERSION}"
+  fnm install "${NODE_VERSION}"
+  fnm alias "${NODE_VERSION}" default
 fi
 EOF
 )"
 
 # Snippet that should be added into rc / profiles
-nvm_rc_snippet="$(cat << EOF
-export NVM_DIR="${NVM_DIR}"
-[ -s "\$NVM_DIR/nvm.sh" ] && . "\$NVM_DIR/nvm.sh"
-[ -s "\$NVM_DIR/bash_completion" ] && . "\$NVM_DIR/bash_completion"
+fnm_env_rc_snippet="$(cat << EOF
+# fnm
+FNM_PATH='$FNM_DIR'
+if [ -d "\$FNM_PATH" ]; then
+  export PATH="\$FNM_PATH:\$PATH"
+  eval "\`fnm env\`"
+fi
+EOF
+)"
+
+# Snippet that should be added into rc / profiles
+fnm_rc_snippet="$(cat << EOF
+[ -s '"'$FNM_ENV_RC'"' ] && source '"'$FNM_ENV_RC'"'
 EOF
 )"
 
 # Create a symlink to the installed version for use in Dockerfile PATH statements
-export NVM_SYMLINK_CURRENT=true
+export FNM_SYMLINK_CURRENT=true
 
-# Create nvm group to the user's UID or GID to change while still allowing access to nvm
-if ! cat /etc/group | grep -e "^nvm:" > /dev/null 2>&1; then
-    groupadd -r nvm
+# Create fnm group to the user's UID or GID to change while still allowing access to fnm
+if ! cat /etc/group | grep -e "^fnm:" > /dev/null 2>&1; then
+    groupadd -r fnm
 fi
-usermod -a -G nvm ${USERNAME}
+usermod -a -G fnm ${USERNAME}
 
-# Install nvm (which also installs NODE_VERSION), otherwise
-# use nvm to install the specified node version. Always use
+# Install fnm (which also installs NODE_VERSION), otherwise
+# use fnm to install the specified node version. Always use
 # umask 0002 so both the owner so that everything is u+rw,g+rw
 umask 0002
-if [ ! -d "${NVM_DIR}" ]; then
-    # Create nvm dir, and set sticky bit
-    mkdir -p "${NVM_DIR}"
-    chown "${USERNAME}:nvm" "${NVM_DIR}"
-    chmod g+rws "${NVM_DIR}"
-    su ${USERNAME} -c "${nvm_install_snippet}" 2>&1
+if [ ! -d "${FNM_DIR}" ]; then
+    # Create fnm dir, and set sticky bit
+    mkdir -p "${FNM_DIR}"
+    chown "${USERNAME}:fnm" "${FNM_DIR}"
+    chmod g+rws "${FNM_DIR}"
+    install_fnm_env_rc "${fnm_env_rc_snippet}"
+    install_fnm_script "${fnm_install_snippet}"
+    su ${USERNAME} "${FNM_INSTALL_SCRIPT}" 2>&1
+    remove_fnm_script
     # Update rc files
     if [ "${UPDATE_RC}" = "true" ]; then
-        updaterc "${nvm_rc_snippet}"
+        updaterc "${fnm_rc_snippet}"
     fi
 else
-    echo "NVM already installed."
+    echo "FNM already installed."
     if [ "${NODE_VERSION}" != "" ]; then
-        su ${USERNAME} -c "umask 0002 && . '$NVM_DIR/nvm.sh' && nvm install '${NODE_VERSION}' && nvm alias default '${NODE_VERSION}'"
+        su ${USERNAME} -c "umask 0002 && . '${FNM_ENV_RC}' && fnm install '${NODE_VERSION}' && fnm alias default '${NODE_VERSION}'"
     fi
 fi
 
@@ -358,22 +396,22 @@ fi
 install_yarn
 
 # Additional node versions to be installed but not be set as
-# default we can assume the nvm is the group owner of the nvm
+# default we can assume the fnm is the group owner of the fnm
 # directory and the sticky bit on directories so any installed
-# files will have will have the correct ownership (nvm)
+# files will have will have the correct ownership (fnm)
 if [ ! -z "${ADDITIONAL_VERSIONS}" ]; then
     OLDIFS=$IFS
     IFS=","
         read -a additional_versions <<< "$ADDITIONAL_VERSIONS"
         for ver in "${additional_versions[@]}"; do
-            su ${USERNAME} -c "umask 0002 && . '$NVM_DIR/nvm.sh' && nvm install '${ver}'"
+            su ${USERNAME} -c "umask 0002 && . '${FNM_ENV_RC}' && fnm install '${ver}'"
             # possibly install yarn (puts yarn in per-Node install on RHEL, uses system yarn on Debian)
             install_yarn "${ver}"
         done
 
         # Ensure $NODE_VERSION is on the $PATH
         if [ "${NODE_VERSION}" != "" ]; then
-                su ${USERNAME} -c "umask 0002 && . '$NVM_DIR/nvm.sh' && nvm use default"
+                su ${USERNAME} -c "umask 0002 && . '${FNM_ENV_RC}' && fnm use default"
         fi
     IFS=$OLDIFS
 fi
@@ -382,9 +420,9 @@ fi
 if [ ! -z "${PNPM_VERSION}" ] && [ "${PNPM_VERSION}" = "none" ]; then
     echo "Ignoring installation of PNPM"
 else
-    if bash -c ". '${NVM_DIR}/nvm.sh' && type npm >/dev/null 2>&1"; then
+    if bash -c ". '${FNM_ENV_RC}' && type npm >/dev/null 2>&1"; then
         (
-            . "${NVM_DIR}/nvm.sh"
+            . "${FNM_ENV_RC}"
             [ ! -z "$http_proxy" ] && npm set proxy="$http_proxy"
             [ ! -z "$https_proxy" ] && npm set https-proxy="$https_proxy"
             [ ! -z "$no_proxy" ] && npm set noproxy="$no_proxy"
@@ -427,13 +465,13 @@ fi
 
 
 # Clean up
-su ${USERNAME} -c "umask 0002 && . '$NVM_DIR/nvm.sh' && nvm clear-cache"
+# su ${USERNAME} -c "umask 0002 && . '$FNM_ENV_RC' && fnm clear-cache"
 clean_up
 
 # Ensure privs are correct for installed node versions. Unfortunately the
-# way nvm installs node versions pulls privs from the tar which does not
+# way fnm installs node versions pulls privs from the tar which does not
 # have group write set. We need this when the gid/uid is updated.
-mkdir -p "${NVM_DIR}/versions"
-chmod -R g+rw "${NVM_DIR}/versions"
+mkdir -p "${FNM_DIR}/node-versions"
+chmod -R g+rw "${FNM_DIR}/node-versions"
 
 echo "Done!"

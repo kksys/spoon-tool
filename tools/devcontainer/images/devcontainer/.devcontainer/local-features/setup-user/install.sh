@@ -37,9 +37,9 @@ fi
 
 # For the universal image, oryx build tool installs the detected platforms in /home/codespace/*. Hence, linking current platforms to the /home/codespace/ path and adding it to the PATH.
 # This ensures that whatever platfornm versions oryx detects and installs are set as root.
-NODE_PATH="/home/codespace/nvm/current"
-if [ -e /usr/local/share/nvm ]; then
-  ln -snf /usr/local/share/nvm /home/codespace
+NODE_PATH="/home/codespace/fnm/current"
+if [ -e /usr/local/share/fnm ]; then
+  ln -snf /usr/local/share/fnm /home/codespace
 fi
 
 PHP_PATH="/home/${USERNAME}/.php/current"
@@ -128,9 +128,9 @@ append_secure_path() {
 }
 append_secure_path
 
-# Temporary: Due to GHSA-c2qf-rxjj-qqgw
-bash -c ". /usr/local/share/nvm/nvm.sh && nvm use 18"
-bash -c "npm -g install -g npm@9.8.1"
-bash -c ". /usr/local/share/nvm/nvm.sh && nvm use stable"
+# # Temporary: Due to GHSA-c2qf-rxjj-qqgw
+# bash -c ". /etc/profile.d/01-fnm-env.sh && fnm use --install-if-missing 18"
+# bash -c "npm -g install -g npm@9.8.1"
+# bash -c ". /etc/profile.d/01-fnm-env.sh && fnm install --lts && fnm use lts-latest"
 
 echo "Done!"

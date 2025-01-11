@@ -9,8 +9,8 @@
     "start": "wrangler dev --ip 0.0.0.0",
     "circular": "depcruise src",
     "circular:map": "depcruise --include-only \"^src\" --output-type ddot src | dot -T png > dependency-graph.png",
-    "lint": "tsc --noEmit && eslint . --flag unstable_ts_config",
-    "lint:fix": "eslint --fix . --flag unstable_ts_config",
+    "lint": "tsc --noEmit && eslint .",
+    "lint:fix": "eslint --fix .",
     "test": "vitest run",
     "cf-typegen": "wrangler types"
   },

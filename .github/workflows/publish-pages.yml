@@ -58,7 +58,7 @@ jobs:
           mv ${{ env.DIST_DIRECTORY }}/${{ env.ARCHIVE_NAME }} ${{ env.FRONTEND_DIRECTORY }}/${{ env.ARCHIVE_NAME }}
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4
         with:
           name: ${{ env.PACKAGE_NAME }}
           path: ${{ env.FRONTEND_DIRECTORY }}/${{ env.ARCHIVE_NAME }}

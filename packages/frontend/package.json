@@ -59,7 +59,7 @@
     "concurrently": "catalog:",
     "dependency-cruiser": "catalog:",
     "eslint": "catalog:",
-    "eslint-plugin-react": "^7.37.3",
+    "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "5.1.0",
     "eslint-plugin-react-refresh": "^0.4.18",
     "eslint-plugin-simple-import-sort": "^12.1.1",

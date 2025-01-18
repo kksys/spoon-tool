@@ -268,8 +268,8 @@ importers:
   tools/renovate-tester:
     devDependencies:
       renovate:
-        specifier: ^39.106.0
-        version: 39.106.0(@aws-sdk/client-sso-oidc@3.726.0(@aws-sdk/client-sts@3.726.1))(encoding@0.1.13)(typanion@3.14.0)
+        specifier: ^39.116.0
+        version: 39.116.0(@aws-sdk/client-sso-oidc@3.726.0(@aws-sdk/client-sts@3.726.1))(encoding@0.1.13)(typanion@3.14.0)
 
 packages:
 
@@ -4035,10 +4035,6 @@ packages:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
 
-  ignore@6.0.2:
-    resolution: {integrity: sha512-InwqeHHN2XpumIkMvpl/DCJVrAHgCsG5+cn1XlnLWGwtZBm8QJfSusItfrwx81CTp5agNZqpKU2J/ccC5nGT4A==}
-    engines: {node: '>= 4'}
-
   ignore@7.0.0:
     resolution: {integrity: sha512-lcX8PNQygAa22u/0BysEY8VhaFRzlOkvdlKczDPnJvrkJD1EuqzEky5VYYKM2iySIuaVIDv9N190DfSreSLw2A==}
     engines: {node: '>= 4'}
@@ -5335,8 +5331,8 @@ packages:
   remove-trailing-separator@1.1.0:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
 
-  renovate@39.106.0:
-    resolution: {integrity: sha512-oWdh91K+9KqYKs1bBAwocbjL9qblSEPnHQu/8vFomooSSPKpUldD8faIBrEd0ahzkCozS+qiqgmpIX2ynFuc/A==}
+  renovate@39.116.0:
+    resolution: {integrity: sha512-Fm+5Jyp2/jz9JIL5MMPzUCHxU+RPA4xfPXzcKZdkdKsr+258oyFFBJUhdN6ZGaDtad6heYshZR4Zrg4ncrNZ8g==}
     engines: {node: ^20.15.1 || ^22.11.0, pnpm: ^9.0.0}
     hasBin: true
 
@@ -11829,8 +11825,6 @@ snapshots:
 
   ignore@5.3.2: {}
 
-  ignore@6.0.2: {}
-
   ignore@7.0.0: {}
 
   immediate@3.0.6: {}
@@ -13213,7 +13207,7 @@ snapshots:
 
   remove-trailing-separator@1.1.0: {}
 
-  renovate@39.106.0(@aws-sdk/client-sso-oidc@3.726.0(@aws-sdk/client-sts@3.726.1))(encoding@0.1.13)(typanion@3.14.0):
+  renovate@39.116.0(@aws-sdk/client-sso-oidc@3.726.0(@aws-sdk/client-sts@3.726.1))(encoding@0.1.13)(typanion@3.14.0):
     dependencies:
       '@aws-sdk/client-codecommit': 3.726.1
       '@aws-sdk/client-ec2': 3.726.1
@@ -13279,7 +13273,7 @@ snapshots:
       got: 11.8.6
       graph-data-structure: 4.3.0
       handlebars: 4.7.8
-      ignore: 6.0.2
+      ignore: 7.0.0
       ini: 5.0.0
       json-dup-key-validator: 1.0.3
       json-stringify-pretty-compact: 3.0.0

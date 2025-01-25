@@ -74,6 +74,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
+      - name: Install skopeo
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install skopeo
+
       - name: Get metadata for image
         uses: docker/metadata-action@369eb591f429131d6889c46b94e711f089e6ca96 # v5
         id: meta
@@ -95,10 +100,6 @@ jobs:
 
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
-      # This phase will be removed in the future
-      # - name: Setup QEMU
-      #   uses: docker/setup-qemu-action@53851d14592bedcffcf25ea515637cff71ef929a # v3
-
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@6524bf65af31da8d45b59e8c27de4bd072b392f5 # v3
 
@@ -107,7 +108,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ env.GHCR_PASSWORD }}
 
       - name: Build devcontainer image
         uses: devcontainers/ci@a56d055efecd725e8cfe370543b6071b79989cc8 # v0.3
@@ -131,6 +132,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
+      - name: Install skopeo
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install skopeo
+
       - name: Get metadata for image
         uses: docker/metadata-action@369eb591f429131d6889c46b94e711f089e6ca96 # v5
         id: meta
@@ -152,10 +158,6 @@ jobs:
 
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
-      # This phase will be removed in the future
-      # - name: Setup QEMU
-      #   uses: docker/setup-qemu-action@53851d14592bedcffcf25ea515637cff71ef929a # v3
-
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@6524bf65af31da8d45b59e8c27de4bd072b392f5 # v3
 
@@ -164,7 +166,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ env.GHCR_PASSWORD }}
 
       - name: Build devcontainer image
         uses: devcontainers/ci@a56d055efecd725e8cfe370543b6071b79989cc8 # v0.3
@@ -179,7 +181,9 @@ jobs:
             ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:main
 
   deploy-multiarch-image:
-    needs: [build-and-deploy-image-amd64, build-and-deploy-image-arm64]
+    needs:
+      - build-and-deploy-image-amd64
+      - build-and-deploy-image-arm64
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -190,12 +194,16 @@ jobs:
 
       - name: Deploy multiarch image
         run: |
-          echo "not implemented yet"
-          echo "Please add here"
+          docker manifest create \
+            ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:${{ steps.format.outputs.tags }} \
+            --amend ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:${{ steps.format.outputs.tags }}-amd64 \
+            --amend ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:${{ steps.format.outputs.tags }}-arm64
+          docker manifest push ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:${{ steps.format.outputs.tags }}
 
   notify-post-build-message-with-success:
     if: success()
-    needs: [deploy-multiarch-image]
+    needs:
+      - deploy-multiarch-image
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -239,6 +247,10 @@ jobs:
 
   notify-post-build-message-with-failure:
     if: failure()
+    needs:
+      - build-and-deploy-image-amd64
+      - build-and-deploy-image-arm64
+      - deploy-multiarch-image
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -248,7 +260,6 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Post notification to slack with Failure
-        if: failure()
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
         with:
           token: ${{ secrets.SLACK_BOT_TOKEN }}

@@ -15,11 +15,14 @@ env:
   GHCR_PASSWORD: ${{ secrets.GHCR_CONTAINER_REGISTRY_PASSWORD }}
 
 jobs:
-  build-and-deploy-image:
+  notify-pre-build-message:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
+    outputs:
+      ts: ${{ steps.pre_slack.outputs.ts }}
+      head_commit_message: ${{ steps.get_head_commit_message.outputs.message }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -51,7 +54,7 @@ jobs:
                 "elements": [
                   {
                     "type": "mrkdwn",
-                    "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.get_head_commit_message.outputs.message }}>"
+                    "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ needs.notify-pre-build-message.outputs.head_commit_message }}>"
                   },
                   {
                     "type": "mrkdwn",
@@ -60,6 +63,16 @@ jobs:
                 ]
               }
             ]
+
+  build-and-deploy-image-amd64:
+    needs: notify-pre-build-message
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Get metadata for image
         uses: docker/metadata-action@369eb591f429131d6889c46b94e711f089e6ca96 # v5
@@ -82,8 +95,9 @@ jobs:
 
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
-      - name: Setup QEMU
-        uses: docker/setup-qemu-action@53851d14592bedcffcf25ea515637cff71ef929a # v3
+      # This phase will be removed in the future
+      # - name: Setup QEMU
+      #   uses: docker/setup-qemu-action@53851d14592bedcffcf25ea515637cff71ef929a # v3
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@6524bf65af31da8d45b59e8c27de4bd072b392f5 # v3
@@ -101,14 +115,96 @@ jobs:
           subFolder: tools/devcontainer
           imageName: ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer
           imageTag: ${{ steps.format.outputs.tags }}
-          platform: linux/amd64,linux/arm64
+          platform: linux/amd64
           push: always
           cacheFrom: |
             ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer
             ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:main
 
+  build-and-deploy-image-arm64:
+    needs: notify-pre-build-message
+    runs-on: ubuntu-latest-arm
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Get metadata for image
+        uses: docker/metadata-action@369eb591f429131d6889c46b94e711f089e6ca96 # v5
+        id: meta
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer
+          tags: |
+            type=ref,event=branch
+            type=sha
+
+      - name: Convert metadata to pass devcontainers/ci
+        id: format
+        # https://github.com/devcontainers/ci/issues/235
+        run: |
+          prefix="${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:"
+
+          tags=$(echo "${{ steps.meta.outputs.tags }}" | sed -e "s#${prefix}##g")
+          tags=$(echo "${tags}" | tr "\n" ",")
+          tags=$(echo "${tags}" | sed "s/,*$//")
+
+          echo "tags=${tags}" >> $GITHUB_OUTPUT
+
+      # This phase will be removed in the future
+      # - name: Setup QEMU
+      #   uses: docker/setup-qemu-action@53851d14592bedcffcf25ea515637cff71ef929a # v3
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@6524bf65af31da8d45b59e8c27de4bd072b392f5 # v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build devcontainer image
+        uses: devcontainers/ci@a56d055efecd725e8cfe370543b6071b79989cc8 # v0.3
+        with:
+          subFolder: tools/devcontainer
+          imageName: ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer
+          imageTag: ${{ steps.format.outputs.tags }}
+          platform: linux/arm64
+          push: always
+          cacheFrom: |
+            ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer
+            ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:main
+
+  deploy-multiarch-image:
+    needs: [build-and-deploy-image-amd64, build-and-deploy-image-arm64]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Deploy multiarch image
+        run: |
+          echo "not implemented yet"
+          echo "Please add here"
+
+  notify-post-build-message-with-success:
+    if: success()
+    needs: [deploy-multiarch-image]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
       - name: Post notification to slack with Succeed
-        if: success()
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
         with:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
@@ -116,7 +212,7 @@ jobs:
           payload-templated: true
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            ts: "${{ steps.pre_slack.outputs.ts }}"
+            ts: "${{ needs.notify-pre-build-message.outputs.ts }}"
             text: ":white_check_mark: Generated new devcontainer image..."
             blocks: [
               {
@@ -131,7 +227,7 @@ jobs:
                 "elements": [
                   {
                     "type": "mrkdwn",
-                    "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.get_head_commit_message.outputs.message }}>"
+                    "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ needs.notify-pre-build-message.outputs.head_commit_message }}>"
                   },
                   {
                     "type": "mrkdwn",
@@ -140,6 +236,17 @@ jobs:
                 ]
               }
             ]
+
+  notify-post-build-message-with-failure:
+    if: failure()
+    needs: [build-and-deploy-image-amd64, build-and-deploy-image-arm64]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Post notification to slack with Failure
         if: failure()
@@ -150,7 +257,7 @@ jobs:
           payload-templated: true
           payload: |
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            ts: "${{ steps.pre_slack.outputs.ts }}"
+            ts: "${{ needs.notify-pre-build-message.outputs.ts }}"
             text: ":x: Error generating new devcontainer image..."
             blocks: [
               {
@@ -165,7 +272,7 @@ jobs:
                 "elements": [
                   {
                     "type": "mrkdwn",
-                    "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.get_head_commit_message.outputs.message }}>"
+                    "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ needs.notify-pre-build-message.outputs.head_commit_message }}>"
                   },
                   {
                     "type": "mrkdwn",

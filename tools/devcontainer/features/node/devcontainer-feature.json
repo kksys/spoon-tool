@@ -1,0 +1,77 @@
+{
+  "id": "node",
+  "version": "1.0.1",
+  "name": "Node.js (via fnm), yarn and pnpm",
+  "documentationURL": "https://github.com/kksys/spoon-tool/tree/main/tools/devcontainer/features/node",
+  "description": "Installs Node.js, fnm, yarn, pnpm, and needed dependencies.",
+  "options": {
+    "version": {
+      "type": "string",
+      "proposals": [
+        "lts",
+        "latest",
+        "none",
+        "22",
+        "20",
+        "18",
+        "16",
+        "14"
+      ],
+      "default": "lts",
+      "description": "Select or enter a Node.js version to install"
+    },
+    "nodeGypDependencies": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install dependencies to compile native node modules (node-gyp)?"
+    },
+    "fnmInstallPath": {
+      "type": "string",
+      "default": "/usr/local/share/fnm",
+      "description": "The path where FNM will be installed."
+    },
+    "pnpmVersion": {
+      "type": "string",
+      "proposals": [
+        "latest",
+        "8.8.0",
+        "8.0.0",
+        "7.30.0",
+        "6.14.8",
+        "5.18.10",
+        "none"
+      ],
+      "default": "latest",
+      "description": "Select or enter the PNPM version to install"
+    },
+    "fnmVersion": {
+      "type": "string",
+      "proposals": [
+        "latest",
+        "1.38.1"
+      ],
+      "default": "latest",
+      "description": "Version of FNM to install."
+    },
+    "installYarnUsingApt": {
+      "type": "boolean",
+      "default": true,
+      "description": "On Debian and Ubuntu systems, you have the option to install Yarn globally via APT. If you choose not to use this option, Yarn will be set up using Corepack instead. This choice is specific to Debian and Ubuntu; for other Linux distributions, Yarn is always installed using Corepack, with a fallback to installation via NPM if an error occurs."
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  },
+  "containerEnv": {
+    "FNM_DIR": "/usr/local/share/fnm",
+    "FNM_SYMLINK_CURRENT": "true",
+    "PATH": "/usr/local/share/fnm/aliases/default/bin:${PATH}"
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}

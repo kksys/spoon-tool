@@ -6,7 +6,9 @@
   "license": "MIT",
   "scripts": {
     "ghcr:login": "./build-scripts/login.sh",
-    "ghcr:build": "./build-scripts/build.sh linux/amd64,linux/arm64",
+    "ghcr:build": "conc --kill-others pnpm:ghcr:build:features:* && pnpm run ghcr:build:devcontainer",
+    "ghcr:build:features:node": "./build-scripts/features.sh ./features/node",
+    "ghcr:build:devcontainer": "./build-scripts/build.sh linux/amd64,linux/arm64",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {

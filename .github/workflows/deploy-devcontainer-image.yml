@@ -16,7 +16,7 @@ env:
 
 jobs:
   notify-pre-build-message:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write
@@ -66,7 +66,7 @@ jobs:
 
   build-and-deploy-image-amd64:
     needs: notify-pre-build-message
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write
@@ -112,9 +112,9 @@ jobs:
       - name: Build devcontainer image
         uses: devcontainers/ci@a56d055efecd725e8cfe370543b6071b79989cc8 # v0.3
         with:
-          subFolder: tools/devcontainer
+          subFolder: tools/devcontainer/images/devcontainer
           imageName: ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer
-          imageTag: ${{ steps.format.outputs.tags }}
+          imageTag: ${{ steps.format.outputs.tags }}-amd64
           platform: linux/amd64
           push: always
           cacheFrom: |
@@ -123,7 +123,7 @@ jobs:
 
   build-and-deploy-image-arm64:
     needs: notify-pre-build-message
-    runs-on: ubuntu-latest-arm
+    runs-on: ubuntu-24.04-arm
     permissions:
       contents: read
       packages: write
@@ -169,9 +169,9 @@ jobs:
       - name: Build devcontainer image
         uses: devcontainers/ci@a56d055efecd725e8cfe370543b6071b79989cc8 # v0.3
         with:
-          subFolder: tools/devcontainer
+          subFolder: tools/devcontainer/images/devcontainer
           imageName: ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer
-          imageTag: ${{ steps.format.outputs.tags }}
+          imageTag: ${{ steps.format.outputs.tags }}-arm64
           platform: linux/arm64
           push: always
           cacheFrom: |
@@ -180,7 +180,7 @@ jobs:
 
   deploy-multiarch-image:
     needs: [build-and-deploy-image-amd64, build-and-deploy-image-arm64]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write
@@ -196,7 +196,7 @@ jobs:
   notify-post-build-message-with-success:
     if: success()
     needs: [deploy-multiarch-image]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write
@@ -239,8 +239,7 @@ jobs:
 
   notify-post-build-message-with-failure:
     if: failure()
-    needs: [build-and-deploy-image-amd64, build-and-deploy-image-arm64]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write

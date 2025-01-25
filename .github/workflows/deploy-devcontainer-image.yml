@@ -179,7 +179,9 @@ jobs:
             ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:main
 
   deploy-multiarch-image:
-    needs: [build-and-deploy-image-amd64, build-and-deploy-image-arm64]
+    needs:
+      - build-and-deploy-image-amd64
+      - build-and-deploy-image-arm64
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -195,7 +197,8 @@ jobs:
 
   notify-post-build-message-with-success:
     if: success()
-    needs: [deploy-multiarch-image]
+    needs:
+      - deploy-multiarch-image
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -239,6 +242,10 @@ jobs:
 
   notify-post-build-message-with-failure:
     if: failure()
+    needs:
+      - build-and-deploy-image-amd64
+      - build-and-deploy-image-arm64
+      - deploy-multiarch-image
     runs-on: ubuntu-24.04
     permissions:
       contents: read

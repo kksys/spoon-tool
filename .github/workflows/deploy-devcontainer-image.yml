@@ -16,7 +16,7 @@ env:
 
 jobs:
   notify-pre-build-message:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write
@@ -66,7 +66,7 @@ jobs:
 
   build-and-deploy-image-amd64:
     needs: notify-pre-build-message
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write
@@ -123,7 +123,7 @@ jobs:
 
   build-and-deploy-image-arm64:
     needs: notify-pre-build-message
-    runs-on: ubuntu-latest-arm
+    runs-on: ubuntu-24.04-arm
     permissions:
       contents: read
       packages: write
@@ -180,7 +180,7 @@ jobs:
 
   deploy-multiarch-image:
     needs: [build-and-deploy-image-amd64, build-and-deploy-image-arm64]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write
@@ -196,7 +196,7 @@ jobs:
   notify-post-build-message-with-success:
     if: success()
     needs: [deploy-multiarch-image]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write
@@ -240,7 +240,7 @@ jobs:
   notify-post-build-message-with-failure:
     if: failure()
     needs: [build-and-deploy-image-amd64, build-and-deploy-image-arm64]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       packages: write

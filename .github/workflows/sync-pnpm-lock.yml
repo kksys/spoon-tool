@@ -20,7 +20,7 @@ jobs:
       contains(github.event.pull_request.labels.*.name, 'renovate') &&
       contains(github.event.pull_request.labels.*.name, 'outdated-lockfile') &&
       github.event.pull_request.user.login == 'renovate[bot]'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
       packages: write

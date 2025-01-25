@@ -8,7 +8,7 @@ jobs:
   approve:
     name: Auto Approve
     if: ${{ github.event.issue.pull_request && github.event.comment.body == '/approve' && github.event.issue.user.login == github.event.repository.owner.login }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       GH_TOKEN: ${{ github.token }}
     steps:

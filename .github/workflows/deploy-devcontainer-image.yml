@@ -257,7 +257,6 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Post notification to slack with Failure
-        if: failure()
         uses: slackapi/slack-github-action@485a9d42d3a73031f12ec201c457e2162c45d02d # v2.0.0
         with:
           token: ${{ secrets.SLACK_BOT_TOKEN }}

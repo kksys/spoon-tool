@@ -54,7 +54,7 @@ jobs:
                 "elements": [
                   {
                     "type": "mrkdwn",
-                    "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ needs.notify-pre-build-message.outputs.head_commit_message }}>"
+                    "text": "based commit: <https://github.com/${{ github.actor }}/${{ github.repository }}/commit/${{ github.sha }}|${{ steps.get_head_commit_message.outputs.message }}>"
                   },
                   {
                     "type": "mrkdwn",
@@ -64,21 +64,14 @@ jobs:
               }
             ]
 
-  build-and-deploy-image-amd64:
-    needs: notify-pre-build-message
+  get-new-metadata-tags:
     runs-on: ubuntu-24.04
     permissions:
       contents: read
-      packages: write
+      packages: read
+    outputs:
+      tags: ${{ steps.format.outputs.tags }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-
-      - name: Install skopeo
-        run: |
-          sudo apt-get -y update
-          sudo apt-get -y install skopeo
-
       - name: Get metadata for image
         uses: docker/metadata-action@369eb591f429131d6889c46b94e711f089e6ca96 # v5
         id: meta
@@ -100,6 +93,23 @@ jobs:
 
           echo "tags=${tags}" >> $GITHUB_OUTPUT
 
+  build-and-deploy-image-amd64:
+    needs:
+      - notify-pre-build-message
+      - get-new-metadata-tags
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Install skopeo
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install skopeo
+
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@6524bf65af31da8d45b59e8c27de4bd072b392f5 # v3
 
@@ -110,20 +120,35 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ env.GHCR_PASSWORD }}
 
+      - name: Modify Tag
+        id: modify_tag
+        run: |
+          IFS=',' read -r -a tags <<< "${{ needs.get-new-metadata-tags.outputs.tags }}"
+          line=$(printf ",%s-${{ env.ARCH }}" "${tags[@]}")
+          line=${line:1}
+          json=$(printf ",\"%s-${{ env.ARCH }}\"" "${tags[@]}")
+          json=${json:1}
+          echo "tags=${line}" >> $GITHUB_OUTPUT
+          echo "json=[${json}]" >> $GITHUB_OUTPUT
+        env:
+          ARCH: amd64
+
       - name: Build devcontainer image
         uses: devcontainers/ci@a56d055efecd725e8cfe370543b6071b79989cc8 # v0.3
         with:
           subFolder: tools/devcontainer/images/devcontainer
           imageName: ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer
-          imageTag: ${{ steps.format.outputs.tags }}-amd64
+          imageTag: ${{ steps.modify_tag.outputs.tags }}
           platform: linux/amd64
           push: always
           cacheFrom: |
-            ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer
-            ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:main
+            ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:${{ fromJSON(steps.modify_tag.outputs.json)[0] }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:${{ fromJSON(steps.modify_tag.outputs.json)[1] }}
 
   build-and-deploy-image-arm64:
-    needs: notify-pre-build-message
+    needs:
+      - notify-pre-build-message
+      - get-new-metadata-tags
     runs-on: ubuntu-24.04-arm
     permissions:
       contents: read
@@ -137,26 +162,53 @@ jobs:
           sudo apt-get -y update
           sudo apt-get -y install skopeo
 
-      - name: Get metadata for image
-        uses: docker/metadata-action@369eb591f429131d6889c46b94e711f089e6ca96 # v5
-        id: meta
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@6524bf65af31da8d45b59e8c27de4bd072b392f5 # v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer
-          tags: |
-            type=ref,event=branch
-            type=sha
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ env.GHCR_PASSWORD }}
 
-      - name: Convert metadata to pass devcontainers/ci
-        id: format
-        # https://github.com/devcontainers/ci/issues/235
+      - name: Modify Tag
+        id: modify_tag
         run: |
-          prefix="${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:"
+          IFS=',' read -r -a tags <<< "${{ needs.get-new-metadata-tags.outputs.tags }}"
+          line=$(printf ",%s-${{ env.ARCH }}" "${tags[@]}")
+          line=${line:1}
+          json=$(printf ",\"%s-${{ env.ARCH }}\"" "${tags[@]}")
+          json=${json:1}
+          echo "tags=${line}" >> $GITHUB_OUTPUT
+          echo "json=[${json}]" >> $GITHUB_OUTPUT
+        env:
+          ARCH: arm64
 
-          tags=$(echo "${{ steps.meta.outputs.tags }}" | sed -e "s#${prefix}##g")
-          tags=$(echo "${tags}" | tr "\n" ",")
-          tags=$(echo "${tags}" | sed "s/,*$//")
+      - name: Build devcontainer image
+        uses: devcontainers/ci@a56d055efecd725e8cfe370543b6071b79989cc8 # v0.3
+        with:
+          subFolder: tools/devcontainer/images/devcontainer
+          imageName: ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer
+          imageTag: ${{ steps.modify_tag.outputs.tags }}
+          platform: linux/arm64
+          push: always
+          cacheFrom: |
+            ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:${{ fromJSON(steps.modify_tag.outputs.json)[0] }}
+            ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:${{ fromJSON(steps.modify_tag.outputs.json)[1] }}
 
-          echo "tags=${tags}" >> $GITHUB_OUTPUT
+  deploy-multiarch-image:
+    needs:
+      - get-new-metadata-tags
+      - build-and-deploy-image-amd64
+      - build-and-deploy-image-arm64
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@6524bf65af31da8d45b59e8c27de4bd072b392f5 # v3
@@ -168,41 +220,41 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ env.GHCR_PASSWORD }}
 
-      - name: Build devcontainer image
-        uses: devcontainers/ci@a56d055efecd725e8cfe370543b6071b79989cc8 # v0.3
-        with:
-          subFolder: tools/devcontainer/images/devcontainer
-          imageName: ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer
-          imageTag: ${{ steps.format.outputs.tags }}-arm64
-          platform: linux/arm64
-          push: always
-          cacheFrom: |
-            ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer
-            ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:main
-
-  deploy-multiarch-image:
-    needs:
-      - build-and-deploy-image-amd64
-      - build-and-deploy-image-arm64
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-
       - name: Deploy multiarch image
         run: |
-          docker manifest create \
-            ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:${{ steps.format.outputs.tags }} \
-            --amend ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:${{ steps.format.outputs.tags }}-amd64 \
-            --amend ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:${{ steps.format.outputs.tags }}-arm64
-          docker manifest push ${{ env.REGISTRY }}/${{ github.repository }}/devcontainer:${{ steps.format.outputs.tags }}
+          function deploy_multiarch_image() {
+            local tag=$1
+            local registry=$2
+            local repository=$3
+
+            # pulling all architecture images
+            for arch in amd64 arm64; do
+              docker pull ${registry}/${repository}/devcontainer:${tag}-${arch}
+            done
+
+            # create and push manifest
+            docker buildx imagetools create \
+              -t ${registry}/${repository}/devcontainer:${tag} \
+              ${registry}/${repository}/devcontainer:${tag}-amd64 \
+              ${registry}/${repository}/devcontainer:${tag}-arm64
+
+            # verify manifest
+            docker buildx imagetools inspect \
+              ${registry}/${repository}/devcontainer:${tag}
+          }
+
+          IFS=',' read -r -a tags <<< "${{ needs.get-new-metadata-tags.outputs.tags }}"
+
+          for tag in "${tags[@]}"; do
+            echo "tag=${tag}"
+
+            deploy_multiarch_image "$tag" "${{ env.REGISTRY }}" "${{ github.repository }}"
+          done
 
   notify-post-build-message-with-success:
-    if: success()
+    if: ${{ success() }}
     needs:
+      - notify-pre-build-message
       - deploy-multiarch-image
     runs-on: ubuntu-24.04
     permissions:
@@ -246,8 +298,9 @@ jobs:
             ]
 
   notify-post-build-message-with-failure:
-    if: failure()
+    if: ${{ failure() || cancelled() }}
     needs:
+      - notify-pre-build-message
       - build-and-deploy-image-amd64
       - build-and-deploy-image-arm64
       - deploy-multiarch-image

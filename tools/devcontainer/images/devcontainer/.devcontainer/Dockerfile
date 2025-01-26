@@ -1,4 +1,4 @@
-FROM ubuntu:focal
+FROM ubuntu:jammy
 
 COPY first-run-notice.txt /tmp/scripts/
 
@@ -30,14 +30,14 @@ RUN apt-get update \
     libgdiplus \
     jq \
     # By default pip is not available in the buildpacks image
-    python-pip-whl \
+    python3-pip-whl \
     python3-pip \
     #.NET Core related pre-requisites
     libc6 \
     libgcc1 \
     libgssapi-krb5-2 \
     libncurses5 \
-    liblttng-ust0 \
+    liblttng-ust1 \
     libssl-dev \
     libstdc++6 \
     zlib1g \

@@ -99,7 +99,7 @@ importers:
         specifier: 'catalog:'
         version: 2.1.8(@types/node@22.10.10)
       wrangler:
-        specifier: ^3.105.1
+        specifier: ^3.106.0
         version: 3.106.0(@cloudflare/workers-types@4.20250124.3)
 
   packages/frontend:

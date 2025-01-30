@@ -15,7 +15,7 @@
     "cf-typegen": "wrangler types"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.6.8",
+    "@cloudflare/vitest-pool-workers": "^0.6.9",
     "@cloudflare/workers-types": "^4.20250124.3",
     "@stylistic/eslint-plugin": "catalog:",
     "@stylistic/eslint-plugin-js": "catalog:",

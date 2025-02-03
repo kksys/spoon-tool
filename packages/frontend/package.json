@@ -46,7 +46,7 @@
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.48.2",
+    "@playwright/test": "^1.50.1",
     "@stylistic/eslint-plugin": "catalog:",
     "@stylistic/eslint-plugin-js": "catalog:",
     "@types/eslint__js": "catalog:",

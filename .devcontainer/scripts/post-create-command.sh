@@ -61,12 +61,19 @@ function install_dependencies() {
   ./build-scripts/generate-env.sh
 }
 
+function install_test_environment() {
+  # install test environment
+  pnpm -C packages/frontend exec playwright install-deps
+  pnpm -C packages/frontend exec playwright install
+}
+
 function main() {
   install_native_deps
   set_node_pnpm_versions
   install_node
   setup_pnpm
   install_dependencies
+  install_test_environment
 }
 
 main

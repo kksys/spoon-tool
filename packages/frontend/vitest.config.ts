@@ -8,7 +8,10 @@ export default mergeConfig(
     test: {
       setupFiles: [
         './test/vitest.setup.ts',
-      ]
-    }
+      ],
+      exclude: [
+        './test/e2e/**',
+      ],
+    },
   })
 )

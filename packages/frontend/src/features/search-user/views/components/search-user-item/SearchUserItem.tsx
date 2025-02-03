@@ -37,6 +37,7 @@ const useStyles = makeStyles({
 })
 
 interface ISearchUserItemBaseProps {
+  testId?: string
   renderIcon: ReactElement
   renderBadge?: ReactElement | undefined
   renderNickName: ReactElement
@@ -47,6 +48,7 @@ interface ISearchUserItemBaseProps {
 }
 
 const SearchUserItemBase: FC<ISearchUserItemBaseProps> = memo(({
+  testId,
   renderIcon,
   renderBadge,
   renderNickName,
@@ -61,6 +63,7 @@ const SearchUserItemBase: FC<ISearchUserItemBaseProps> = memo(({
     <Flex
       style={ { padding: `${SearchUserItemSize.padding}px`, columnGap: `${SearchUserItemSize.padding}px` } }
       onClick={ onClick }
+      data-testid={ testId }
     >
       {renderIcon}
       <Stack className={ styles.propertyContainer }>
@@ -179,6 +182,7 @@ const SearchUserItemNormal: FC<Omit<ISearchUserItemNormalProps, 'loading'>> = me
   return (
     <SearchUserItemBase
       key={ `${user.id}` }
+      testId={ `search-user-item.${user.id}` }
       renderIcon={ (
         <AvatarForSearchUserItemNormal user={ user } />
       ) }

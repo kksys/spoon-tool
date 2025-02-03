@@ -84,14 +84,14 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
         {user
           ? (
             <SearchUserItem
-              key={ index }
+              key={ `user-id-${user.id}` }
               user={ user }
               onClick={ () => onSelectUser(user.id) }
             />
           )
           : (
             <SearchUserItem
-              key={ index }
+              key={ `loading.${index}` }
               loading
             />
           )
@@ -110,7 +110,7 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
         ref={ ref }
         onItemsRendered={ onItemsRendered }
       >
-        {Row}
+        { Row }
       </FixedSizeList>
     )
   }, [itemCount, listHeight])
@@ -119,6 +119,7 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
     <div
       style={ { width: 'calc(100% + 24px)', marginLeft: '-12px', marginRight: '-12px', position: 'relative', flex: '1 1 auto', minHeight: '0' } }
       ref={ containerRef }
+      data-testid='search-user-list'
     >
       <InfiniteLoader
         isItemLoaded={ isItemLoaded }

@@ -1,4 +1,5 @@
 import react from '@vitejs/plugin-react-swc'
+import { existsSync } from 'fs'
 import sanitizeHtml from 'sanitize-html'
 import { defineConfig, Plugin } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
@@ -46,7 +47,8 @@ export default defineConfig({
     target: 'es2020',
   },
   server: {
-    host: true,
+    host: !(!!process.env.CI || !existsSync('/.dockerenv')),
+    open: false,
   },
   // TODO: fix it later, below is just workaround to avoid below error
   // `Parameter decorators only work when experimental decorators are enabled`

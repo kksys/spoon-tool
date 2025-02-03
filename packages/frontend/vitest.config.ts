@@ -9,7 +9,9 @@ export default mergeConfig(
       setupFiles: [
         './test/vitest.setup.ts',
       ],
-      dir: './test/unit',
-    }
+      exclude: [
+        './test/e2e/**',
+      ],
+    },
   })
 )

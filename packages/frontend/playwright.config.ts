@@ -13,6 +13,8 @@ import { existsSync } from 'fs'
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  globalSetup: './test/e2e/global.setup.ts',
+  globalTeardown: './test/e2e/global.teardown.ts',
   testDir: './test/e2e',
   /* Run tests in files in parallel */
   fullyParallel: true,

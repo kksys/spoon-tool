@@ -1,5 +1,5 @@
 import { makeStyles, mergeClasses } from '@fluentui/react-components'
-import { CSSProperties, FC, memo, MouseEventHandler, ReactNode } from 'react'
+import { CSSProperties, FC, HTMLAttributes, memo, MouseEventHandler, ReactNode } from 'react'
 
 interface IFlexProps {
   children?: ReactNode | undefined
@@ -41,7 +41,7 @@ const useStyles = makeStyles({
   }
 })
 
-export const Flex: FC<IFlexProps> = memo(({ children, style, className, direction, grow, onClick }) => {
+export const Flex: FC<IFlexProps & HTMLAttributes<HTMLDivElement>> = memo(({ children, style, className, direction, grow, onClick, ...props }) => {
   const styles = useStyles()
   const interpolatedDirection = direction || 'row'
 
@@ -50,6 +50,7 @@ export const Flex: FC<IFlexProps> = memo(({ children, style, className, directio
       className={ mergeClasses(styles.root, styles[interpolatedDirection], grow ? styles.grow : undefined, className) }
       style={ style }
       onClick={ onClick }
+      { ...props }
     >
       {children}
     </div>

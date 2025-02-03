@@ -102,20 +102,20 @@ export const UserDetailDialog: FC<IUserDetailDialogProps> = memo(({ open, onOpen
             </StackItem>
             <StackItem grow>
               <Stack>
-                <Text>
+                <Text data-testid="user-detail-dialog.nickname">
                   { user.profile.nickname }
                 </Text>
-                <Text>
+                <Text data-testid="user-detail-dialog.tag">
                   { `@${user.profile.tag}` }
                 </Text>
                 <br />
-                <Text>
+                <Text data-testid="user-detail-dialog.number-of-followers">
                   { t('numberOfFollowers.format', { ns: 'search-user', followers: user.statistics.numberOfFollowers.toLocaleString() }) }
                 </Text>
-                <Text>
+                <Text data-testid="user-detail-dialog.number-of-following">
                   { t('numberOfFollowing.format', { ns: 'search-user', following: user.statistics.numberOfFollowing.toLocaleString() }) }
                 </Text>
-                <Text>
+                <Text data-testid="user-detail-dialog.joined-date-time">
                   { t('joinedDateTime.format', { ns: 'search-user', datetime: user.profile.joinedDate?.toLocaleString(i18n.language) }) }
                 </Text>
               </Stack>

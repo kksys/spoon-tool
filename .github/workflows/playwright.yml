@@ -1,0 +1,38 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+env:
+  FRONTEND_DIRECTORY: packages/frontend
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Setup node & pnpm version
+        uses: ./.github/actions/setup-node-pnpm
+
+      - name: Install Dependencies
+        run: |
+          pnpm i --frozen-lockfile
+          pnpm -C ${{ env.FRONTEND_DIRECTORY }} exec playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: |
+          ./build-scripts/generate-env.sh
+          pnpm -C ${{ env.FRONTEND_DIRECTORY }} test:e2e
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: ${{ env.FRONTEND_DIRECTORY }}/playwright-report/
+          retention-days: 30

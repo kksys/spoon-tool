@@ -24,6 +24,7 @@
     "concurrently": "catalog:",
     "dependency-cruiser": "catalog:",
     "eslint": "catalog:",
+    "eslint-plugin-simple-import-sort": "catalog:",
     "globals": "catalog:",
     "jiti": "catalog:",
     "typescript": "catalog:",

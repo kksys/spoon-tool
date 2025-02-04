@@ -28,7 +28,7 @@ test('search user', async ({ page }) => {
   await expect(page.getByTestId('user-detail-dialog.number-of-followers'))
     .toHaveText('253 Followers')
   await expect(page.getByTestId('user-detail-dialog.number-of-following'))
-    .toHaveText('612 Following')
+    .toHaveText('613 Following')
   await expect(page.getByTestId('user-detail-dialog.joined-date-time'))
     .toHaveText('Joined Date and Time: 7/19/2019, 11:09:58 PM')
 

@@ -8,7 +8,10 @@ function exec_renovate() {
   pushd $(pwd) >/dev/null
 
   cd ../..
-  rm "${RENOVATE_TESTER_PWD}/renovate-output.log"
+
+  if [ -e "${RENOVATE_TESTER_PWD}/renovate-output.log" ]; then
+    rm "${RENOVATE_TESTER_PWD}/renovate-output.log"
+  fi
   renovate --dry-run --platform=local | tee "${RENOVATE_TESTER_PWD}/renovate-output.log"
 
   popd >/dev/null

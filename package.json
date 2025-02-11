@@ -29,7 +29,8 @@
     "onlyBuiltDependencies": [
       "@swc/core",
       "esbuild",
-      "re2"
+      "re2",
+      "sharp"
     ]
   }
 }

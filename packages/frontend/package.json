@@ -71,7 +71,7 @@
     "i18next-parser": "^9.1.0",
     "jiti": "catalog:",
     "license-checker": "^25.0.1",
-    "prettier": "^3.4.2",
+    "prettier": "^3.5.0",
     "sanitize-html": "^2.14.0",
     "serve": "^14.2.4",
     "typescript": "catalog:",

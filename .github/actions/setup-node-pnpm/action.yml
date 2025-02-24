@@ -1,11 +1,13 @@
+name: "Setup node and pnpm"
+description: "This action sets up the Node.js and PNPM versions based on the package.json file."
 runs:
-  using: "Composite"
+  using: "composite"
   steps:
     - name: Set node & pnpm version
       shell: bash
       run: |
         node_version=$(cat package.json | jq -r .engines.node)
-        pnpm_version=$(cat package.json | jq -r .engines.pnpm)
+        pnpm_version=$(cat package.json | jq -r .packageManager | awk '{ gsub(/^[^@]+@/, ""); print }')
         echo "NODE_VERSION=${node_version}" >> $GITHUB_ENV
         echo "PNPM_VERSION=${pnpm_version}" >> $GITHUB_ENV
 

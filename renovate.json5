@@ -51,7 +51,14 @@
         "@types/node",
       ],
       groupName: "Node.js",
-    }
+    },
+    {
+      "description": "Ignore updating pnpm field on engines",
+      "matchPackageNames": ["pnpm"],
+      "matchManagers": ["npm"],
+      "matchDepTypes": ["engines"],
+      "enabled": false
+    },
   ],
   updateLockFiles: true,
   postUpdateOptions: [

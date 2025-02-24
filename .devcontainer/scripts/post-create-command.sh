@@ -34,7 +34,7 @@ function install_native_deps() {
 
 function set_node_pnpm_versions() {
   export NODE_VERSION=$(cat package.json | jq -r .engines.node)
-  export PNPM_VERSION=$(cat package.json | jq -r .engines.pnpm)
+  export PNPM_VERSION=$(cat package.json | jq -r .packageManager | awk '{ gsub(/^[^@]+@/, ""); print }')
 
   echo "node version: ${NODE_VERSION}"
   echo "pnpm version: ${PNPM_VERSION}"

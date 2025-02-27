@@ -1,4 +1,4 @@
-import { ContainerModule, interfaces } from 'inversify'
+import { ContainerModule, Factory, ResolutionContext } from 'inversify'
 
 import { HttpClient } from '#/cross-cutting/http-client/HttpClient'
 import { IUserPaginatorViewModel } from '#/search-user/interfaces/view-models/IUserPaginatorViewModel'
@@ -16,7 +16,7 @@ import { UserDetailViewModel } from '../view-models/UserDetailViewModel'
 import { UserListViewModel } from '../view-models/UserListViewModel'
 import { searchUserTypes } from './searchUserTypes'
 
-export const searchUserModule = new ContainerModule((bind) => {
+export const searchUserModule = new ContainerModule(({ bind }) => {
   bind<IApiClient>(searchUserTypes.ApiClient)
     .toDynamicValue(() => {
       const httpClient = new HttpClient([])
@@ -32,11 +32,11 @@ export const searchUserModule = new ContainerModule((bind) => {
     .to(UserViewModel)
     .inTransientScope()
 
-  bind<interfaces.Factory<IUserViewModel>>(searchUserTypes.UserViewModelFactory)
-    .toFactory<IUserViewModel, IUserViewModelProps[]>(
-      (context: interfaces.Context) => {
-        return (props: IUserViewModelProps): IUserViewModel => {
-          const vm = context.container.get<IUserViewModel>(searchUserTypes.UserViewModel)
+  bind<Factory<IUserViewModel, [IUserViewModelProps]>>(searchUserTypes.UserViewModelFactory)
+    .toFactory(
+      (context: ResolutionContext) => {
+        return (props): IUserViewModel => {
+          const vm = context.get<IUserViewModel>(searchUserTypes.UserViewModel)
           vm.setProperties(props)
           return vm
         }

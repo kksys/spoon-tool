@@ -9,7 +9,7 @@ import { ConfigurationRepository } from '../repository/ConfigurationRepository'
 import { ConfigurationViewModel } from '../view-models/ConfigurationViewModel'
 import { configurationTypes } from './configurationTypes'
 
-export const configurationModule = new ContainerModule((bind) => {
+export const configurationModule = new ContainerModule(({ bind }) => {
   {
     let loggerService: ILoggerService
 
@@ -17,19 +17,19 @@ export const configurationModule = new ContainerModule((bind) => {
       .to(ConfigurationRepository)
       .inSingletonScope()
       .onActivation(async (ctx, repository) => {
-        loggerService = ctx.container.get<ILoggerService>(crossCuttingTypes.LoggerService)
+        loggerService = ctx.get<ILoggerService>(crossCuttingTypes.LoggerService)
         loggerService.log('auto load')
         // auto load
         await repository.load()
         return repository
       })
-      .whenTargetIsDefault()
+      .whenDefault()
       .onDeactivation(async (repository) => {
         loggerService.log('auto save')
         // auto save
         await repository.save()
       })
-      .whenTargetIsDefault()
+      .whenDefault()
   }
 
   bind<IConfigurationViewModel>(configurationTypes.ConfigurationViewModel)

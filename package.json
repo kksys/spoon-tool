@@ -34,6 +34,7 @@
     ]
   },
   "devDependencies": {
-    "pnpm": "10.5.2"
+    "pnpm": "10.5.2",
+    "typescript": "catalog:"
   }
 }

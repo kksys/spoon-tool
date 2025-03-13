@@ -28,7 +28,7 @@
   "dependencies": {
     "@fluentui/react-components": "^9.60.1",
     "@fluentui/react-icons": "^2.0.274",
-    "@fluentui/react-nav-preview": "^0.12.0",
+    "@fluentui/react-nav-preview": "^0.13.0",
     "http-status-codes": "^2.3.0",
     "i18next": "^24.2.2",
     "inversify": "^7.1.0",

@@ -30,7 +30,7 @@
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
     "vitest": "catalog:",
-    "wrangler": "^4.1.0"
+    "wrangler": "^4.3.0"
   },
   "dependencies": {
     "hono": "^4.7.4"

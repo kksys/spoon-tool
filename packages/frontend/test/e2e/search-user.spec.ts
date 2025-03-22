@@ -1,6 +1,11 @@
 import { expect, test } from '@playwright/test'
 
 test('search user', async ({ page }) => {
+  await page.routeFromHAR('./test/e2e/hars/api.har', {
+    url: 'http://localhost:8787/**/*',
+    update: false,
+  })
+
   await page.goto('http://localhost:5173/')
   await page.evaluate(() => {
     localStorage.setItem('configuration', JSON.stringify({ language: 'en-US', theme: 'dark' }))
@@ -26,9 +31,9 @@ test('search user', async ({ page }) => {
   await expect(page.getByTestId('user-detail-dialog.tag'))
     .toHaveText('@kksys512')
   await expect(page.getByTestId('user-detail-dialog.number-of-followers'))
-    .toHaveText('254 Followers')
+    .toHaveText('257 Followers')
   await expect(page.getByTestId('user-detail-dialog.number-of-following'))
-    .toHaveText('610 Following')
+    .toHaveText('613 Following')
   await expect(page.getByTestId('user-detail-dialog.joined-date-time'))
     .toHaveText('Joined Date and Time: 7/19/2019, 11:09:58 PM')
 

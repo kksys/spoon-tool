@@ -76,7 +76,7 @@
     "serve": "^14.2.4",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
-    "vite": "^6.2.2",
+    "vite": "^6.2.3",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "catalog:"
   }

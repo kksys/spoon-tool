@@ -124,8 +124,8 @@ importers:
         specifier: ^2.0.292
         version: 2.0.292(react@18.3.1)
       '@fluentui/react-nav-preview':
-        specifier: ^0.13.3
-        version: 0.13.3(@types/react-dom@18.3.5(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(scheduler@0.23.2)
+        specifier: ^0.13.4
+        version: 0.13.4(@types/react-dom@18.3.5(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(scheduler@0.23.2)
       http-status-codes:
         specifier: ^2.3.0
         version: 2.3.0
@@ -1324,8 +1324,8 @@ packages:
       react: '>=16.14.0 <19.0.0'
       react-dom: '>=16.8.0 <19.0.0'
 
-  '@fluentui/react-nav-preview@0.13.3':
-    resolution: {integrity: sha512-sH+TrKy7GqpLXkeqBLewhqsDRXiXK+miPWf7XJYtYeEFvi8GnXF1GWHzirdciRAZhV3kbCkdyEDn73rIma+ZCg==}
+  '@fluentui/react-nav-preview@0.13.4':
+    resolution: {integrity: sha512-sniU06xQu0yo5vJ2BN/OviW/OpSsV9LZ2lfZejdF103FyFN33TMm85skRYkDMKxRYmYys9oJhc3P1Rfx6S8+8w==}
     peerDependencies:
       '@types/react': '>=16.14.0 <19.0.0'
       '@types/react-dom': '>=16.9.0 <19.0.0'
@@ -8501,7 +8501,7 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       react-is: 17.0.2
 
-  '@fluentui/react-nav-preview@0.13.3(@types/react-dom@18.3.5(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(scheduler@0.23.2)':
+  '@fluentui/react-nav-preview@0.13.4(@types/react-dom@18.3.5(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(scheduler@0.23.2)':
     dependencies:
       '@fluentui/react-aria': 9.14.3(@types/react-dom@18.3.5(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@fluentui/react-button': 9.4.3(@types/react-dom@18.3.5(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)

@@ -25,8 +25,8 @@ catalogs:
       specifier: 9.1.2
       version: 9.1.2
     dependency-cruiser:
-      specifier: 16.10.0
-      version: 16.10.0
+      specifier: 16.10.1
+      version: 16.10.1
     eslint:
       specifier: 9.23.0
       version: 9.23.0
@@ -89,7 +89,7 @@ importers:
         version: 9.1.2
       dependency-cruiser:
         specifier: 'catalog:'
-        version: 16.10.0
+        version: 16.10.1
       eslint:
         specifier: 'catalog:'
         version: 9.23.0(jiti@2.4.2)
@@ -219,7 +219,7 @@ importers:
         version: 9.1.2
       dependency-cruiser:
         specifier: 'catalog:'
-        version: 16.10.0
+        version: 16.10.1
       eslint:
         specifier: 'catalog:'
         version: 9.23.0(jiti@2.4.2)
@@ -2706,6 +2706,11 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
+  acorn@8.14.1:
+    resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
+
   adm-zip@0.5.16:
     resolution: {integrity: sha512-TGw5yVi4saajsSEgz25grObGHEUaDrniwvA2qwSC060KfqGPdglhvPMA2lPIoxs3PQIItj2iag35fONcQqgUaQ==}
     engines: {node: '>=12.0'}
@@ -3299,8 +3304,8 @@ packages:
   defu@6.1.4:
     resolution: {integrity: sha512-mEQCMmwJu317oSz8CwdIOdwf3xMif1ttiM8LTufzc3g6kR+9Pe236twL8j3IYT1F7GfRgGcW6MWxzZjLIkuHIg==}
 
-  dependency-cruiser@16.10.0:
-    resolution: {integrity: sha512-o6pEB8X/XS0AjpQBhPJW3pSY7HIviRM7+G601T9ruV63NVJC4DxLMA+a1VzZlKOzO2fO6JKRHjRmGjzZZHEFYA==}
+  dependency-cruiser@16.10.1:
+    resolution: {integrity: sha512-Uw8/emAfzD+Zcua6Hfg1wCnskJd2QSRGKw5tUWrCtA8PBSz+n/zfUYCTjFi9MwdiTA5oecN93FBvh9jJhTLs4A==}
     engines: {node: ^18.17||>=20}
     hasBin: true
 
@@ -4558,8 +4563,8 @@ packages:
   memoize-one@5.2.1:
     resolution: {integrity: sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==}
 
-  memoize@10.0.0:
-    resolution: {integrity: sha512-H6cBLgsi6vMWOcCpvVCdFFnl3kerEXbrYh9q+lY6VXvQSmM6CkmV08VOwT+WE2tzIEqRPFfAq3fm4v/UIW6mSA==}
+  memoize@10.1.0:
+    resolution: {integrity: sha512-MMbFhJzh4Jlg/poq1si90XRlTZRDHVqdlz2mPyGJ6kqMpyHUyVpDd5gpFAvVehW64+RA1eKE9Yt8aSLY7w2Kgg==}
     engines: {node: '>=18'}
 
   meow@7.1.1:
@@ -10110,27 +10115,29 @@ snapshots:
       mime-types: 2.1.35
       negotiator: 0.6.3
 
-  acorn-import-attributes@1.9.5(acorn@8.14.0):
+  acorn-import-attributes@1.9.5(acorn@8.14.1):
     dependencies:
-      acorn: 8.14.0
+      acorn: 8.14.1
 
   acorn-jsx-walk@2.0.0: {}
 
-  acorn-jsx@5.3.2(acorn@8.14.0):
+  acorn-jsx@5.3.2(acorn@8.14.1):
     dependencies:
-      acorn: 8.14.0
+      acorn: 8.14.1
 
   acorn-loose@8.4.0:
     dependencies:
-      acorn: 8.14.0
+      acorn: 8.14.1
 
   acorn-walk@8.3.2: {}
 
   acorn-walk@8.3.4:
     dependencies:
-      acorn: 8.14.0
+      acorn: 8.14.1
 
   acorn@8.14.0: {}
+
+  acorn@8.14.1: {}
 
   adm-zip@0.5.16: {}
 
@@ -10790,10 +10797,10 @@ snapshots:
 
   defu@6.1.4: {}
 
-  dependency-cruiser@16.10.0:
+  dependency-cruiser@16.10.1:
     dependencies:
-      acorn: 8.14.0
-      acorn-jsx: 5.3.2(acorn@8.14.0)
+      acorn: 8.14.1
+      acorn-jsx: 5.3.2(acorn@8.14.1)
       acorn-jsx-walk: 2.0.0
       acorn-loose: 8.4.0
       acorn-walk: 8.3.4
@@ -10804,7 +10811,7 @@ snapshots:
       interpret: 3.1.1
       is-installed-globally: 1.0.0
       json5: 2.2.3
-      memoize: 10.0.0
+      memoize: 10.1.0
       picocolors: 1.1.1
       picomatch: 4.0.2
       prompts: 2.4.2
@@ -11202,8 +11209,8 @@ snapshots:
 
   espree@10.3.0:
     dependencies:
-      acorn: 8.14.0
-      acorn-jsx: 5.3.2(acorn@8.14.0)
+      acorn: 8.14.1
+      acorn-jsx: 5.3.2(acorn@8.14.1)
       eslint-visitor-keys: 4.2.0
 
   esprima@4.0.1: {}
@@ -11805,8 +11812,8 @@ snapshots:
 
   import-in-the-middle@1.11.2:
     dependencies:
-      acorn: 8.14.0
-      acorn-import-attributes: 1.9.5(acorn@8.14.0)
+      acorn: 8.14.1
+      acorn-import-attributes: 1.9.5(acorn@8.14.1)
       cjs-module-lexer: 1.4.1
       module-details-from-path: 1.0.3
 
@@ -12309,7 +12316,7 @@ snapshots:
 
   memoize-one@5.2.1: {}
 
-  memoize@10.0.0:
+  memoize@10.1.0:
     dependencies:
       mimic-function: 5.0.1
 

@@ -15,6 +15,7 @@ import { IUserListViewModel } from '../interfaces/view-models/IUserListViewModel
 import { UserDetailViewModel } from '../view-models/UserDetailViewModel'
 import { UserListViewModel } from '../view-models/UserListViewModel'
 import { searchUserTypes } from './searchUserTypes'
+import { userPaginatorViewModelName } from './userPaginatorViewModelName'
 
 export const searchUserModule = new ContainerModule(({ bind }) => {
   bind<IApiClient>(searchUserTypes.ApiClient)
@@ -27,6 +28,17 @@ export const searchUserModule = new ContainerModule(({ bind }) => {
   bind<IUserPaginatorViewModel>(searchUserTypes.UserPaginatorViewModel)
     .to(UserPaginatorViewModel)
     .inSingletonScope()
+    .whenNamed(userPaginatorViewModelName.followings)
+
+  bind<IUserPaginatorViewModel>(searchUserTypes.UserPaginatorViewModel)
+    .to(UserPaginatorViewModel)
+    .inSingletonScope()
+    .whenNamed(userPaginatorViewModelName.followers)
+
+  bind<IUserPaginatorViewModel>(searchUserTypes.UserPaginatorViewModel)
+    .to(UserPaginatorViewModel)
+    .inSingletonScope()
+    .whenDefault()
 
   bind<IUserViewModel>(searchUserTypes.UserViewModel)
     .to(UserViewModel)

@@ -10,4 +10,12 @@ export interface ISpoonApi {
   getProfile(
     params: EndpointTypes['spoonApi']['getProfile']['parameters'],
   ): Promise<Result<EndpointTypes['spoonApi']['getProfile']['response'], ApiError>>
+
+  fetchFollowers(
+    params: EndpointTypes['spoonApi']['fetchFollowers']['parameters'],
+  ): Promise<Result<EndpointTypes['spoonApi']['fetchFollowers']['response'], ApiError>>
+
+  fetchFollowings(
+    params: EndpointTypes['spoonApi']['fetchFollowings']['parameters'],
+  ): Promise<Result<EndpointTypes['spoonApi']['fetchFollowings']['response'], ApiError>>
 }

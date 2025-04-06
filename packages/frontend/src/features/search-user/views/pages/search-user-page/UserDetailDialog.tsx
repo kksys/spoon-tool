@@ -1,4 +1,4 @@
-import { AvatarProps, Button, DialogActions, DialogBody, DialogContent, DialogTitle, DialogTrigger, Text } from '@fluentui/react-components'
+import { AvatarProps, Button, DialogActions, DialogBody, DialogContent, DialogTitle, DialogTrigger, Link, Text } from '@fluentui/react-components'
 import { Avatar } from '@fluentui/react-components'
 import { i18n } from 'i18next'
 import { FC, memo, useCallback, useEffect, useState } from 'react'
@@ -13,6 +13,8 @@ import { StackItem } from '#/cross-cutting/views/components/stack-item/StackItem
 import { User } from '#/search-user/interfaces/models/User'
 
 import { SearchUserBadge, SearchUserBadgeType } from '../../components/search-user-badge/SearchUserBadge'
+import { FollowerListDialog } from './FollowerListDialog'
+import { FollowingListDialog } from './FollowingListDialog'
 
 interface IUserDetailDialogProps extends Pick<IStDialogProps, 'open' | 'onOpenChange'> {
   user: User
@@ -56,85 +58,106 @@ export const UserDetailDialog: FC<IUserDetailDialogProps> = memo(({ open, onOpen
     await onClickClose()
   }, [onClickClose])
 
+  const [isFollowingsOpen, setIsFollowingsOpen] = useState(false)
+  const [isFollowersOpen, setIsFollowersOpen] = useState(false)
+
   return (
-    <StDialog
-      open={ open }
-      onOpenChange={ onOpenChange }
-    >
-      <DialogBody>
-        <DialogTitle></DialogTitle>
-        <DialogContent>
-          <Stack
-            horizontal
-            gap={ 12 }
-          >
-            <StackItem>
-              <div style={ { position: 'relative' } }>
-                <div>
-                  <Avatar
-                    image={ { src: icon } }
-                    onError={ handleAvatarError }
-                    size={ 120 }
-                  />
-                </div>
-                <div style={ { position: 'absolute', inset: 0, display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'flex-end', alignContent: 'end' } }>
-                  { user.status.badges.includes('Original') && (
-                    <SearchUserBadge type={ SearchUserBadgeType.Original } />
-                  )}
-
-                  { user.status.badges.includes('Red_Choice') && (
-                    <SearchUserBadge type={ SearchUserBadgeType.Red_Choice } />
-                  )}
-
-                  { user.status.badges.includes('Orange_Choice') && (
-                    <SearchUserBadge type={ SearchUserBadgeType.Orange_Choice } />
-                  )}
-
-                  { user.status.badges.includes('Yellow_Choice') && (
-                    <SearchUserBadge type={ SearchUserBadgeType.Yellow_Choice } />
-                  )}
-
-                  { user.status.badges.includes('voice') && (
-                    <SearchUserBadge type={ SearchUserBadgeType.Voice } />
-                  )}
-                </div>
-              </div>
-            </StackItem>
-            <StackItem grow>
-              <Stack>
-                <Text data-testid="user-detail-dialog.nickname">
-                  { user.profile.nickname }
-                </Text>
-                <Text data-testid="user-detail-dialog.tag">
-                  { `@${user.profile.tag}` }
-                </Text>
-                <br />
-                <Text data-testid="user-detail-dialog.number-of-followers">
-                  { t('numberOfFollowers.format', { ns: 'search-user', followers: user.statistics.numberOfFollowers.toLocaleString() }) }
-                </Text>
-                <Text data-testid="user-detail-dialog.number-of-following">
-                  { t('numberOfFollowing.format', { ns: 'search-user', following: user.statistics.numberOfFollowing.toLocaleString() }) }
-                </Text>
-                <Text data-testid="user-detail-dialog.joined-date-time">
-                  { t('joinedDateTime.format', { ns: 'search-user', datetime: user.profile.joinedDate?.toLocaleString(i18n.language) }) }
-                </Text>
-              </Stack>
-            </StackItem>
-          </Stack>
-        </DialogContent>
-        <DialogActions>
-          <DialogTrigger action="close">
-            <Button
-              appearance="secondary"
-              aria-label="close"
-              onClick={ handleClickClose }
+    <>
+      <StDialog
+        open={ open }
+        onOpenChange={ onOpenChange }
+      >
+        <DialogBody>
+          <DialogTitle></DialogTitle>
+          <DialogContent>
+            <Stack
+              horizontal
+              gap={ 12 }
             >
-              { t('common.close', { ns: 'common' }) }
-            </Button>
-          </DialogTrigger>
-        </DialogActions>
-      </DialogBody>
-    </StDialog>
+              <StackItem>
+                <div style={ { position: 'relative' } }>
+                  <div>
+                    <Avatar
+                      image={ { src: icon } }
+                      onError={ handleAvatarError }
+                      size={ 120 }
+                    />
+                  </div>
+                  <div style={ { position: 'absolute', inset: 0, display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'flex-end', alignContent: 'end' } }>
+                    { user.status.badges.includes('Original') && (
+                      <SearchUserBadge type={ SearchUserBadgeType.Original } />
+                    )}
+
+                    { user.status.badges.includes('Red_Choice') && (
+                      <SearchUserBadge type={ SearchUserBadgeType.Red_Choice } />
+                    )}
+
+                    { user.status.badges.includes('Orange_Choice') && (
+                      <SearchUserBadge type={ SearchUserBadgeType.Orange_Choice } />
+                    )}
+
+                    { user.status.badges.includes('Yellow_Choice') && (
+                      <SearchUserBadge type={ SearchUserBadgeType.Yellow_Choice } />
+                    )}
+
+                    { user.status.badges.includes('voice') && (
+                      <SearchUserBadge type={ SearchUserBadgeType.Voice } />
+                    )}
+                  </div>
+                </div>
+              </StackItem>
+              <StackItem grow>
+                <Stack>
+                  <Text data-testid="user-detail-dialog.nickname">
+                    { user.profile.nickname }
+                  </Text>
+                  <Text data-testid="user-detail-dialog.tag">
+                    { `@${user.profile.tag}` }
+                  </Text>
+                  <br />
+                  <Text data-testid="user-detail-dialog.number-of-followers">
+                    <Link onClick={ () => { setIsFollowersOpen(true) } }>
+                      { t('numberOfFollowers.format', { ns: 'search-user', followers: user.statistics.numberOfFollowers.toLocaleString() }) }
+                    </Link>
+                  </Text>
+                  <Text data-testid="user-detail-dialog.number-of-following">
+                    <Link onClick={ () => { setIsFollowingsOpen(true) } }>
+                      { t('numberOfFollowing.format', { ns: 'search-user', following: user.statistics.numberOfFollowing.toLocaleString() }) }
+                    </Link>
+                  </Text>
+                  <br />
+                  <Text data-testid="user-detail-dialog.joined-date-time">
+                    { t('joinedDateTime.format', { ns: 'search-user', datetime: user.profile.joinedDate?.toLocaleString(i18n.language) }) }
+                  </Text>
+                </Stack>
+              </StackItem>
+            </Stack>
+          </DialogContent>
+          <DialogActions>
+            <DialogTrigger action="close">
+              <Button
+                appearance="secondary"
+                aria-label="close"
+                onClick={ handleClickClose }
+              >
+                { t('common.close', { ns: 'common' }) }
+              </Button>
+            </DialogTrigger>
+          </DialogActions>
+        </DialogBody>
+      </StDialog>
+
+      <FollowerListDialog
+        open={ isFollowersOpen }
+        user={ user }
+        onClickClose={ () => setIsFollowersOpen(false) }
+      />
+      <FollowingListDialog
+        open={ isFollowingsOpen }
+        user={ user }
+        onClickClose={ () => setIsFollowingsOpen(false) }
+      />
+    </>
   )
 })
 

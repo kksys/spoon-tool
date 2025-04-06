@@ -36,4 +36,30 @@ export class SpoonApi implements ISpoonApi {
 
     return result
   }
+
+  async fetchFollowers(params: EndpointTypes['spoonApi']['fetchFollowers']['parameters']): Promise<Result<EndpointTypes['spoonApi']['fetchFollowers']['response'], ApiError>> {
+    const { id: userId, ...queryParams } = params
+    const query = ApiUtil.convertToURLSearchParams(queryParams)
+
+    const result = await this.httpClient.get<EndpointTypes['spoonApi']['fetchFollowers']['response']>(
+      `${import.meta.env.VITE_BACKEND_HOST}/users/${userId}/followers?${query}`, {
+        method: 'GET',
+      }
+    )
+
+    return result
+  }
+
+  async fetchFollowings(params: EndpointTypes['spoonApi']['fetchFollowings']['parameters']): Promise<Result<EndpointTypes['spoonApi']['fetchFollowings']['response'], ApiError>> {
+    const { id: userId, ...queryParams } = params
+    const query = ApiUtil.convertToURLSearchParams(queryParams)
+
+    const result = await this.httpClient.get<EndpointTypes['spoonApi']['fetchFollowings']['response']>(
+      `${import.meta.env.VITE_BACKEND_HOST}/users/${userId}/followings?${query}`, {
+        method: 'GET',
+      }
+    )
+
+    return result
+  }
 }

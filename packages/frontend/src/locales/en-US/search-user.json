@@ -10,6 +10,12 @@
   "numberOfFollowing": {
     "format": "{{following}} Following"
   },
+  "follower-list-dialog": {
+    "title": "Followers of {{username}}"
+  },
+  "following-list-dialog": {
+    "title": "Followings of {{username}}"
+  },
   "joinedDateTime": {
     "format": "Joined Date and Time: {{datetime}}"
   }

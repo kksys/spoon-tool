@@ -45,6 +45,7 @@ export interface UserEntry {
   is_active: boolean
   badge_style_ids: BadgeStyleId[]
 }
+
 export interface ProfileEntry {
   id: number
   tag: string
@@ -63,7 +64,7 @@ export interface ProfileEntry {
       'follow_status' | 'follower_count' | 'following_count' | 'is_active' | 'is_vip' |
       'date_joined' | 'current_live' | 'country' | 'is_verified'
     > | {
-      gender: (0 | -1)
+      gender: (0 | -1 | 1 | 2)
       is_staff: boolean
     }
     total_spoon: number
@@ -100,6 +101,26 @@ export interface ProfileEntry {
   membership: Membership | null
 }
 
+export interface RelationUserEntry {
+  id: number
+  nickname: string
+  tag: string
+  top_impressions: number[]
+  description: string
+  profile_url: string | null
+  gender: (0 | -1 | 1 | 2)
+  follow_status: 0
+  follower_count: number
+  following_count: number
+  is_active: boolean
+  is_staff: boolean
+  is_vip: boolean
+  date_joined: string
+  current_live: number | null
+  country: Country | ''
+  is_verified: boolean
+}
+
 export interface EndpointTypes {
   spoonApi: {
     fetchUsers: {
@@ -128,6 +149,42 @@ export interface EndpointTypes {
         status_code: number
         detail: string
         results: ProfileEntry[]
+      }
+    }
+    fetchFollowers: {
+      parameters: {
+        id: number
+        page_size: number
+        cursor?: undefined
+      } | {
+        id: number
+        page_size?: undefined
+        cursor: string
+      }
+      response: {
+        status_code: number
+        detail: string
+        next: string
+        previous: string
+        results: RelationUserEntry[]
+      }
+    }
+    fetchFollowings: {
+      parameters: {
+        id: number
+        page_size: number
+        cursor?: undefined
+      } | {
+        id: number
+        page_size?: undefined
+        cursor: string
+      }
+      response: {
+        status_code: number
+        detail: string
+        next: string
+        previous: string
+        results: RelationUserEntry[]
       }
     }
   }

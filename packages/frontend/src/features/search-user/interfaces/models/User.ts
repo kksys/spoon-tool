@@ -12,6 +12,11 @@ export interface StatisticsInfo {
   numberOfFollowing: number
 }
 
+export interface FollowRelationsInfo {
+  followers: User[]
+  followings: User[]
+}
+
 export interface StatusInfo {
   badges: (Exclude<TierName, ''> | Extract<BadgeStyleId, 'voice' | 'firework_ring'>)[]
 }
@@ -20,5 +25,6 @@ export interface User {
   id: number
   profile: ProfileInfo
   statistics: StatisticsInfo
+  relations: FollowRelationsInfo
   status: StatusInfo
 }

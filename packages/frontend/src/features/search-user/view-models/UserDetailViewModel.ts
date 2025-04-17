@@ -218,7 +218,7 @@ export class UserDetailViewModel extends ViewModelBase implements IUserDetailVie
     const ids = results.filter(user1 => currentUser.relations.followings.some(user2 => user2.id === user1.id))
       .map(user => user.id)
 
-    results.filter(entry => entry.id in ids)
+    results.filter(entry => ids.includes(entry.id))
       .forEach((sourceUser) => {
         const targetUser = currentUser.relations.followings.find(user => user.id === sourceUser.id)
         const user = mapUserEntityToRelationUser(sourceUser)
@@ -270,7 +270,7 @@ export class UserDetailViewModel extends ViewModelBase implements IUserDetailVie
     const ids = results.filter(user1 => currentUser?.relations.followers.some(user2 => user2.id === user1.id))
       .map(user => user.id)
 
-    results.filter(entry => entry.id in ids)
+    results.filter(entry => ids.includes(entry.id))
       .forEach((sourceUser) => {
         const targetUser = currentUser.relations.followers.find(user => user.id === sourceUser.id)
         const user = mapUserEntityToRelationUser(sourceUser)

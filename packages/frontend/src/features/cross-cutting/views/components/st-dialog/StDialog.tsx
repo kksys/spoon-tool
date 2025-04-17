@@ -2,9 +2,11 @@ import { Dialog, DialogProps, DialogSurface, DialogSurfaceProps } from '@fluentu
 import { FC, memo, useMemo } from 'react'
 import { useWindowSize } from 'react-use'
 
-export interface IStDialogProps extends Omit<DialogProps, 'children'>, Pick<DialogSurfaceProps, 'children'> {}
+export interface IStDialogProps extends Omit<DialogProps, 'children'>, Pick<DialogSurfaceProps, 'children'> {
+  surfaceStyle?: React.CSSProperties
+}
 
-export const StDialog: FC<IStDialogProps> = memo(({ children, ...props }) => {
+export const StDialog: FC<IStDialogProps> = memo(({ children, surfaceStyle, ...props }) => {
   const { width } = useWindowSize()
 
   const dialogBaseWidth = 600
@@ -16,7 +18,7 @@ export const StDialog: FC<IStDialogProps> = memo(({ children, ...props }) => {
 
   return (
     <Dialog { ...props }>
-      <DialogSurface style={ { maxWidth } }>
+      <DialogSurface style={ { maxWidth, ...surfaceStyle } }>
         { children }
       </DialogSurface>
     </Dialog>

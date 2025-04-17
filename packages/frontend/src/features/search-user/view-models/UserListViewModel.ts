@@ -9,7 +9,7 @@ import { ApiError } from '#/cross-cutting/interfaces/errors/IApiError'
 import type { IEventAggregator } from '#/cross-cutting/interfaces/event-aggregator/IEventAggregator'
 import { Result } from '#/cross-cutting/utils/Result'
 import { ViewModelBase } from '#/cross-cutting/view-models/ViewModelBase'
-import { EndpointTypes, UserEntry } from '#/search-user/api/EndpointTypes'
+import { EndpointTypes } from '#/search-user/api/EndpointTypes'
 import { SearchUserCommand } from '#/search-user/commands/SearchUserCommand'
 import { searchUserTypes } from '#/search-user/di/searchUserTypes'
 import type { IApiClient } from '#/search-user/interfaces/api/IApiClient'
@@ -18,6 +18,7 @@ import { ISearchUserReceiver } from '#/search-user/interfaces/receivers/ISearchU
 import type { IUserRepository } from '#/search-user/interfaces/repository/IUserRepository'
 import { IUserListViewModel } from '#/search-user/interfaces/view-models/IUserListViewModel'
 import type { IUserPaginatorViewModel } from '#/search-user/interfaces/view-models/IUserPaginatorViewModel'
+import { mapUserEntityToUser } from '#/search-user/utils/UserMapper'
 
 @injectable()
 export class UserListViewModel extends ViewModelBase implements IUserListViewModel, ISearchUserReceiver {
@@ -116,43 +117,6 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
     await this._invoker.execute(searchUserCommand)
   }
 
-  private mapUserEntityToUser(user: UserEntry): User {
-    const convertHttpToHttps = (url: string) =>
-      (url.startsWith('http:') && window.location.protocol === 'https:')
-        // http resource is referenced by https resource
-        // but it is not secure, so it will be fallback to https automatically
-        ? url.replace(/^http:/gi, 'https:')
-        : url
-
-    const property: User = {
-      id: user.id,
-      profile: {
-        tag: user.tag,
-        profileIcon: convertHttpToHttps(user.profile_url),
-        nickname: user.nickname,
-        joinedDate: undefined,
-      },
-      statistics: {
-        numberOfFollowers: user.follower_count,
-        numberOfFollowing: user.following_count,
-      },
-      status: {
-        badges: [],
-      }
-    }
-
-    if (user.tier_name) {
-      property.status.badges.push(user.tier_name)
-    }
-
-    const badge_style_ids = user.badge_style_ids.filter(id => id === 'voice' || id === 'firework_ring')
-    if (badge_style_ids.length > 0) {
-      property.status.badges.push(...badge_style_ids)
-    }
-
-    return property
-  }
-
   @autoBusyAsync()
   async receivedSearchUserResult(result: Result<EndpointTypes['spoonApi']['fetchUsers']['response'], ApiError>): Promise<void> {
     if (result.isError) {
@@ -169,13 +133,13 @@ export class UserListViewModel extends ViewModelBase implements IUserListViewMod
 
     results.filter(entry => entry.id in ids)
       .forEach((sourceUser) => {
-        this.userRepository.update(this.mapUserEntityToUser(sourceUser))
+        this.userRepository.update(mapUserEntityToUser(sourceUser))
       })
 
     // create new user
     results.filter(entry => !(entry.id in ids))
       .forEach((userEntity) => {
-        this.userRepository.add(this.mapUserEntityToUser(userEntity))
+        this.userRepository.add(mapUserEntityToUser(userEntity))
       })
 
     this.paginator.updateCursors({ previous, next })

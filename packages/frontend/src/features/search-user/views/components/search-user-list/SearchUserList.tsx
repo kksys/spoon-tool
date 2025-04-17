@@ -20,7 +20,7 @@ interface ISearchUserListProps {
   hasNextPage: boolean
   isBusy: boolean
   loadNextItems: (startIndex: number, stopIndex: number) => Promise<void> | void
-  onSelectUser: (userId: number) => void
+  onSelectUser?: (userId: number) => void
 }
 
 export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNextPage, isBusy, loadNextItems, onSelectUser }) => {
@@ -86,7 +86,7 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
             <SearchUserItem
               key={ `user-id-${user.id}` }
               user={ user }
-              onClick={ () => onSelectUser(user.id) }
+              onClick={ () => onSelectUser?.(user.id) }
             />
           )
           : (

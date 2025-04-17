@@ -44,7 +44,11 @@ app.use(async (c, next) => {
 
 app.get('/search/user/', async (c) => {
   const query = new URLSearchParams(c.req.query())
-  const searchUserUrl = `https://jp-api.spooncast.net/search/user/?${query}`
+  const searchUserUrl = new URL('https://jp-api.spooncast.net/search/user/')
+
+  query.forEach((value, key) => {
+    searchUserUrl.searchParams.append(key, value)
+  })
 
   const response = await fetch(searchUserUrl, {
     method: 'GET'
@@ -55,9 +59,43 @@ app.get('/search/user/', async (c) => {
 
 app.get('/users/:userId', async (c) => {
   const { userId } = c.req.param()
-  const getProfileUrl = `https://jp-api.spooncast.net/users/${userId}/`
+  const getProfileUrl = new URL(`https://jp-api.spooncast.net/users/${userId}/`)
 
   const response = await fetch(getProfileUrl, {
+    method: 'GET'
+  })
+
+  return new Response(await response.arrayBuffer(), response)
+})
+
+app.get('/users/:userId/followers', async (c) => {
+  const { userId } = c.req.param()
+  const queryParams = c.req.query()
+  const query = new URLSearchParams(queryParams)
+  const getFollowersUrl = new URL(`https://jp-api.spooncast.net/users/${userId}/followers/`)
+
+  query.forEach((value, key) => {
+    getFollowersUrl.searchParams.append(key, value)
+  })
+
+  const response = await fetch(getFollowersUrl, {
+    method: 'GET'
+  })
+
+  return new Response(await response.arrayBuffer(), response)
+})
+
+app.get('/users/:userId/followings', async (c) => {
+  const { userId } = c.req.param()
+  const queryParams = c.req.query()
+  const query = new URLSearchParams(queryParams)
+  const getFollowingsUrl = new URL(`https://jp-api.spooncast.net/users/${userId}/followings/`)
+
+  query.forEach((value, key) => {
+    getFollowingsUrl.searchParams.append(key, value)
+  })
+
+  const response = await fetch(getFollowingsUrl, {
     method: 'GET'
   })
 

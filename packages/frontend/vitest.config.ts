@@ -2,8 +2,8 @@ import { defineConfig, mergeConfig } from 'vitest/config'
 
 import viteConfig from './vite.config'
 
-export default mergeConfig(
-  viteConfig,
+export default defineConfig(ctx => mergeConfig(
+  viteConfig(ctx),
   defineConfig({
     test: {
       setupFiles: [
@@ -14,4 +14,4 @@ export default mergeConfig(
       ],
     },
   })
-)
+))

@@ -4,7 +4,7 @@ import sanitizeHtml from 'sanitize-html'
 import { defineConfig, Plugin } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
-function htmlShrinkPlugin(): Plugin {
+function htmlShrinkPlugin({ oneline }: { oneline: boolean }): Plugin {
   const removeNewLinesAndSpaces = (html: string): string =>
     html.split('\n')
       .map((line) => line.trim())
@@ -23,8 +23,10 @@ function htmlShrinkPlugin(): Plugin {
         exclusiveFilter: (frame) => frame.tag === '!--' // Remove comments
       })
 
-      // remove all newlines and spaces
-      result = removeNewLinesAndSpaces(result)
+      if (oneline) {
+        // remove all newlines and spaces
+        result = removeNewLinesAndSpaces(result)
+      }
 
       return result
     },
@@ -32,13 +34,15 @@ function htmlShrinkPlugin(): Plugin {
 }
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(ctx => ({
   plugins: [
     tsconfigPaths(),
     react({
       tsDecorators: true,
     }),
-    htmlShrinkPlugin(),
+    htmlShrinkPlugin({
+      oneline: ctx.command !== 'serve',
+    }),
   ],
   esbuild: {
     target: 'es2020',
@@ -62,4 +66,4 @@ export default defineConfig({
       },
     },
   },
-})
+}))

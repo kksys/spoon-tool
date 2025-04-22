@@ -65,7 +65,7 @@
     "eslint": "catalog:",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.19",
+    "eslint-plugin-react-refresh": "^0.4.20",
     "eslint-plugin-simple-import-sort": "catalog:",
     "globals": "catalog:",
     "i18next-parser": "^9.3.0",

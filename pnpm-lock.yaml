@@ -112,7 +112,7 @@ importers:
         specifier: 'catalog:'
         version: 3.1.2(@types/node@22.15.2)(jiti@2.4.2)(yaml@2.7.1)
       wrangler:
-        specifier: ^4.12.1
+        specifier: ^4.13.2
         version: 4.13.2(@cloudflare/workers-types@4.20250425.0)
 
   packages/frontend:

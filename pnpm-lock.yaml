@@ -124,7 +124,7 @@ importers:
         specifier: ^2.0.298
         version: 2.0.298(react@18.3.1)
       '@fluentui/react-nav-preview':
-        specifier: ^0.13.6
+        specifier: ^0.13.7
         version: 0.13.7(@types/react-dom@18.3.6(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(scheduler@0.23.2)
       http-status-codes:
         specifier: ^2.3.0

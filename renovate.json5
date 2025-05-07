@@ -1,67 +1,72 @@
 {
-  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
   extends: [
-    "config:recommended",
-    "docker:pinDigests",
-    "helpers:pinGitHubActionDigests",
-    ":disableRateLimiting"
+    'config:recommended',
+    'docker:pinDigests',
+    'helpers:pinGitHubActionDigests',
+    ':disableRateLimiting',
   ],
-  rebaseWhen: "behind-base-branch",
+  rebaseWhen: 'behind-base-branch',
   automerge: true,
-  rangeStrategy: "bump",
+  rangeStrategy: 'bump',
   enabledManagers: [
-    "devcontainer",
-    "github-actions",
-    "npm",
-    "nodenv",
-    "nvm"
+    'devcontainer',
+    'github-actions',
+    'npm',
+    'nodenv',
+    'nvm',
   ],
   vulnerabilityAlerts: {
     labels: [
-      "security"
+      'security',
     ],
   },
   hostRules: [
     {
       abortOnError: true,
-    }
+    },
   ],
   assigneesSampleSize: 2,
   reviewersSampleSize: 1,
-  timezone: "Asia/Tokyo",
+  timezone: 'Asia/Tokyo',
   schedule: [
-    "before 2am on Sunday"
+    'before 2am on Sunday',
   ],
   labels: [
-    "renovate"
+    'renovate',
   ],
   devcontainer: {
-    "fileMatch": [
-      "^.devcontainer/devcontainer.json$",
-      "^.devcontainer.json$",
-      "^.devcontainer/(?:codespaces|local)/devcontainer.json$"
-    ]
+    managerFilePatterns: [
+      '/^.devcontainer/devcontainer.json$/',
+      '/^.devcontainer.json$/',
+      '/^.devcontainer/(?:codespaces|local)/devcontainer.json$/',
+    ],
   },
   customManagers: [],
   packageRules: [
-    // squash to one commit the change of node and @types/node because they are dependent each other
     {
       matchPackageNames: [
-        "node",
-        "@types/node",
+        'node',
+        '@types/node',
       ],
-      groupName: "Node.js",
+      groupName: 'Node.js',
     },
     {
-      "description": "Ignore updating pnpm field on engines",
-      "matchPackageNames": ["pnpm"],
-      "matchManagers": ["npm"],
-      "matchDepTypes": ["engines"],
-      "enabled": false
+      description: 'Ignore updating pnpm field on engines',
+      matchPackageNames: [
+        'pnpm',
+      ],
+      matchManagers: [
+        'npm',
+      ],
+      matchDepTypes: [
+        'engines',
+      ],
+      enabled: false,
     },
   ],
   updateLockFiles: true,
   postUpdateOptions: [
-    "pnpmDedupe"
+    'pnpmDedupe',
   ],
 }

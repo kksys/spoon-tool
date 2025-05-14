@@ -8,6 +8,9 @@ on:
       - reopened
       - labeled
 
+permissions:
+  contents: read
+
 env:
   BACKEND_DIRECTORY: packages/backend
 

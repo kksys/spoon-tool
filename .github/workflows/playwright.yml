@@ -6,9 +6,11 @@ on:
   pull_request:
     branches: [main, master]
 
+permissions:
+  contents: read
+
 env:
   FRONTEND_DIRECTORY: packages/frontend
-
 jobs:
   test:
     timeout-minutes: 60

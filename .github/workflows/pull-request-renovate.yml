@@ -8,6 +8,9 @@ on:
       - reopened
       - labeled
 
+permissions:
+  contents: read
+
 env:
   RENOVATE_TESTER_DIRECTORY: tools/renovate-tester
 

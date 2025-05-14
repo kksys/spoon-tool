@@ -9,6 +9,10 @@ jobs:
     name: Auto Approve
     if: ${{ github.event.issue.pull_request && github.event.comment.body == '/approve' && github.event.issue.user.login == github.event.repository.owner.login }}
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     env:
       GH_TOKEN: ${{ github.token }}
     steps:

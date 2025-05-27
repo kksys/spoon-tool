@@ -10,11 +10,11 @@ catalogs:
       specifier: 9.27.0
       version: 9.27.0
     '@stylistic/eslint-plugin':
-      specifier: 4.2.0
-      version: 4.2.0
+      specifier: 4.4.0
+      version: 4.4.0
     '@stylistic/eslint-plugin-js':
-      specifier: 4.2.0
-      version: 4.2.0
+      specifier: 4.4.0
+      version: 4.4.0
     '@types/node':
       specifier: 22.15.19
       version: 22.15.19
@@ -77,10 +77,10 @@ importers:
         version: 9.27.0
       '@stylistic/eslint-plugin':
         specifier: 'catalog:'
-        version: 4.2.0(eslint@9.27.0(jiti@2.4.2))(typescript@5.6.3)
+        version: 4.4.0(eslint@9.27.0(jiti@2.4.2))(typescript@5.6.3)
       '@stylistic/eslint-plugin-js':
         specifier: 'catalog:'
-        version: 4.2.0(eslint@9.27.0(jiti@2.4.2))
+        version: 4.4.0(eslint@9.27.0(jiti@2.4.2))
       '@typescript-eslint/utils':
         specifier: 'catalog:'
         version: 8.32.1(eslint@9.27.0(jiti@2.4.2))(typescript@5.6.3)
@@ -180,10 +180,10 @@ importers:
         version: 1.52.0
       '@stylistic/eslint-plugin':
         specifier: 'catalog:'
-        version: 4.2.0(eslint@9.27.0(jiti@2.4.2))(typescript@5.6.3)
+        version: 4.4.0(eslint@9.27.0(jiti@2.4.2))(typescript@5.6.3)
       '@stylistic/eslint-plugin-js':
         specifier: 'catalog:'
-        version: 4.2.0(eslint@9.27.0(jiti@2.4.2))
+        version: 4.4.0(eslint@9.27.0(jiti@2.4.2))
       '@types/lodash-es':
         specifier: ^4.17.12
         version: 4.17.12
@@ -2200,14 +2200,14 @@ packages:
     resolution: {integrity: sha512-JtaY3FxmD+te+KSI2FJuEcfNC9T/DGGVf551babM7fAaXhjJUt7oSYurH1Devxd2+BOSUACCgt3buinx4UnmEA==}
     engines: {node: '>=18.0.0'}
 
-  '@stylistic/eslint-plugin-js@4.2.0':
-    resolution: {integrity: sha512-MiJr6wvyzMYl/wElmj8Jns8zH7Q1w8XoVtm+WM6yDaTrfxryMyb8n0CMxt82fo42RoLIfxAEtM6tmQVxqhk0/A==}
+  '@stylistic/eslint-plugin-js@4.4.0':
+    resolution: {integrity: sha512-UeeQNRF73zJXnNGGbvwgUgzS+vzVGQoRuQKR6RhQCRHQmaBaVHxDDQVmN9RPLCnRxVjO/v8cqq/yMDqC7DikSQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=9.0.0'
 
-  '@stylistic/eslint-plugin@4.2.0':
-    resolution: {integrity: sha512-8hXezgz7jexGHdo5WN6JBEIPHCSFyyU4vgbxevu4YLVS5vl+sxqAAGyXSzfNDyR6xMNSH5H1x67nsXcYMOHtZA==}
+  '@stylistic/eslint-plugin@4.4.0':
+    resolution: {integrity: sha512-bIh/d9X+OQLCAMdhHtps+frvyjvAM4B1YlSJzcEEhl7wXLIqPar3ngn9DrHhkBOrTA/z9J0bUMtctAspe0dxdQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=9.0.0'
@@ -9527,13 +9527,13 @@ snapshots:
       '@smithy/types': 4.2.0
       tslib: 2.8.1
 
-  '@stylistic/eslint-plugin-js@4.2.0(eslint@9.27.0(jiti@2.4.2))':
+  '@stylistic/eslint-plugin-js@4.4.0(eslint@9.27.0(jiti@2.4.2))':
     dependencies:
       eslint: 9.27.0(jiti@2.4.2)
       eslint-visitor-keys: 4.2.0
       espree: 10.3.0
 
-  '@stylistic/eslint-plugin@4.2.0(eslint@9.27.0(jiti@2.4.2))(typescript@5.6.3)':
+  '@stylistic/eslint-plugin@4.4.0(eslint@9.27.0(jiti@2.4.2))(typescript@5.6.3)':
     dependencies:
       '@typescript-eslint/utils': 8.32.1(eslint@9.27.0(jiti@2.4.2))(typescript@5.6.3)
       eslint: 9.27.0(jiti@2.4.2)

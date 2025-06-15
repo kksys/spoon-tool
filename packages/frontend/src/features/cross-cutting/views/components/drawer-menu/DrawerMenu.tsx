@@ -1,6 +1,6 @@
 import { makeStyles } from '@fluentui/react-components'
 import { AppGeneric20Regular, DocumentBulletList20Filled, DocumentChevronDouble20Filled, Info20Filled } from '@fluentui/react-icons'
-import { NavDrawer, NavDrawerBody, NavDrawerHeader, NavItem,NavProps } from '@fluentui/react-nav-preview'
+import { NavDrawer, NavDrawerBody, NavDrawerHeader, NavItem, NavProps } from '@fluentui/react-nav'
 import { FC, memo, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router-dom'

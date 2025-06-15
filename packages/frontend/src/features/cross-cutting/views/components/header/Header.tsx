@@ -1,5 +1,5 @@
 import { makeStyles, Title2, Toolbar } from '@fluentui/react-components'
-import { Hamburger } from '@fluentui/react-nav-preview'
+import { Hamburger } from '@fluentui/react-nav'
 import { FC, memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLocation, useNavigate } from 'react-router'

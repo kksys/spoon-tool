@@ -52,6 +52,14 @@
       groupName: 'Node.js',
     },
     {
+      matchPackageNames: [
+        'wrangler',
+        '@cloudflare/workers-types',
+        '@cloudflare/vitest-pool-workers',
+      ],
+      groupName: 'Cloudflare Tools',
+    },
+    {
       description: 'Ignore updating pnpm field on engines',
       matchPackageNames: [
         'pnpm',

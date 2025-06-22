@@ -8,7 +8,7 @@ catalog:
   "@eslint/js": 9.29.0
   "@types/node": 22.15.32
   "@typescript-eslint/utils": 8.34.1
-  concurrently: 9.1.2
+  concurrently: 9.2.0
   dependency-cruiser: 16.10.3
   eslint: 9.29.0
   eslint-plugin-simple-import-sort: 12.1.1

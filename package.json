@@ -17,7 +17,7 @@
     "npm": "please_use_pnpm_instead",
     "node": "22.16.0"
   },
-  "packageManager": "pnpm@10.12.1",
+  "packageManager": "pnpm@10.12.2",
   "pnpm": {
     "ignoredBuiltDependencies": [
       "better-sqlite3",
@@ -34,7 +34,7 @@
     ]
   },
   "devDependencies": {
-    "pnpm": "10.12.1",
+    "pnpm": "10.12.2",
     "typescript": "catalog:"
   }
 }

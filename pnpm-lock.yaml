@@ -54,8 +54,8 @@ importers:
   .:
     devDependencies:
       pnpm:
-        specifier: 10.12.2
-        version: 10.12.2
+        specifier: 10.12.3
+        version: 10.12.3
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
@@ -5066,8 +5066,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  pnpm@10.12.2:
-    resolution: {integrity: sha512-oyVAGFuWTuMLtOl55AWtxq9ZImtDjuTMGfnodzZnpm0wL1v+5go508rGnjXkuW5winHdACt+k1nEESoXIqwyPw==}
+  pnpm@10.12.3:
+    resolution: {integrity: sha512-Rn3yxYYFYWVYCtbftUzqrZTFow+AiT697FpExapzwgWuSlu51e1ruE6nwkns54ZkK7tJ0GowffIY0D2kHDF0Fw==}
     engines: {node: '>=18.12'}
     hasBin: true
 
@@ -12913,7 +12913,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  pnpm@10.12.2: {}
+  pnpm@10.12.3: {}
 
   possible-typed-array-names@1.0.0: {}
 

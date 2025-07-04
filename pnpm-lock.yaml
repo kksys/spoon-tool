@@ -63,8 +63,8 @@ importers:
   packages/backend:
     dependencies:
       hono:
-        specifier: ^4.8.2
-        version: 4.8.2
+        specifier: ^4.8.4
+        version: 4.8.4
     devDependencies:
       '@cloudflare/vitest-pool-workers':
         specifier: ^0.8.44
@@ -3091,6 +3091,7 @@ packages:
 
   cronstrue@2.61.0:
     resolution: {integrity: sha512-ootN5bvXbIQI9rW94+QsXN5eROtXWwew6NkdGxIRpS/UFWRggL0G5Al7a9GTBFEsuvVhJ2K3CntIIVt7L2ILhA==}
+    deprecated: Non-backwards compatible Breaking changes
     hasBin: true
 
   cross-spawn@7.0.6:
@@ -3867,8 +3868,8 @@ packages:
   heimdalljs@0.2.6:
     resolution: {integrity: sha512-o9bd30+5vLBvBtzCPwwGqpry2+n0Hi6H1+qwt6y+0kwRHGGF8TFIhJPmnuM0xO97zaKrDZMwO/V56fAnn8m/tA==}
 
-  hono@4.8.2:
-    resolution: {integrity: sha512-hM+1RIn9PK1I6SiTNS6/y7O1mvg88awYLFEuEtoiMtRyT3SD2iu9pSFgbBXT3b1Ua4IwzvSTLvwO0SEhDxCi4w==}
+  hono@4.8.4:
+    resolution: {integrity: sha512-KOIBp1+iUs0HrKztM4EHiB2UtzZDTBihDtOF5K6+WaJjCPeaW4Q92R8j63jOhvJI5+tZSMuKD9REVEXXY9illg==}
     engines: {node: '>=16.9.0'}
 
   hosted-git-info@2.8.9:
@@ -11626,7 +11627,7 @@ snapshots:
     dependencies:
       rsvp: 3.2.1
 
-  hono@4.8.2: {}
+  hono@4.8.4: {}
 
   hosted-git-info@2.8.9: {}
 

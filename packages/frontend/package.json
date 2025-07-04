@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@eslint/js": "catalog:",
-    "@playwright/test": "^1.53.1",
+    "@playwright/test": "^1.53.2",
     "@stylistic/eslint-plugin": "catalog:",
     "@stylistic/eslint-plugin-js": "catalog:",
     "@types/lodash-es": "^4.17.12",

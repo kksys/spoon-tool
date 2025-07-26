@@ -284,8 +284,8 @@ importers:
   tools/renovate-tester:
     devDependencies:
       renovate:
-        specifier: ^41.43.2
-        version: 41.43.2(encoding@0.1.13)(typanion@3.14.0)
+        specifier: ^41.43.5
+        version: 41.43.5(encoding@0.1.13)(typanion@3.14.0)
 
 packages:
 
@@ -5364,8 +5364,8 @@ packages:
   remove-trailing-separator@1.1.0:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
 
-  renovate@41.43.2:
-    resolution: {integrity: sha512-D2tczyVsj320EJ4+95z/nOlrhl2nqHLQ0fyU67Vv0ZyjI8qYN8XpMFdynnHRcLNt1ZLT0q/oefZboP2w2bfMDw==}
+  renovate@41.43.5:
+    resolution: {integrity: sha512-5WIo98HzFZk4e/v1XN4xKvvxkzNwDg8z7+LwdBYFzN53cy8ANb8ziCKFM8tiOhLRXkn40LaDIYp4eEo0Q7K0hg==}
     engines: {node: ^22.13.0, pnpm: ^10.0.0}
     hasBin: true
 
@@ -13342,7 +13342,7 @@ snapshots:
 
   remove-trailing-separator@1.1.0: {}
 
-  renovate@41.43.2(encoding@0.1.13)(typanion@3.14.0):
+  renovate@41.43.5(encoding@0.1.13)(typanion@3.14.0):
     dependencies:
       '@aws-sdk/client-codecommit': 3.840.0
       '@aws-sdk/client-ec2': 3.840.0

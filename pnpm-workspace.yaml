@@ -6,7 +6,7 @@ catalog:
   "@stylistic/eslint-plugin": 5.2.2
   "@stylistic/eslint-plugin-js": 4.4.1
   "@eslint/js": 9.32.0
-  "@types/node": 22.16.5
+  "@types/node": 22.17.0
   "@typescript-eslint/utils": 8.38.0
   concurrently: 9.2.0
   dependency-cruiser: 16.10.4

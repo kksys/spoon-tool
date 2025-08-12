@@ -59,7 +59,7 @@
     "@types/sanitize-html": "^2.16.0",
     "@typescript-eslint/utils": "catalog:",
     "@vitejs/plugin-react": "^5.0.0",
-    "@vitejs/plugin-react-swc": "^3.11.0",
+    "@vitejs/plugin-react-swc": "^4.0.0",
     "concurrently": "catalog:",
     "dependency-cruiser": "catalog:",
     "eslint": "catalog:",

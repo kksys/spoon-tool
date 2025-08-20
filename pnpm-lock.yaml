@@ -63,8 +63,8 @@ importers:
   packages/backend:
     dependencies:
       hono:
-        specifier: ^4.9.0
-        version: 4.9.0
+        specifier: ^4.9.2
+        version: 4.9.2
     devDependencies:
       '@cloudflare/vitest-pool-workers':
         specifier: ^0.8.65
@@ -3888,8 +3888,8 @@ packages:
   heimdalljs@0.2.6:
     resolution: {integrity: sha512-o9bd30+5vLBvBtzCPwwGqpry2+n0Hi6H1+qwt6y+0kwRHGGF8TFIhJPmnuM0xO97zaKrDZMwO/V56fAnn8m/tA==}
 
-  hono@4.9.0:
-    resolution: {integrity: sha512-JAUc4Sqi3lhby2imRL/67LMcJFKiCu7ZKghM7iwvltVZzxEC5bVJCsAa4NTnSfmWGb+N2eOVtFE586R+K3fejA==}
+  hono@4.9.2:
+    resolution: {integrity: sha512-UG2jXGS/gkLH42l/1uROnwXpkjvvxkl3kpopL3LBo27NuaDPI6xHNfuUSilIHcrBkPfl4y0z6y2ByI455TjNRw==}
     engines: {node: '>=16.9.0'}
 
   hosted-git-info@2.8.9:
@@ -11706,7 +11706,7 @@ snapshots:
     dependencies:
       rsvp: 3.2.1
 
-  hono@4.9.0: {}
+  hono@4.9.2: {}
 
   hosted-git-info@2.8.9: {}
 

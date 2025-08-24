@@ -284,8 +284,8 @@ importers:
   tools/renovate-tester:
     devDependencies:
       renovate:
-        specifier: ^41.82.1
-        version: 41.82.1(encoding@0.1.13)(typanion@3.14.0)
+        specifier: ^41.82.9
+        version: 41.82.9(encoding@0.1.13)(typanion@3.14.0)
 
 packages:
 
@@ -2946,8 +2946,8 @@ packages:
     resolution: {integrity: sha512-Fo07WOYGqMfCWHOzSXOt2CxDbC6skS/jO9ynEcmpANMoPrD+W1r1K6Vx7iNm+AQmETU1Xr2t+n8nzkV9t6xh3w==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
 
-  chalk@5.5.0:
-    resolution: {integrity: sha512-1tm8DTaJhPBG3bIkVeZt1iZM9GfSX2lzOeDVZH9R9ffRHpmHvxZ/QhgQH/aDTkswQVt+YHdXAdS/In/30OjCbg==}
+  chalk@5.6.0:
+    resolution: {integrity: sha512-46QrSQFyVSEyYAgQ22hQ+zDa60YHA4fBstHmtSApj1Y5vKtG27fWowW03jCk5KcbXEWPZUIR894aARCA/G1kfQ==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
 
   changelog-filename-regex@2.0.1:
@@ -5196,8 +5196,8 @@ packages:
   prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
 
-  protobufjs@7.5.3:
-    resolution: {integrity: sha512-sildjKwVqOI2kmFDiXQ6aEB0fjYTafpEvIBs8tOR8qI4spuL9OPROLVu2qZqi/xgCfsHIwVqlaF8JBjWFHnKbw==}
+  protobufjs@7.5.4:
+    resolution: {integrity: sha512-CvexbZtbov6jW2eXAvLukXjXUW1TzFaivC46BpWc/3BpcCysb5Vffu+B3XHMm8lVEuy2Mm4XGex8hBSg1yapPg==}
     engines: {node: '>=12.0.0'}
 
   protocols@2.0.1:
@@ -5419,8 +5419,8 @@ packages:
   remove-trailing-separator@1.1.0:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
 
-  renovate@41.82.1:
-    resolution: {integrity: sha512-x825jE9Cw6iuovnTHSxvIoATvqmSf6R8b6gDHMN11PAiujQ4K6YKa52FYfqokB+rbg9k/JewfljBs0gOS+8Kww==}
+  renovate@41.82.9:
+    resolution: {integrity: sha512-TBWdiI4r35GGlI/rOLZRsswZXFM1WL/MxdfW/4CIMU929UhKwhJ/UW5QFr/ETx3nKhNPFL4Z9pd5vN2DU/ca2w==}
     engines: {node: ^22.13.0, pnpm: ^10.0.0}
     hasBin: true
 
@@ -9073,7 +9073,7 @@ snapshots:
       '@opentelemetry/sdk-logs': 0.203.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-metrics': 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 2.0.1(@opentelemetry/api@1.9.0)
-      protobufjs: 7.5.3
+      protobufjs: 7.5.4
 
   '@opentelemetry/resource-detector-aws@2.3.0(@opentelemetry/api@1.9.0)':
     dependencies:
@@ -10421,7 +10421,7 @@ snapshots:
     dependencies:
       ansi-align: 3.0.1
       camelcase: 7.0.1
-      chalk: 5.5.0
+      chalk: 5.6.0
       cli-boxes: 3.0.0
       string-width: 5.1.2
       type-fest: 2.19.0
@@ -10607,7 +10607,7 @@ snapshots:
 
   chalk@5.0.1: {}
 
-  chalk@5.5.0: {}
+  chalk@5.6.0: {}
 
   changelog-filename-regex@2.0.1: {}
 
@@ -13230,7 +13230,7 @@ snapshots:
       object-assign: 4.1.1
       react-is: 16.13.1
 
-  protobufjs@7.5.3:
+  protobufjs@7.5.4:
     dependencies:
       '@protobufjs/aspromise': 1.1.2
       '@protobufjs/base64': 1.1.2
@@ -13535,7 +13535,7 @@ snapshots:
 
   remove-trailing-separator@1.1.0: {}
 
-  renovate@41.82.1(encoding@0.1.13)(typanion@3.14.0):
+  renovate@41.82.9(encoding@0.1.13)(typanion@3.14.0):
     dependencies:
       '@aws-sdk/client-codecommit': 3.858.0
       '@aws-sdk/client-ec2': 3.858.0
@@ -13578,7 +13578,7 @@ snapshots:
       azure-devops-node-api: 15.1.1
       bunyan: 1.8.15
       cacache: 20.0.0
-      chalk: 5.5.0
+      chalk: 5.6.0
       changelog-filename-regex: 2.0.1
       clean-git-ref: 2.0.1
       commander: 14.0.0
@@ -13630,7 +13630,7 @@ snapshots:
       p-throttle: 7.0.0
       parse-link-header: 2.0.0
       prettier: 3.6.2
-      protobufjs: 7.5.3
+      protobufjs: 7.5.4
       punycode: 2.3.1
       redis: 4.7.1
       remark: 15.0.1

@@ -3,7 +3,7 @@ packages:
   - 'packages/*'
 
 catalog:
-  "@stylistic/eslint-plugin": 5.2.3
+  "@stylistic/eslint-plugin": 5.3.1
   "@stylistic/eslint-plugin-js": 4.4.1
   "@eslint/js": 9.34.0
   "@types/node": 22.17.2

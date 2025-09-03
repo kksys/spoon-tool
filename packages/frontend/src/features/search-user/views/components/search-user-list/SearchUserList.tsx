@@ -37,21 +37,21 @@ const SearchUserRow = memo(({ index, style, userList, onSelectUser }: RowCompone
   const user = userList[index]
   return (
     <div
-      style={{ ...style, ...styleProp, cursor: 'pointer', transition: 'background-color .3s linear' }}
-      onMouseOver={handleOver}
-      onMouseOut={handleOut}
+      style={ { ...style, ...styleProp, cursor: 'pointer', transition: 'background-color .3s linear' } }
+      onMouseOver={ handleOver }
+      onMouseOut={ handleOut }
     >
-      {user
+      { user
         ? (
           <SearchUserItem
-            key={`user-id-${user.id}`}
-            user={user}
-            onClick={() => onSelectUser?.(user.id)}
+            key={ `user-id-${user.id}` }
+            user={ user }
+            onClick={ () => onSelectUser?.(user.id) }
           />
         )
         : (
           <SearchUserItem
-            key={`loading.${index}`}
+            key={ `loading.${index}` }
             loading
           />
         )
@@ -86,35 +86,35 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
   const ListComponent = useCallback<InfiniteLoader['props']['children']>(({ onItemsRendered, ref }) => {
     return (
       <List
-        rowComponent={SearchUserRow}
-        rowCount={itemCount}
-        rowHeight={getSearchUserItemHeight()}
-        listRef={ref}
-        onRowsRendered={({ startIndex, stopIndex }) => {
+        rowComponent={ SearchUserRow }
+        rowCount={ itemCount }
+        rowHeight={ getSearchUserItemHeight() }
+        listRef={ ref }
+        onRowsRendered={ ({ startIndex, stopIndex }) => {
           onItemsRendered({
             overscanStartIndex: startIndex,
             overscanStopIndex: stopIndex,
             visibleStartIndex: startIndex,
             visibleStopIndex: stopIndex,
           })
-        }}
-        rowProps={{ userList, onSelectUser }}
+        } }
+        rowProps={ { userList, onSelectUser } }
       />
     )
   }, [itemCount, userList, onSelectUser])
 
   return (
     <div
-      style={{ width: 'calc(100% + 24px)', marginLeft: '-12px', marginRight: '-12px', position: 'relative', flex: '1 1 auto', minHeight: '0' }}
-      ref={containerRef}
+      style={ { width: 'calc(100% + 24px)', marginLeft: '-12px', marginRight: '-12px', position: 'relative', flex: '1 1 auto', minHeight: '0' } }
+      ref={ containerRef }
       data-testid='search-user-list'
     >
       <InfiniteLoader
-        isItemLoaded={isItemLoaded}
-        itemCount={itemCount}
-        loadMoreItems={loadMoreItems}
+        isItemLoaded={ isItemLoaded }
+        itemCount={ itemCount }
+        loadMoreItems={ loadMoreItems }
       >
-        {ListComponent}
+        { ListComponent }
       </InfiniteLoader>
     </div>
   )

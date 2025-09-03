@@ -16,11 +16,10 @@ import { getSearchUserItemHeight, SearchUserItem } from '../search-user-item/Sea
 
 interface SearchUserRowProps {
   userList: User[]
-  hasNextPage: boolean
   onSelectUser?: (userId: number) => void
 }
 
-const SearchUserRow = memo(({ index, style, userList, hasNextPage, onSelectUser }: RowComponentProps<SearchUserRowProps>) => {
+const SearchUserRow = memo(({ index, style, userList, onSelectUser }: RowComponentProps<SearchUserRowProps>) => {
   const [styleProp, setStyleProp] = useState<Pick<CSSProperties, 'backgroundColor'>>({ backgroundColor: 'unset' })
   const handleOver = useCallback<MouseEventHandler<HTMLDivElement>>(() => {
     setStyleProp({
@@ -90,12 +89,19 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
         rowComponent={SearchUserRow}
         rowCount={itemCount}
         rowHeight={getSearchUserItemHeight()}
-        ref={ref}
-        onItemsRendered={onItemsRendered}
-        rowProps={{ userList, hasNextPage, onSelectUser }}
+        listRef={ref}
+        onRowsRendered={({ startIndex, stopIndex }) => {
+          onItemsRendered({
+            overscanStartIndex: startIndex,
+            overscanStopIndex: stopIndex,
+            visibleStartIndex: startIndex,
+            visibleStopIndex: stopIndex,
+          })
+        }}
+        rowProps={{ userList, onSelectUser }}
       />
     )
-  }, [itemCount, userList, hasNextPage, onSelectUser])
+  }, [itemCount, userList, onSelectUser])
 
   return (
     <div

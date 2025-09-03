@@ -37,21 +37,21 @@ const SearchUserRow = memo(({ index, style, userList, onSelectUser }: RowCompone
   const user = userList[index]
   return (
     <div
-      style={ { ...style, ...styleProp, cursor: 'pointer', transition: 'background-color .3s linear' } }
-      onMouseOver={ handleOver }
-      onMouseOut={ handleOut }
+      style={{ ...style, ...styleProp, cursor: 'pointer', transition: 'background-color .3s linear' }}
+      onMouseOver={handleOver}
+      onMouseOut={handleOut}
     >
       {user
         ? (
           <SearchUserItem
-            key={ `user-id-${user.id}` }
-            user={ user }
-            onClick={ () => onSelectUser?.(user.id) }
+            key={`user-id-${user.id}`}
+            user={user}
+            onClick={() => onSelectUser?.(user.id)}
           />
         )
         : (
           <SearchUserItem
-            key={ `loading.${index}` }
+            key={`loading.${index}`}
             loading
           />
         )
@@ -105,16 +105,16 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
 
   return (
     <div
-      style={ { width: 'calc(100% + 24px)', marginLeft: '-12px', marginRight: '-12px', position: 'relative', flex: '1 1 auto', minHeight: '0' } }
-      ref={ containerRef }
+      style={{ width: 'calc(100% + 24px)', marginLeft: '-12px', marginRight: '-12px', position: 'relative', flex: '1 1 auto', minHeight: '0' }}
+      ref={containerRef}
       data-testid='search-user-list'
     >
       <InfiniteLoader
-        isItemLoaded={ isItemLoaded }
-        itemCount={ itemCount }
-        loadMoreItems={ loadMoreItems }
+        isItemLoaded={isItemLoaded}
+        itemCount={itemCount}
+        loadMoreItems={loadMoreItems}
       >
-        { ListComponent }
+        {ListComponent}
       </InfiniteLoader>
     </div>
   )

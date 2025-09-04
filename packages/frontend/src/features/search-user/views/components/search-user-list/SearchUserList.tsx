@@ -4,16 +4,61 @@ import {
   memo,
   MouseEventHandler,
   useCallback,
-  useEffect,
   useRef,
   useState
 } from 'react'
-import { FixedSizeList } from 'react-window'
+import { List, type RowComponentProps } from 'react-window'
 import InfiniteLoader from 'react-window-infinite-loader'
 
 import { User } from '#/search-user/interfaces/models/User'
 
 import { getSearchUserItemHeight, SearchUserItem } from '../search-user-item/SearchUserItem'
+
+interface SearchUserRowProps {
+  userList: User[]
+  onSelectUser?: (userId: number) => void
+}
+
+const SearchUserRow = memo(({ index, style, userList, onSelectUser }: RowComponentProps<SearchUserRowProps>) => {
+  const [styleProp, setStyleProp] = useState<Pick<CSSProperties, 'backgroundColor'>>({ backgroundColor: 'unset' })
+  const handleOver = useCallback<MouseEventHandler<HTMLDivElement>>(() => {
+    setStyleProp({
+      ...styleProp,
+      backgroundColor: 'rgba(255, 255, 255, 0.16)',
+    })
+  }, [styleProp])
+  const handleOut = useCallback<MouseEventHandler<HTMLDivElement>>(() => {
+    setStyleProp({
+      ...styleProp,
+      backgroundColor: 'unset'
+    })
+  }, [styleProp])
+
+  const user = userList[index]
+  return (
+    <div
+      style={ { ...style, ...styleProp, cursor: 'pointer', transition: 'background-color .3s linear' } }
+      onMouseOver={ handleOver }
+      onMouseOut={ handleOut }
+    >
+      { user
+        ? (
+          <SearchUserItem
+            key={ `user-id-${user.id}` }
+            user={ user }
+            onClick={ () => onSelectUser?.(user.id) }
+          />
+        )
+        : (
+          <SearchUserItem
+            key={ `loading.${index}` }
+            loading
+          />
+        )
+      }
+    </div>
+  )
+})
 
 interface ISearchUserListProps {
   userList: User[]
@@ -37,83 +82,26 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
   }, [isBusy, loadNextItems])
 
   const containerRef = useRef<HTMLDivElement>(null)
-  const [listHeight, setListHeight] = useState(64)
 
-  useEffect(() => {
-    const ref = containerRef.current
-    const resizeObserver = new ResizeObserver(entries => {
-      for (const entry of entries) {
-        const contentRect = entry.contentRect
-        setListHeight(contentRect.height)
-      }
-    })
-
-    if (!ref) {
-      return
-    }
-
-    resizeObserver.observe(ref)
-
-    return () => {
-      resizeObserver.unobserve(ref)
-    }
-  }, [])
-
-  const Row = memo(({ index, style }: { index: number; style: CSSProperties }) => {
-    const [styleProp, setStyleProp] = useState<Pick<CSSProperties, 'backgroundColor'>>({ backgroundColor: 'unset' })
-    const handleOver = useCallback<MouseEventHandler<HTMLDivElement>>(() => {
-      setStyleProp({
-        ...styleProp,
-        backgroundColor: 'rgba(255, 255, 255, 0.16)',
-      })
-    }, [styleProp])
-    const handleOut = useCallback<MouseEventHandler<HTMLDivElement>>(() => {
-      setStyleProp({
-        ...styleProp,
-        backgroundColor: 'unset'
-      })
-    }, [styleProp])
-
-    const user = userList[index]
+  const ListComponent = useCallback<InfiniteLoader['props']['children']>(({ onItemsRendered, ref }) => {
     return (
-      <div
-        style={ { ...style, ...styleProp, cursor: 'pointer', transition: 'background-color .3s linear' } }
-        onMouseOver={ handleOver }
-        onMouseOut={ handleOut }
-      >
-        {user
-          ? (
-            <SearchUserItem
-              key={ `user-id-${user.id}` }
-              user={ user }
-              onClick={ () => onSelectUser?.(user.id) }
-            />
-          )
-          : (
-            <SearchUserItem
-              key={ `loading.${index}` }
-              loading
-            />
-          )
-        }
-      </div>
+      <List
+        rowComponent={ SearchUserRow }
+        rowCount={ itemCount }
+        rowHeight={ getSearchUserItemHeight() }
+        listRef={ ref }
+        onRowsRendered={ ({ startIndex, stopIndex }) => {
+          onItemsRendered({
+            overscanStartIndex: startIndex,
+            overscanStopIndex: stopIndex,
+            visibleStartIndex: startIndex,
+            visibleStopIndex: stopIndex,
+          })
+        } }
+        rowProps={ { userList, onSelectUser } }
+      />
     )
-  })
-
-  const List = useCallback<InfiniteLoader['props']['children']>(({ onItemsRendered, ref }) => {
-    return (
-      <FixedSizeList
-        itemCount={ itemCount }
-        itemSize={ getSearchUserItemHeight() }
-        width='100%'
-        height={ listHeight }
-        ref={ ref }
-        onItemsRendered={ onItemsRendered }
-      >
-        { Row }
-      </FixedSizeList>
-    )
-  }, [itemCount, listHeight])
+  }, [itemCount, userList, onSelectUser])
 
   return (
     <div
@@ -126,7 +114,7 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
         itemCount={ itemCount }
         loadMoreItems={ loadMoreItems }
       >
-        { List }
+        { ListComponent }
       </InfiniteLoader>
     </div>
   )

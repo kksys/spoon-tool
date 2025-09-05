@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Retrieve actions caches
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         id: retrieve_actions_caches
         with:
           script: |
@@ -33,7 +33,7 @@ jobs:
           result-encoding: string
 
       - name: Filter the targets to prune actions caches
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         id: filter_target_actions_caches
         with:
           script: |
@@ -111,7 +111,7 @@ jobs:
           CACHE_LIST: ${{ steps.retrieve_actions_caches.outputs.result }}
 
       - name: Prune actions caches
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         id: prune_actions_caches
         with:
           script: |

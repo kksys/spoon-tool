@@ -17,13 +17,17 @@ test('search user', async ({ page }) => {
     .toBeVisible()
   // Wait a moment for the component to be fully loaded
   await page.waitForTimeout(1000)
+  
+  await expect(page.getByTestId('search-user-item.310748409'))
+    .toHaveCount(0)
+  
   await page.getByPlaceholder('Target user name')
     .fill('kksys')
   await page.getByRole('button', { name: 'Search' })
     .click()
 
   await expect(page.getByTestId('search-user-item.310748409'))
-    .toBeVisible()
+    .toHaveCount(1)
   await page.getByTestId('search-user-item.310748409')
     .click()
 

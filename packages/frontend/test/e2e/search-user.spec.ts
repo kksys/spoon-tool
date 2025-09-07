@@ -15,9 +15,6 @@ test('search user', async ({ page }) => {
 
   await expect(page.getByTestId('search-user-list'))
     .toBeVisible()
-  // Wait a moment for the component to be fully loaded
-  await page.waitForTimeout(1000)
-  
   await expect(page.getByTestId('search-user-item.310748409'))
     .toHaveCount(0)
   

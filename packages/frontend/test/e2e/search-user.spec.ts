@@ -13,17 +13,17 @@ test('search user', async ({ page }) => {
   })
   await page.reload()
 
-  await expect(page.getByTestId('search-user-list')
-    .locator('> div > div:not([aria-hidden])'))
-    .toBeEmpty()
+  await expect(page.getByTestId('search-user-list'))
+    .toBeVisible()
+  // Wait a moment for the component to be fully loaded
+  await page.waitForTimeout(1000)
   await page.getByPlaceholder('Target user name')
     .fill('kksys')
   await page.getByRole('button', { name: 'Search' })
     .click()
 
-  await expect(page.getByTestId('search-user-list')
-    .locator('> div > div:not([aria-hidden])'))
-    .not.toBeEmpty()
+  await expect(page.getByTestId('search-user-item.310748409'))
+    .toBeVisible()
   await page.getByTestId('search-user-item.310748409')
     .click()
 

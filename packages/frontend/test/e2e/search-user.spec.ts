@@ -13,7 +13,7 @@ test('search user', async ({ page }) => {
   await page.reload()
 
   await expect(page.getByTestId('search-user-list')
-    .locator('> div > div'))
+    .locator('> div > div:not([aria-hidden])'))
     .toBeEmpty()
   await page.getByPlaceholder('Target user name')
     .fill('kksys')
@@ -21,7 +21,7 @@ test('search user', async ({ page }) => {
     .click()
 
   await expect(page.getByTestId('search-user-list')
-    .locator('> div > div'))
+    .locator('> div > div:not([aria-hidden])'))
     .not.toBeEmpty()
   await page.getByTestId('search-user-item.310748409')
     .click()

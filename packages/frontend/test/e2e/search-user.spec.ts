@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 
+// E2E test for user search functionality
 test('search user', async ({ page }) => {
   await page.routeFromHAR('./test/e2e/hars/api.har', {
     url: 'http://localhost:8787/**/*',
@@ -12,17 +13,18 @@ test('search user', async ({ page }) => {
   })
   await page.reload()
 
-  await expect(page.getByTestId('search-user-list')
-    .locator('> div > div'))
-    .toBeEmpty()
+  await expect(page.getByTestId('search-user-list'))
+    .toBeVisible()
+  await expect(page.getByTestId('search-user-item.310748409'))
+    .toHaveCount(0)
+  
   await page.getByPlaceholder('Target user name')
     .fill('kksys')
   await page.getByRole('button', { name: 'Search' })
     .click()
 
-  await expect(page.getByTestId('search-user-list')
-    .locator('> div > div'))
-    .not.toBeEmpty()
+  await expect(page.getByTestId('search-user-item.310748409'))
+    .toHaveCount(1)
   await page.getByTestId('search-user-item.310748409')
     .click()
 

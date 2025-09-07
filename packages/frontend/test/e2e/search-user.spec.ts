@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 
+// E2E test for user search functionality with fix for react-window aria-hidden elements
 test('search user', async ({ page }) => {
   await page.routeFromHAR('./test/e2e/hars/api.har', {
     url: 'http://localhost:8787/**/*',

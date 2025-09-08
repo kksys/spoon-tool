@@ -45,14 +45,12 @@ jobs:
               allCommits.push(...commits);
             } while (allCommits.length !== 0 && (allCommits.length % NUMBER_PER_PAGE) === 0);
 
-            console.log(allCommits);
             const hasCommitsFromRepoOwner = allCommits.filter(commit => commit.author.login === context.repo.owner || commit.committer.login === context.repo.owner).length > 0;
-            console.log(hasCommitsFromRepoOwner);
             core.setOutput('value', hasCommitsFromRepoOwner);
           result-encoding: json
 
   approveWithReaction:
-    if: ${{ needs.approve.outputs.value }}
+    if: ${{ fromJson(needs.approve.outputs.value) }}
     needs:
       - approve
     name: Auto Approve (with Reaction)
@@ -84,7 +82,7 @@ jobs:
           NUMBER: ${{ github.event.issue.number }}
 
   noopWithReaction:
-    if: ${{ !needs.approve.outputs.value }}
+    if: ${{ !fromJson(needs.approve.outputs.value) }}
     needs:
       - approve
     name: No Operation (with Reaction)

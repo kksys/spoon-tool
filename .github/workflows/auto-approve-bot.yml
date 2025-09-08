@@ -7,7 +7,53 @@ on:
 jobs:
   approve:
     name: Auto Approve
-    if: ${{ github.event.issue.pull_request && github.event.comment.body == '/approve' && github.event.issue.user.login == github.event.repository.owner.login }}
+    if: |
+      ${{ (
+        github.event.issue.pull_request &&
+        github.event.comment.user.login == github.event.repository.owner.login &&
+        github.event.comment.body == '/approve'
+      ) }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+    outputs:
+      value: ${{ steps.contains_repo_owner_commit.outputs.value }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+
+      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        id: contains_repo_owner_commit
+        with:
+          script: |
+            const NUMBER_PER_PAGE = 100;
+            let page = 1;
+            let allCommits = [];
+
+            do {
+              const commits = await github.rest.pulls.listCommits({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.issue.number,
+                per_page: NUMBER_PER_PAGE,
+                page
+              });
+              allCommits.push(...commits);
+            } while (allCommits.length !== 0 && (allCommits.length % NUMBER_PER_PAGE) === 0);
+
+            const hasCommitsFromRepoOwner = allCommits.filter(commit => commit.author.login === context.repo.owner || commit.committer.login === context.repo.owner).length > 0;
+            core.setOutput('value', hasCommitsFromRepoOwner);
+          result-encoding: json
+
+  approveWithReaction:
+    if: ${{ needs.approve.outputs.value }}
+    needs:
+      - approve
+    name: Auto Approve (with Reaction)
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -16,9 +62,6 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
-
       - name: Put a reaction to the comment
         run: |
           gh api graphql \
@@ -29,27 +72,31 @@ jobs:
           GITHUB_TOKEN: ${{ env.GH_TOKEN }}
           NODE_ID: ${{ github.event.comment.node_id }}
 
-      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
-        id: get_issue_number
-        with:
-          script: |
-            if (context.issue.number) {
-              // Return issue number if present
-              return context.issue.number;
-            } else {
-              // Otherwise return issue number from commit
-              return (
-                await github.rest.repos.listPullRequestsAssociatedWithCommit({
-                  commit_sha: context.sha,
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                })
-              ).data[0].number;
-            }
-          result-encoding: string
-
       - name: Approve Pull Request
         run: |
           gh pr review $NUMBER --approve
         env:
-          NUMBER: ${{ steps.get_issue_number.outputs.result }}
+          NUMBER: ${{ github.event.issue.number }}
+
+  noopWithReaction:
+    if: ${{ !needs.approve.outputs.value }}
+    needs:
+      - approve
+    name: Auto Approve (with Reaction)
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Put a reaction to the comment
+        run: |
+          gh api graphql \
+            --silent \
+            --raw-field \
+            query="mutation AddReaction {addReaction(input:{subjectId:\"$NODE_ID\",content:THUMBS_DOWN}){reaction{content}subject{id}}}"
+        env:
+          GITHUB_TOKEN: ${{ env.GH_TOKEN }}
+          NODE_ID: ${{ github.event.comment.node_id }}

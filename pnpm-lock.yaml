@@ -284,8 +284,8 @@ importers:
   tools/renovate-tester:
     devDependencies:
       renovate:
-        specifier: ^41.97.7
-        version: 41.97.7(encoding@0.1.13)(typanion@3.14.0)
+        specifier: ^41.98.0
+        version: 41.98.0(encoding@0.1.13)(typanion@3.14.0)
 
 packages:
 
@@ -4951,6 +4951,7 @@ packages:
   openpgp@6.2.1:
     resolution: {integrity: sha512-5vkqxQWgyrfY0shygqJTaCoa4SbPdjrpmtfREyXBBDrXjoRT25edEMQbdKH5/WxDXlLVn9TxPsVrKP72Jjuz2A==}
     engines: {node: '>= 18.0.0'}
+    deprecated: This version has a bug affecting zlib compression if manually enabled as part of encryption or signing (see https://github.com/openpgpjs/openpgpjs/pull/1894). Please update to v6.2.2 or later.
 
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
@@ -5413,8 +5414,8 @@ packages:
   remove-trailing-separator@1.1.0:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
 
-  renovate@41.97.7:
-    resolution: {integrity: sha512-ViB5AIZLsI6m4vaKnYLTQ/+jhn0OTob4HaiBxSURYk55NOMpIOE0xhLTVG6gn0kSVURpF76ztioBhcBpix3y9w==}
+  renovate@41.98.0:
+    resolution: {integrity: sha512-YJJMLkK9ecSyt7rVEPoEUqWWpg0plZe8XEtqKoom9rC6EJwOk0irBxBkMZ0pwFHeGNwbiIMAVDo4HU74ajrSiQ==}
     engines: {node: ^22.13.0, pnpm: ^10.0.0}
     hasBin: true
 
@@ -13530,7 +13531,7 @@ snapshots:
 
   remove-trailing-separator@1.1.0: {}
 
-  renovate@41.97.7(encoding@0.1.13)(typanion@3.14.0):
+  renovate@41.98.0(encoding@0.1.13)(typanion@3.14.0):
     dependencies:
       '@aws-sdk/client-codecommit': 3.879.0
       '@aws-sdk/client-ec2': 3.879.0

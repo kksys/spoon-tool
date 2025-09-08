@@ -45,7 +45,9 @@ jobs:
               allCommits.push(...commits);
             } while (allCommits.length !== 0 && (allCommits.length % NUMBER_PER_PAGE) === 0);
 
+            console.log(allCommits);
             const hasCommitsFromRepoOwner = allCommits.filter(commit => commit.author.login === context.repo.owner || commit.committer.login === context.repo.owner).length > 0;
+            console.log(hasCommitsFromRepoOwner);
             core.setOutput('value', hasCommitsFromRepoOwner);
           result-encoding: json
 

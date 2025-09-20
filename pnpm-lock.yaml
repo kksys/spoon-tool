@@ -163,8 +163,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-window-infinite-loader:
-        specifier: ^1.0.10
-        version: 1.0.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^2.0.0
+        version: 2.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -5308,12 +5308,11 @@ packages:
       react: '*'
       react-dom: '*'
 
-  react-window-infinite-loader@1.0.10:
-    resolution: {integrity: sha512-NO/csdHlxjWqA2RJZfzQgagAjGHspbO2ik9GtWZb0BY1Nnapq0auG8ErI+OhGCzpjYJsCYerqUlK6hkq9dfAAA==}
-    engines: {node: '>8.0.0'}
+  react-window-infinite-loader@2.0.0:
+    resolution: {integrity: sha512-dioOyvShGheEqqFHcPNKCixCOc2evwb2VEt9sitfJfTZ1hir8m6b8W0CNBvcUj+8Y8IeWu4yb88DI7k88aYTQQ==}
     peerDependencies:
-      react: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0 || ^19.0.0
-      react-dom: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
 
   react-window@2.1.1:
     resolution: {integrity: sha512-Wx5yHri8G1nFxImnJRkEEKtRTnG3cWaqknUJyYvgisQtl1mw/d8LQmLXfuKxpn2dY8IwDn5mCIuxm2NVyIvgVQ==}
@@ -13360,7 +13359,7 @@ snapshots:
       ts-easing: 0.2.0
       tslib: 2.8.1
 
-  react-window-infinite-loader@1.0.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-window-infinite-loader@2.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)

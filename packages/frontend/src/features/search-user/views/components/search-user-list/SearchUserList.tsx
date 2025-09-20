@@ -8,7 +8,7 @@ import {
   useState
 } from 'react'
 import { List, type RowComponentProps } from 'react-window'
-import InfiniteLoader from 'react-window-infinite-loader'
+import { InfiniteLoader } from 'react-window-infinite-loader'
 
 import { User } from '#/search-user/interfaces/models/User'
 
@@ -83,15 +83,14 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
 
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const ListComponent = useCallback<InfiniteLoader['props']['children']>(({ onItemsRendered, ref }) => {
+  const ListComponent = useCallback<InfiniteLoader['props']['children']>(({ onRowsRendered }) => {
     return (
       <List
         rowComponent={ SearchUserRow }
         rowCount={ itemCount }
         rowHeight={ getSearchUserItemHeight() }
-        listRef={ ref }
         onRowsRendered={ ({ startIndex, stopIndex }) => {
-          onItemsRendered({
+          onRowsRendered({
             overscanStartIndex: startIndex,
             overscanStopIndex: stopIndex,
             visibleStartIndex: startIndex,

@@ -8,7 +8,7 @@ import {
   useState
 } from 'react'
 import { List, type RowComponentProps } from 'react-window'
-import { InfiniteLoader } from 'react-window-infinite-loader'
+import { useInfiniteLoader } from 'react-window-infinite-loader'
 
 import { User } from '#/search-user/interfaces/models/User'
 
@@ -69,38 +69,26 @@ interface ISearchUserListProps {
 }
 
 export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNextPage, isBusy, loadNextItems, onSelectUser }) => {
-  const itemCount = userList.length + (hasNextPage ? 1 : 0)
+  const rowCount = userList.length + (hasNextPage ? 1 : 0)
 
-  const isItemLoaded = (index: number) => !hasNextPage || index < userList.length
+  const isRowLoaded = (index: number) => !hasNextPage || index < userList.length
 
-  const loadMoreItems = useCallback((startIndex: number, stopIndex: number) => {
+  const loadMoreRows = useCallback((startIndex: number, stopIndex: number) => {
     if (isBusy) {
-      return
+      return Promise.resolve()
     }
 
-    loadNextItems(startIndex, stopIndex)
+    const result = loadNextItems(startIndex, stopIndex)
+    return Promise.resolve(result)
   }, [isBusy, loadNextItems])
 
   const containerRef = useRef<HTMLDivElement>(null)
 
-  const ListComponent = useCallback<InfiniteLoader['props']['children']>(({ onRowsRendered }) => {
-    return (
-      <List
-        rowComponent={ SearchUserRow }
-        rowCount={ itemCount }
-        rowHeight={ getSearchUserItemHeight() }
-        onRowsRendered={ ({ startIndex, stopIndex }) => {
-          onRowsRendered({
-            overscanStartIndex: startIndex,
-            overscanStopIndex: stopIndex,
-            visibleStartIndex: startIndex,
-            visibleStopIndex: stopIndex,
-          })
-        } }
-        rowProps={ { userList, onSelectUser } }
-      />
-    )
-  }, [itemCount, userList, onSelectUser])
+  const onRowsRendered = useInfiniteLoader({
+    isRowLoaded,
+    loadMoreRows,
+    rowCount,
+  })
 
   return (
     <div
@@ -108,13 +96,13 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
       ref={ containerRef }
       data-testid='search-user-list'
     >
-      <InfiniteLoader
-        isItemLoaded={ isItemLoaded }
-        itemCount={ itemCount }
-        loadMoreItems={ loadMoreItems }
-      >
-        { ListComponent }
-      </InfiniteLoader>
+      <List
+        rowComponent={ SearchUserRow }
+        rowCount={ rowCount }
+        rowHeight={ getSearchUserItemHeight() }
+        onRowsRendered={ onRowsRendered }
+        rowProps={ { userList, onSelectUser } }
+      />
     </div>
   )
 })

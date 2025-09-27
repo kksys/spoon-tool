@@ -1,5 +1,5 @@
 /** @type {import('dependency-cruiser').IConfiguration} */
-module.exports = {
+export default {
   forbidden: [
     {
       name: 'no-circular',
@@ -376,5 +376,5 @@ module.exports = {
       },
     }
   }
-};
+}
 // generated: dependency-cruiser@16.4.1 on 2024-09-16T17:41:44.155Z

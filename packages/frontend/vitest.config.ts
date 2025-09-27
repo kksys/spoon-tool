@@ -11,6 +11,8 @@ export default defineConfig(ctx => mergeConfig(
       ],
       exclude: [
         './test/e2e/**',
+        // Exclude test files from dependencies to prevent CommonJS/ESM import errors
+        '**/node_modules/**',
       ],
     },
   })

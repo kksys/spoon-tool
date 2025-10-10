@@ -124,7 +124,7 @@ importers:
         specifier: ^2.0.311
         version: 2.0.311(react@19.2.0)
       '@fluentui/react-nav':
-        specifier: ^9.3.8
+        specifier: ^9.3.9
         version: 9.3.9(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(scheduler@0.27.0)
       http-status-codes:
         specifier: ^2.3.0

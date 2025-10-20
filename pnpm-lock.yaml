@@ -63,8 +63,8 @@ importers:
   packages/backend:
     dependencies:
       hono:
-        specifier: ^4.9.12
-        version: 4.9.12
+        specifier: ^4.10.1
+        version: 4.10.1
     devDependencies:
       '@cloudflare/vitest-pool-workers':
         specifier: ^0.9.13
@@ -3897,8 +3897,8 @@ packages:
   hermes-parser@0.25.1:
     resolution: {integrity: sha512-6pEjquH3rqaI6cYAXYPcz9MS4rY6R4ngRgrgfDshRptUZIc3lw0MCIJIGDj9++mfySOuPTHB4nrSW99BCvOPIA==}
 
-  hono@4.9.12:
-    resolution: {integrity: sha512-SrTC0YxqPwnN7yKa8gg/giLyQ2pILCKoideIHbYbFQlWZjYt68D2A4Ae1hehO/aDQ6RmTcpqOV/O2yBtMzx/VQ==}
+  hono@4.10.1:
+    resolution: {integrity: sha512-rpGNOfacO4WEPClfkEt1yfl8cbu10uB1lNpiI33AKoiAHwOS8lV748JiLx4b5ozO/u4qLjIvfpFsPXdY5Qjkmg==}
     engines: {node: '>=16.9.0'}
 
   hosted-git-info@2.8.9:
@@ -11752,7 +11752,7 @@ snapshots:
     dependencies:
       hermes-estree: 0.25.1
 
-  hono@4.9.12: {}
+  hono@4.10.1: {}
 
   hosted-git-info@2.8.9: {}
 

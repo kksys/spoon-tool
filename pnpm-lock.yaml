@@ -54,8 +54,8 @@ importers:
   .:
     devDependencies:
       pnpm:
-        specifier: 10.18.3
-        version: 10.18.3
+        specifier: 10.21.0
+        version: 10.21.0
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1866,6 +1866,7 @@ packages:
   '@renovatebot/kbpgp@4.0.3':
     resolution: {integrity: sha512-RMj9zekThsU/rCZxY0DeXl4hXU0rJOJm9wrFfLoFJnNsLQO1v2nfkK7sdYiMe/9+i99W/JWCtGDfySxIhC8CmA==}
     engines: {node: ^20.9.0 || ^22.11.0, pnpm: ^10.0.0}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@renovatebot/osv-offline-db@1.7.9':
     resolution: {integrity: sha512-4mHlGm6MvWcCmf7y34Uu6CgfLcAcdABEaplhbAJc1ZluvOsHh3ymQ4AN1MaBxK7iOFmSusnla7ch7/zEfo63aA==}
@@ -5131,8 +5132,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  pnpm@10.18.3:
-    resolution: {integrity: sha512-u9FubXKG/X4B9rPAs8kyzaKWXAapCDKPdGY/EKmupR8RKe6mFRNL+ZKDGwCeq+Fn7LcAi1l/QP+bx1lGqt+wjQ==}
+  pnpm@10.21.0:
+    resolution: {integrity: sha512-2jM3Jn5AD909R5psaAeaxtsB2MpPZ1cgg+cid1p5Z4inqZVmE3SeAA+sINQktZT3p5Gl9OLhNYHF75R/JpaKQA==}
     engines: {node: '>=18.12'}
     hasBin: true
 
@@ -13159,7 +13160,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  pnpm@10.18.3: {}
+  pnpm@10.21.0: {}
 
   possible-typed-array-names@1.0.0: {}
 

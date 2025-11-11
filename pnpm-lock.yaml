@@ -25,8 +25,8 @@ catalogs:
       specifier: 9.2.1
       version: 9.2.1
     dependency-cruiser:
-      specifier: 17.0.2
-      version: 17.0.2
+      specifier: 17.2.0
+      version: 17.2.0
     eslint:
       specifier: 9.39.1
       version: 9.39.1
@@ -89,7 +89,7 @@ importers:
         version: 9.2.1
       dependency-cruiser:
         specifier: 'catalog:'
-        version: 17.0.2
+        version: 17.2.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.1(jiti@2.6.1)
@@ -213,7 +213,7 @@ importers:
         version: 9.2.1
       dependency-cruiser:
         specifier: 'catalog:'
-        version: 17.0.2
+        version: 17.2.0
       eslint:
         specifier: 'catalog:'
         version: 9.39.1(jiti@2.6.1)
@@ -3200,8 +3200,8 @@ packages:
     resolution: {integrity: sha512-8QmQKqEASLd5nx0U1B1okLElbUuuttJ/AnYmRXbbbGDWh6uS208EjD4Xqq/I9wK7u0v6O08XhTWnt5XtEbR6Dg==}
     engines: {node: '>= 0.4'}
 
-  dependency-cruiser@17.0.2:
-    resolution: {integrity: sha512-Aryg/E8ostay8B7OBPqrxcxeGSgtPRKosP6do3L3TiPg4dAvIJFl2EFuG/mO8JAZv70pBTveKvKxhABPyNduvg==}
+  dependency-cruiser@17.2.0:
+    resolution: {integrity: sha512-EiOkB41fdAOCef3ycMX4pAXqkWrCOQ+G4IKOjcs9uPILShAuki2fHlTQPnv4aIHka/3lGJJdpRVrrwTMD7v1dg==}
     engines: {node: ^20.12||^22||>=24}
     hasBin: true
 
@@ -4485,8 +4485,8 @@ packages:
   mdurl@2.0.0:
     resolution: {integrity: sha512-Lf+9+2r+Tdp5wXDXC4PcIBjTDtq4UKjCPMQhKIuzpJNW0b96kVqSwW0bT7FhRSfmAiFYgP+SCRvdrDozfh0U5w==}
 
-  memoize@10.1.0:
-    resolution: {integrity: sha512-MMbFhJzh4Jlg/poq1si90XRlTZRDHVqdlz2mPyGJ6kqMpyHUyVpDd5gpFAvVehW64+RA1eKE9Yt8aSLY7w2Kgg==}
+  memoize@10.2.0:
+    resolution: {integrity: sha512-DeC6b7QBrZsRs3Y02A6A7lQyzFbsQbqgjI6UW0GigGWV+u1s25TycMr0XHZE4cJce7rY/vyw2ctMQqfDkIhUEA==}
     engines: {node: '>=18'}
 
   meow@7.1.1:
@@ -5503,6 +5503,11 @@ packages:
 
   semver@7.7.2:
     resolution: {integrity: sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.7.3:
+    resolution: {integrity: sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -7379,7 +7384,7 @@ snapshots:
       cjs-module-lexer: 1.4.1
       devalue: 5.3.2
       miniflare: 4.20251105.0
-      semver: 7.7.2
+      semver: 7.7.3
       vitest: 3.2.4(@types/debug@4.1.12)(@types/node@22.19.0)(jiti@2.6.1)(yaml@2.8.1)
       wrangler: 4.46.0(@cloudflare/workers-types@4.20251111.0)
       zod: 3.25.76
@@ -8922,7 +8927,7 @@ snapshots:
 
   '@npmcli/fs@4.0.0':
     dependencies:
-      semver: 7.7.2
+      semver: 7.7.3
 
   '@one-ini/wasm@0.2.0': {}
 
@@ -9932,7 +9937,7 @@ snapshots:
       fast-glob: 3.3.3
       is-glob: 4.0.3
       minimatch: 9.0.5
-      semver: 7.7.2
+      semver: 7.7.3
       ts-api-utils: 2.1.0(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -10040,7 +10045,7 @@ snapshots:
       hpagent: 1.2.0
       micromatch: 4.0.8
       p-limit: 2.3.0
-      semver: 7.7.2
+      semver: 7.7.3
       strip-ansi: 6.0.1
       tar: 6.2.1
       tinylogic: 2.0.0
@@ -10379,7 +10384,7 @@ snapshots:
 
   builtins@5.1.0:
     dependencies:
-      semver: 7.7.2
+      semver: 7.7.3
 
   bunyan@1.8.15:
     optionalDependencies:
@@ -10747,7 +10752,7 @@ snapshots:
       has-property-descriptors: 1.0.2
       object-keys: 1.1.1
 
-  dependency-cruiser@17.0.2:
+  dependency-cruiser@17.2.0:
     dependencies:
       acorn: 8.15.0
       acorn-jsx: 5.3.2(acorn@8.15.0)
@@ -10761,12 +10766,12 @@ snapshots:
       interpret: 3.1.1
       is-installed-globally: 1.0.0
       json5: 2.2.3
-      memoize: 10.1.0
+      memoize: 10.2.0
       picomatch: 4.0.3
       prompts: 2.4.2
       rechoir: 0.8.0
       safe-regex: 2.1.1
-      semver: 7.7.2
+      semver: 7.7.3
       tsconfig-paths-webpack-plugin: 4.2.0
       watskeburt: 4.2.3
 
@@ -10844,7 +10849,7 @@ snapshots:
       '@one-ini/wasm': 0.2.0
       commander: 14.0.2
       minimatch: 10.0.1
-      semver: 7.7.2
+      semver: 7.7.3
 
   electron-to-chromium@1.5.38: {}
 
@@ -11527,7 +11532,7 @@ snapshots:
       es6-error: 4.1.1
       matcher: 3.0.0
       roarr: 2.15.4
-      semver: 7.7.2
+      semver: 7.7.3
       serialize-error: 7.0.1
 
   global-directory@4.0.1:
@@ -12324,7 +12329,7 @@ snapshots:
 
   mdurl@2.0.0: {}
 
-  memoize@10.1.0:
+  memoize@10.2.0:
     dependencies:
       mimic-function: 5.0.1
 
@@ -12736,7 +12741,7 @@ snapshots:
 
   node-abi@3.71.0:
     dependencies:
-      semver: 7.7.2
+      semver: 7.7.3
     optional: true
 
   node-domexception@1.0.0: {}
@@ -12761,7 +12766,7 @@ snapshots:
       make-fetch-happen: 14.0.3
       nopt: 8.1.0
       proc-log: 5.0.0
-      semver: 7.7.2
+      semver: 7.7.3
       tar: 7.4.3
       tinyglobby: 0.2.15
       which: 5.0.0
@@ -12797,7 +12802,7 @@ snapshots:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.15.1
-      semver: 7.7.2
+      semver: 7.7.3
       validate-npm-package-license: 3.0.4
 
   normalize-path@3.0.0: {}
@@ -13671,6 +13676,8 @@ snapshots:
 
   semver@7.7.2: {}
 
+  semver@7.7.3: {}
+
   serialize-error@7.0.1:
     dependencies:
       type-fest: 0.13.1
@@ -13725,7 +13732,7 @@ snapshots:
     dependencies:
       color: 4.2.3
       detect-libc: 2.0.3
-      semver: 7.7.2
+      semver: 7.7.3
     optionalDependencies:
       '@img/sharp-darwin-arm64': 0.33.5
       '@img/sharp-darwin-x64': 0.33.5

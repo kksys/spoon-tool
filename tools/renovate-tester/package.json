@@ -7,6 +7,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "renovate": "^41.152.5"
+    "renovate": "^42.6.0"
   }
 }

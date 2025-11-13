@@ -1,15 +1,4 @@
 {
-  "search-user": {
-    "search-box": {
-      "placeholder": "ユーザー名"
-    }
-  },
-  "numberOfFollowers": {
-    "format": "{{followers}} FANs"
-  },
-  "numberOfFollowing": {
-    "format": "{{following}} MY"
-  },
   "follower-list-dialog": {
     "title": "{{username}} のFAN"
   },
@@ -18,5 +7,16 @@
   },
   "joinedDateTime": {
     "format": "ユーザー作成日時: {{datetime}}"
+  },
+  "numberOfFollowers": {
+    "format": "{{followers}} FANs"
+  },
+  "numberOfFollowing": {
+    "format": "{{following}} MY"
+  },
+  "search-user": {
+    "search-box": {
+      "placeholder": "ユーザー名"
+    }
   }
 }

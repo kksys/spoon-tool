@@ -1,15 +1,4 @@
 {
-  "search-user": {
-    "search-box": {
-      "placeholder": "Target user name"
-    }
-  },
-  "numberOfFollowers": {
-    "format": "{{followers}} Followers"
-  },
-  "numberOfFollowing": {
-    "format": "{{following}} Following"
-  },
   "follower-list-dialog": {
     "title": "Followers of {{username}}"
   },
@@ -18,5 +7,16 @@
   },
   "joinedDateTime": {
     "format": "Joined Date and Time: {{datetime}}"
+  },
+  "numberOfFollowers": {
+    "format": "{{followers}} Followers"
+  },
+  "numberOfFollowing": {
+    "format": "{{following}} Following"
+  },
+  "search-user": {
+    "search-box": {
+      "placeholder": "Target user name"
+    }
   }
 }

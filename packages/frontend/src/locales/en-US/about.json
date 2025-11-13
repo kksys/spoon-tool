@@ -1,20 +1,20 @@
 {
   "app": {
-    "name": "App Name",
-    "version": "Version",
+    "author": "Author",
     "dev-mode": "Developer Mode",
-    "author": "Author"
+    "name": "App Name",
+    "version": "Version"
   },
   "license": {
-    "repository": "Repository:",
+    "license-type": "License:",
     "publisher": "Publisher:",
-    "license-type": "License:"
+    "repository": "Repository:"
   },
   "repository": {
     "description": {
+      "link": "Link: ",
       "maintainancedByGithub": "This application is maintenanced by GitHub respository. ",
-      "pleaseDownloadFromGithub": "You can download this sourcecode from below link. ",
-      "link": "Link: "
+      "pleaseDownloadFromGithub": "You can download this sourcecode from below link. "
     }
   }
 }

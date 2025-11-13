@@ -1,27 +1,27 @@
 {
-  "title": {
-    "app": "Spoon Tool",
-    "about": "About",
-    "license": "License",
-    "repository": "Repository",
-    "configuration": "Configuration",
-    "top": "Top"
-  },
   "common": {
-    "enabled": "Enabled",
-    "save": "Save",
     "cancel": "Cancel",
+    "clear": "Clear",
     "close": "Close",
     "continue": "Continue",
-    "loading": "Loading...",
-    "search": "Search",
-    "clear": "Clear",
+    "enabled": "Enabled",
     "error": {
       "title": "Error"
     },
+    "loading": "Loading...",
+    "save": "Save",
+    "search": "Search",
     "wait": "Please wait..."
   },
   "configuration": {
     "resetting": "Resetting Configurations..."
+  },
+  "title": {
+    "about": "About",
+    "app": "Spoon Tool",
+    "configuration": "Configuration",
+    "license": "License",
+    "repository": "Repository",
+    "top": "Top"
   }
 }

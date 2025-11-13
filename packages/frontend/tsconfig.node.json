@@ -23,7 +23,7 @@
     "types/eslint-plugin-react-hooks.d.ts",
     "types/eslint-plugin-react-refresh.d.ts",
     "eslint.config.ts",
-    "i18next-parser.config.ts",
+    "i18next.config.ts",
     "vite.config.ts",
     "vitest.config.ts",
     "playwright.config.ts",

@@ -19,7 +19,7 @@ interface SearchUserRowProps {
   onSelectUser?: (userId: number) => void
 }
 
-const SearchUserRow = memo(({ index, style, userList, onSelectUser }: RowComponentProps<SearchUserRowProps>) => {
+const SearchUserRow = ({ index, style, userList, onSelectUser }: RowComponentProps<SearchUserRowProps>) => {
   const [styleProp, setStyleProp] = useState<Pick<CSSProperties, 'backgroundColor'>>({ backgroundColor: 'unset' })
   const handleOver = useCallback<MouseEventHandler<HTMLDivElement>>(() => {
     setStyleProp({
@@ -58,7 +58,7 @@ const SearchUserRow = memo(({ index, style, userList, onSelectUser }: RowCompone
       }
     </div>
   )
-})
+}
 
 interface ISearchUserListProps {
   userList: User[]

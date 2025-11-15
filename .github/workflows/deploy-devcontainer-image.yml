@@ -12,7 +12,6 @@ on:
 env:
   REGISTRY: ghcr.io
   SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-  GHCR_PASSWORD: ${{ secrets.GHCR_CONTAINER_REGISTRY_PASSWORD }}
 
 jobs:
   notify-pre-build-message:
@@ -118,7 +117,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ env.GHCR_PASSWORD }}
+          password: ${{ github.token }}
 
       - name: Modify Tag
         id: modify_tag
@@ -170,7 +169,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ env.GHCR_PASSWORD }}
+          password: ${{ github.token }}
 
       - name: Modify Tag
         id: modify_tag
@@ -218,7 +217,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ env.GHCR_PASSWORD }}
+          password: ${{ github.token }}
 
       - name: Deploy multiarch image
         run: |

@@ -47,7 +47,7 @@ describe('HttpClient', () => {
     let fetchSpy: MockInstance<typeof fetch>
 
     beforeEach(() => {
-      fetchSpy = vi.spyOn(global, 'fetch')
+      fetchSpy = vi.spyOn(globalThis, 'fetch')
         .mockImplementation((input) => {
           const result = {
             'userId': 1,
@@ -114,7 +114,7 @@ describe('HttpClient', () => {
     }
 
     beforeEach(() => {
-      fetchSpy = vi.spyOn(global, 'fetch')
+      fetchSpy = vi.spyOn(globalThis, 'fetch')
         .mockImplementation((input) => {
           const result = {
             'userId': 1,

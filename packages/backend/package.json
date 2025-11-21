@@ -15,8 +15,8 @@
     "cf-typegen": "wrangler types"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.10.9",
-    "@cloudflare/workers-types": "^4.20251120.0",
+    "@cloudflare/vitest-pool-workers": "^0.10.10",
+    "@cloudflare/workers-types": "^4.20251121.0",
     "@eslint/js": "catalog:",
     "@stylistic/eslint-plugin": "catalog:",
     "@stylistic/eslint-plugin-js": "catalog:",
@@ -30,7 +30,7 @@
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
     "vitest": "catalog:",
-    "wrangler": "^4.49.1"
+    "wrangler": "^4.50.0"
   },
   "dependencies": {
     "hono": "^4.10.6"

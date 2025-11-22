@@ -43,8 +43,8 @@ export const FollowerListDialog: FC<IFollowerListDialogProps> = memo(({ open, on
         <DialogTitle>
           { t('follower-list-dialog.title', { ns: 'search-user', username: user.profile.nickname }) }
         </DialogTitle>
-        <DialogContent>
-          <div style={ { display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0, height: '100%' } }>
+        <DialogContent style={ { position: 'relative' } }>
+          <div style={ { display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0, height: '100%', marginLeft: '12px', marginRight: '12px', position: 'absolute', inset: '0' } }>
             <SearchUserList
               userList={ user.relations.followers }
               hasNextPage={ hasNextPage }

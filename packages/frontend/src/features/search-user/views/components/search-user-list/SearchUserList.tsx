@@ -7,7 +7,7 @@ import {
   useRef,
   useState
 } from 'react'
-import { List, type RowComponentProps,useDynamicRowHeight } from 'react-window'
+import { List, type RowComponentProps, useDynamicRowHeight } from 'react-window'
 import { useInfiniteLoader } from 'react-window-infinite-loader'
 
 import { User } from '#/search-user/interfaces/models/User'

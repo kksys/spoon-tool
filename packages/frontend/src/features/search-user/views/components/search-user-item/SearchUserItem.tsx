@@ -33,6 +33,9 @@ const useStyles = makeStyles({
   propertyRow: {
     display: 'flex',
     gap: tokens.spacingVerticalM,
+  },
+  userTag: {
+    color: tokens.colorNeutralForeground3,
   }
 })
 
@@ -76,7 +79,9 @@ const SearchUserItemBase: FC<ISearchUserItemBaseProps> = memo(({
           <span>
             { renderNickName }
           </span>
-          <span>
+        </StackItem>
+        <StackItem className={ styles.propertyRow }>
+          <span className={ styles.userTag }>
             { renderTag }
           </span>
         </StackItem>

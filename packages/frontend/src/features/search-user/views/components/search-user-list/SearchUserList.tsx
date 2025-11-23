@@ -7,7 +7,7 @@ import {
   useRef,
   useState
 } from 'react'
-import { List, type RowComponentProps } from 'react-window'
+import { List, type RowComponentProps, useDynamicRowHeight } from 'react-window'
 import { useInfiniteLoader } from 'react-window-infinite-loader'
 
 import { User } from '#/search-user/interfaces/models/User'
@@ -90,6 +90,10 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
     rowCount,
   })
 
+  const dynamicRowHeight = useDynamicRowHeight({
+    defaultRowHeight: getSearchUserItemHeight(),
+  })
+
   return (
     <div
       style={ { width: 'calc(100% + 24px)', marginLeft: '-12px', marginRight: '-12px', position: 'relative', flex: '1 1 auto', minHeight: '0' } }
@@ -99,7 +103,7 @@ export const SearchUserList: FC<ISearchUserListProps> = memo(({ userList, hasNex
       <List
         rowComponent={ SearchUserRow }
         rowCount={ rowCount }
-        rowHeight={ getSearchUserItemHeight() }
+        rowHeight={ dynamicRowHeight }
         onRowsRendered={ onRowsRendered }
         rowProps={ { userList, onSelectUser } }
       />

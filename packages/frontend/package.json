@@ -66,7 +66,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "eslint-plugin-simple-import-sort": "catalog:",
     "globals": "catalog:",
-    "i18next-cli": "^1.30.4",
+    "i18next-cli": "^1.30.5",
     "jiti": "catalog:",
     "license-checker": "^25.0.1",
     "prettier": "^3.7.4",

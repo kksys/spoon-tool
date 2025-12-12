@@ -233,8 +233,8 @@ importers:
         specifier: 'catalog:'
         version: 16.5.0
       i18next-cli:
-        specifier: ^1.30.5
-        version: 1.30.5(@types/node@24.10.3)
+        specifier: ^1.31.0
+        version: 1.31.0(@types/node@24.10.3)
       jiti:
         specifier: 'catalog:'
         version: 2.6.1
@@ -4196,8 +4196,8 @@ packages:
   hyphenate-style-name@1.1.0:
     resolution: {integrity: sha512-WDC/ui2VVRrz3jOVi+XtjqkDjiVjTtFaAGiW37k6b+ohyQ5wYDOGkvCZa8+H0nx3gyvv0+BST9xuOgIyGQ00gw==}
 
-  i18next-cli@1.30.5:
-    resolution: {integrity: sha512-1Ls80XXcwlsNhsFsWYMZV9ik1fPMdCny+hF8w64UkLLUdwxuUc/F8Vi7xbMv9oy3ODd6YBwNQwbKdH+5e6F9vA==}
+  i18next-cli@1.31.0:
+    resolution: {integrity: sha512-htnNQj7YOnjKnqCgkIY3ePJ4k4o7LvjiZYFk3r9U0tSazp4J/Lp1QddUQwDXooLgtP5529EBQI04ADyeIC7q0A==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -12111,7 +12111,7 @@ snapshots:
 
   hyphenate-style-name@1.1.0: {}
 
-  i18next-cli@1.30.5(@types/node@24.10.3):
+  i18next-cli@1.31.0(@types/node@24.10.3):
     dependencies:
       '@croct/json5-parser': 0.2.2
       '@swc/core': 1.15.3

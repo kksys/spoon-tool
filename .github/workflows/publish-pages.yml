@@ -58,7 +58,7 @@ jobs:
           mv ${{ env.DIST_DIRECTORY }}/${{ env.ARCHIVE_NAME }} ${{ env.FRONTEND_DIRECTORY }}/${{ env.ARCHIVE_NAME }}
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
           name: ${{ env.PACKAGE_NAME }}
           path: ${{ env.FRONTEND_DIRECTORY }}/${{ env.ARCHIVE_NAME }}
@@ -78,7 +78,7 @@ jobs:
     needs: build
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
           name: ${{ env.PACKAGE_NAME }}
           path: ${{ env.FRONTEND_DIRECTORY }}

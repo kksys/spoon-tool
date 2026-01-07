@@ -34,7 +34,7 @@
     ]
   },
   "devDependencies": {
-    "pnpm": "10.26.2",
+    "pnpm": "10.27.0",
     "typescript": "catalog:"
   }
 }

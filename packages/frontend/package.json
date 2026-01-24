@@ -32,7 +32,7 @@
     "http-status-codes": "^2.3.0",
     "i18next": "^25.7.3",
     "inversify": "^7.10.8",
-    "lodash-es": "^4.17.22",
+    "lodash-es": "^4.17.23",
     "object-typed": "^1.0.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",

@@ -151,7 +151,7 @@ importers:
         specifier: ^16.5.3
         version: 16.5.3(i18next@25.7.3(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)
       react-router:
-        specifier: ^7.11.0
+        specifier: ^7.13.0
         version: 7.13.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       react-router-dom:
         specifier: ^7.13.0

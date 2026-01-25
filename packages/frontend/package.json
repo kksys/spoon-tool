@@ -69,7 +69,7 @@
     "i18next-cli": "^1.37.1",
     "jiti": "catalog:",
     "license-checker": "^25.0.1",
-    "prettier": "^3.7.4",
+    "prettier": "^3.8.1",
     "sanitize-html": "^2.17.0",
     "serve": "^14.2.5",
     "typescript": "catalog:",

@@ -269,8 +269,8 @@ importers:
   tools/devcontainer:
     devDependencies:
       '@devcontainers/cli':
-        specifier: ^0.80.3
-        version: 0.80.3
+        specifier: ^0.81.1
+        version: 0.81.1
       concurrently:
         specifier: 'catalog:'
         version: 9.2.1
@@ -657,8 +657,8 @@ packages:
     resolution: {integrity: sha512-SITSV6aIXsuVNV3f3O0f2n/cgyEDWoSqtZMYiAmcsYHydcKrOz3gUxB/iXd/Qf08+IZX4KpgNbvUdMBmWz+kcA==}
     engines: {node: '>=10'}
 
-  '@devcontainers/cli@0.80.3':
-    resolution: {integrity: sha512-PaN2NxSdVdrY77C4aiqXjFyrg8Bj86hMSdRsHnLCwsocPcMUNxOjLz6G7jKUy6K7FIHY38613LNwfBVi1ePpdA==}
+  '@devcontainers/cli@0.81.1':
+    resolution: {integrity: sha512-6xfQk1kDJz0qCfBVb9MW596zKnrb7wvtw414dbrf7ExSk5e+Moq+K/unalVDqhmNXn72EaURxHFaDFW9IeLDgg==}
     engines: {node: ^16.13.0 || >=18.0.0}
     hasBin: true
 
@@ -7495,7 +7495,7 @@ snapshots:
 
   '@ctrl/tinycolor@3.6.1': {}
 
-  '@devcontainers/cli@0.80.3': {}
+  '@devcontainers/cli@0.81.1': {}
 
   '@emnapi/runtime@1.8.1':
     dependencies:

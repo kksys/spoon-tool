@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@fluentui/react-components": "^9.72.11",
-    "@fluentui/react-icons": "^2.0.317",
+    "@fluentui/react-icons": "^2.0.318",
     "@fluentui/react-nav": "^9.3.17",
     "http-status-codes": "^2.3.0",
     "i18next": "^25.8.0",

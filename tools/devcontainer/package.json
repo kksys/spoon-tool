@@ -12,7 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "@devcontainers/cli": "^0.82.0",
+    "@devcontainers/cli": "^0.83.0",
     "concurrently": "catalog:"
   }
 }

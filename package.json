@@ -15,7 +15,7 @@
   "engines": {
     "pnpm": ">= 10.2.0",
     "npm": "please_use_pnpm_instead",
-    "node": "24.13.0"
+    "node": "24.13.1"
   },
   "packageManager": "pnpm@10.28.2",
   "pnpm": {

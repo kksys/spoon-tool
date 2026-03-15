@@ -108,7 +108,8 @@ describe('searchUsers Api', () => {
   })
 
   afterEach(() => {
-    vi.mocked(globalThis.fetch).mockReset()
+    vi.mocked(globalThis.fetch)
+      .mockReset()
   })
 
   afterAll(() => {
@@ -116,9 +117,10 @@ describe('searchUsers Api', () => {
   })
 
   it('responds with 200 Ok (unit style)', async () => {
-    vi.mocked(globalThis.fetch).mockResolvedValueOnce(
-      new Response(JSON.stringify(fakeResponse), { status: 200, statusText: 'OK' })
-    )
+    vi.mocked(globalThis.fetch)
+      .mockImplementation(async () =>
+        new Response(JSON.stringify(fakeResponse), { status: 200, statusText: 'OK' })
+      )
 
     const request = new IncomingRequest('http://example.com/search/user/?keyword=test', { headers: httpHeadersForSuccess })
     // Create an empty context to pass to `worker.fetch()`.
@@ -137,9 +139,10 @@ describe('searchUsers Api', () => {
   })
 
   it('responds with Hello World! (integration style)', async () => {
-    vi.mocked(globalThis.fetch).mockResolvedValueOnce(
-      new Response(JSON.stringify(fakeResponse), { status: 200, statusText: 'OK' })
-    )
+    vi.mocked(globalThis.fetch)
+      .mockImplementation(async () =>
+        new Response(JSON.stringify(fakeResponse), { status: 200, statusText: 'OK' })
+      )
 
     const response = await workerExports.default.fetch('http://example.com/search/user/?keyword=test', { headers: httpHeadersForSuccess })
 
@@ -328,7 +331,8 @@ describe('getProfile Api', () => {
   })
 
   afterEach(() => {
-    vi.mocked(globalThis.fetch).mockReset()
+    vi.mocked(globalThis.fetch)
+      .mockReset()
   })
 
   afterAll(() => {
@@ -336,9 +340,10 @@ describe('getProfile Api', () => {
   })
 
   it('responds with 200 Ok (unit style)', async () => {
-    vi.mocked(globalThis.fetch).mockResolvedValueOnce(
-      new Response(JSON.stringify(fakeResponse), { status: 200, statusText: 'OK' })
-    )
+    vi.mocked(globalThis.fetch)
+      .mockImplementation(async () =>
+        new Response(JSON.stringify(fakeResponse), { status: 200, statusText: 'OK' })
+      )
 
     const request = new IncomingRequest('http://example.com/users/7492347239', { headers: httpHeadersForSuccess })
     // Create an empty context to pass to `worker.fetch()`.
@@ -357,9 +362,10 @@ describe('getProfile Api', () => {
   })
 
   it('responds with Hello World! (integration style)', async () => {
-    vi.mocked(globalThis.fetch).mockResolvedValueOnce(
-      new Response(JSON.stringify(fakeResponse), { status: 200, statusText: 'OK' })
-    )
+    vi.mocked(globalThis.fetch)
+      .mockImplementation(async () =>
+        new Response(JSON.stringify(fakeResponse), { status: 200, statusText: 'OK' })
+      )
 
     const response = await workerExports.default.fetch('http://example.com/users/7492347239', { headers: httpHeadersForSuccess })
 

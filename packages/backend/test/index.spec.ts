@@ -1,18 +1,17 @@
 // test/index.spec.ts
 import {
   createExecutionContext,
-  env,
-  fetchMock,
-  SELF,
   waitOnExecutionContext
 } from 'cloudflare:test'
+import { env, exports as workerExports } from 'cloudflare:workers'
 import {
   afterAll,
   afterEach,
   beforeAll,
   describe,
   expect,
-  it
+  it,
+  vi
 } from 'vitest'
 
 import worker from '../src/index'
@@ -45,7 +44,7 @@ describe('middleware', () => {
   })
 
   it('responds with 403 Forbidden (integration style)', async () => {
-    const response = await SELF.fetch('https://example.com')
+    const response = await workerExports.default.fetch('https://example.com')
 
     expect(response.status)
       .toBe(403)
@@ -70,7 +69,7 @@ describe('middleware', () => {
   })
 
   it('responds with non 404 NotFound (integration style)', async () => {
-    const response = await SELF.fetch('https://example.com', { headers: httpHeadersForSuccess })
+    const response = await workerExports.default.fetch('https://example.com', { headers: httpHeadersForSuccess })
 
     expect(response.status).not.toBe(403)
     expect(response.statusText).not.toBe('Forbidden')
@@ -105,23 +104,23 @@ describe('searchUsers Api', () => {
   }
 
   beforeAll(() => {
-    fetchMock.activate()
-    fetchMock.disableNetConnect()
+    vi.spyOn(globalThis, 'fetch')
   })
 
   afterEach(() => {
-    fetchMock.assertNoPendingInterceptors()
+    vi.mocked(globalThis.fetch)
+      .mockReset()
   })
 
   afterAll(() => {
-    fetchMock.deactivate()
+    vi.restoreAllMocks()
   })
 
   it('responds with 200 Ok (unit style)', async () => {
-    fetchMock
-      .get('https://jp-api.spooncast.net')
-      .intercept({ path: '/search/user/?keyword=test' })
-      .reply(200, fakeResponse)
+    vi.mocked(globalThis.fetch)
+      .mockImplementation(async () =>
+        new Response(JSON.stringify(fakeResponse), { status: 200, statusText: 'OK' })
+      )
 
     const request = new IncomingRequest('http://example.com/search/user/?keyword=test', { headers: httpHeadersForSuccess })
     // Create an empty context to pass to `worker.fetch()`.
@@ -140,12 +139,12 @@ describe('searchUsers Api', () => {
   })
 
   it('responds with Hello World! (integration style)', async () => {
-    fetchMock
-      .get('https://jp-api.spooncast.net')
-      .intercept({ path: '/search/user/?keyword=test' })
-      .reply(200, fakeResponse)
+    vi.mocked(globalThis.fetch)
+      .mockImplementation(async () =>
+        new Response(JSON.stringify(fakeResponse), { status: 200, statusText: 'OK' })
+      )
 
-    const response = await SELF.fetch('http://example.com/search/user/?keyword=test', { headers: httpHeadersForSuccess })
+    const response = await workerExports.default.fetch('http://example.com/search/user/?keyword=test', { headers: httpHeadersForSuccess })
 
     expect(response.status)
       .toBe(200)
@@ -328,23 +327,23 @@ describe('getProfile Api', () => {
   }
 
   beforeAll(() => {
-    fetchMock.activate()
-    fetchMock.disableNetConnect()
+    vi.spyOn(globalThis, 'fetch')
   })
 
   afterEach(() => {
-    fetchMock.assertNoPendingInterceptors()
+    vi.mocked(globalThis.fetch)
+      .mockReset()
   })
 
   afterAll(() => {
-    fetchMock.deactivate()
+    vi.restoreAllMocks()
   })
 
   it('responds with 200 Ok (unit style)', async () => {
-    fetchMock
-      .get('https://jp-api.spooncast.net')
-      .intercept({ path: '/users/7492347239/' })
-      .reply(200, fakeResponse)
+    vi.mocked(globalThis.fetch)
+      .mockImplementation(async () =>
+        new Response(JSON.stringify(fakeResponse), { status: 200, statusText: 'OK' })
+      )
 
     const request = new IncomingRequest('http://example.com/users/7492347239', { headers: httpHeadersForSuccess })
     // Create an empty context to pass to `worker.fetch()`.
@@ -363,12 +362,12 @@ describe('getProfile Api', () => {
   })
 
   it('responds with Hello World! (integration style)', async () => {
-    fetchMock
-      .get('https://jp-api.spooncast.net')
-      .intercept({ path: '/users/7492347239/' })
-      .reply(200, fakeResponse)
+    vi.mocked(globalThis.fetch)
+      .mockImplementation(async () =>
+        new Response(JSON.stringify(fakeResponse), { status: 200, statusText: 'OK' })
+      )
 
-    const response = await SELF.fetch('http://example.com/users/7492347239', { headers: httpHeadersForSuccess })
+    const response = await workerExports.default.fetch('http://example.com/users/7492347239', { headers: httpHeadersForSuccess })
 
     expect(response.status)
       .toBe(200)
